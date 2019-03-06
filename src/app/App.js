@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Header from './components/header';
 import {Container} from './../styles/blocks/layout';
 // pages 
-import HP from './pages/HP';
+import Dashboard from './pages/Dashboard';
 
 
 class App extends Component {
@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Container>
         <Header />
-        <HP />
+        <Dashboard />
       </Container>
     );
   }

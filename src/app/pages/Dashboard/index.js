@@ -10,7 +10,7 @@ import BattleHistory from './../../components/BattleHistory';
 import TopRating from './../../components/TopRating';
 
 
-class HP extends Component {
+class Dashboard extends Component {
   render() {
     return(
       <>
@@ -26,4 +26,4 @@ class HP extends Component {
   }
 }
 
-export default HP;
+export default Dashboard;
