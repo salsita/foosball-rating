@@ -1,43 +1,39 @@
-const storage = require("../storage/storage.js")
-const ratingCalculator = require("../rating/rating-calculator.js")
+const storage = require("../storage/storage")
+const ratingCalculator = require("../rating/rating-calculator")
 
-const changeRating = (team, difference) => {
-    team.forEach(player => {
-        const newRating = player.currentRating + difference
-        storage.updateCurrentRatingForUser(player.id, newRating)  
-    })
+const updateRatingForTeam = async (team, difference) => {
+    await Promise.all(team.map(player => {
+        const newRating = player.rating + difference
+        return storage.updateRatingForUser(player.id, newRating)  
+    }))
 }
 
-const buildMatchRecord = (team1, team2, team1Won) => {
-    const date = new Date()
+const fillPlayersForMatch = async (match) => {
+    const filledTeam1 = await Promise.all(match.team1.map(storage.getUser))
+    const filledTeam2 = await Promise.all(match.team2.map(storage.getUser))
 
     return {
-        team1: {
-            player1: team1[0],
-            player2: team1[1]
-        },
-        team2: {
-            player1: team2[0],
-            player2: team2[1]
-        },
-        date,
-        team1Won
+        ...match,
+        team1: filledTeam1,
+        team2: filledTeam2
     }
 }
 
+const fillDateForMatch = (match) => ({ ...match, date: new Date() })
+
 exports.recordMatch = async (match) => {
-    const team1 = [await storage.getUser(match.team1.player1Id), await storage.getUser(match.team1.player2Id)]
-    const team2 = [await storage.getUser(match.team2.player1Id), await storage.getUser(match.team2.player2Id)]
+    const matchWithDate = fillDateForMatch(match)
+    const filledMatch = await fillPlayersForMatch(matchWithDate)
 
-    const winningTeam = match.team1Won ? team1 : team2
-    const losingTeam = match.team1Won ? team2 : team1
+    const winningTeam = filledMatch.team1Won ? filledMatch.team1 : filledMatch.team2
+    const losingTeam = filledMatch.team1Won ? filledMatch.team2 : filledMatch.team1
 
-    const ratingChange = ratingCalculator.computeRating(winningTeam, losingTeam)
+    const ratingChange = ratingCalculator.computeRatingChange(winningTeam, losingTeam)
 
-    const result = storage.addMatchRecord(buildMatchRecord(team1, team2, match.team1Won))
+    const result = storage.insertMatch(filledMatch)
 
-    changeRating(winningTeam, ratingChange)
-    changeRating(losingTeam, 0 - ratingChange)
+    await updateRatingForTeam(winningTeam, ratingChange)
+    await updateRatingForTeam(losingTeam, 0 - ratingChange)
 
     return result
 }

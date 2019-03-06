@@ -1,13 +1,13 @@
 const average = (array) => {
-	sum = array.reduce((a, b) => a + b)
+	const sum = array.reduce((a, b) => a + b)
 	return sum / array.length
 }
 
-exports.computeRating = (winningTeam, losingTeam) => {
-	const winningAvg = average(winningTeam.map(player => player.currentRating))
-	const losingAvg = average(losingTeam.map(player => player.currentRating))
+exports.computeRatingChange = (winningTeam, losingTeam) => {
+	const winningAvg = average(winningTeam.map(player => player.rating))
+	const losingAvg = average(losingTeam.map(player => player.rating))
 
-	let x = 10 ** (Math.abs(winningAvg - losingAvg) / 400) // abs assumes avg1 is stronger
+	const x = 10 ** (Math.abs(winningAvg - losingAvg) / 400)
 
 	const pa = 1 / (1 + x)
 	const k = 32 // magic ;)

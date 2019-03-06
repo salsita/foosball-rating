@@ -1,8 +1,8 @@
-const storage = require("./storage/storage.js")
-const matchRepository = require("./repositories/match-repository.js")
-
 const express = require('express')
 const bodyParser = require('body-parser')
+
+const storage = require("./storage/storage")
+const matchRepository = require("./repositories/match-repository")
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -23,7 +23,7 @@ app.get('/users', (req, res) => {
 })
 
 app.get('/matches', (req, res) => {
-    storage.getAllMatchRecords()
+    storage.getAllMatches()
         .then(matches => res.send(matches))
         .catch(error => {
             console.error(error)
@@ -36,7 +36,6 @@ app.post('/users', (req, res) => {
         .then(user => res.send(user))
         .catch(error => {
             console.error(error)
-            // TODO: More detailed error?
             res.send("Failed to add user")
         })
 })
@@ -46,7 +45,6 @@ app.post('/matches', (req, res) => {
         .then(match => res.send(match))
         .catch(error => {
             console.error(error)
-            // TODO: More detailed error?
             res.send("Failed to record match")
         })
 })

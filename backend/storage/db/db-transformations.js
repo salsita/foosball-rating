@@ -1,32 +1,26 @@
-exports.makeUserFromDbType = (userRecord) => ({
-    id: userRecord.UserID,
-    name: userRecord.Name,
-    currentRating: userRecord.CurrentRating,
-    active: userRecord.Active,
-    initialRating: userRecord.InitialRating
+exports.createUserFromDbRow = (userRow) => ({
+    id: userRow.Id,
+    name: userRow.Name,
+    rating: userRow.Rating,
+    active: userRow.Active,
+    initialRating: userRow.InitialRating
 })
 
-exports.makeMatchRecordFromDbType = (matchRecord) => ({
-    team1: {
-        player1: {
-            id: matchRecord.Team1Player1ID,
-            rating: matchRecord.Team1Player1Rating
-        },
-        player2: {
-            id: matchRecord.Team1Player2ID,
-            rating: matchRecord.Team1Player2Rating
-        }
-    },
-    team2: {
-        player1: {
-            id: matchRecord.Team2Player1ID,
-            rating: matchRecord.Team2Player1Rating
-        },
-        player2: {
-            id: matchRecord.Team2Player2ID,
-            rating: matchRecord.Team2Player2Rating
-        }
-    },
-    date: matchRecord.Date,
-    team1Won: matchRecord.Team1Won
-})
+exports.createMatchFromDbRow = (matchRow) => {
+    const team1Player2Array = matchRow.Team1Player2Id ? [{
+        id: matchRow.Team1Player2Id,
+        rating: matchRow.Team1Player2Rating
+    }] : []
+
+    const team2Player2Array = matchRow.Team2Player2Id ? [{
+        id: matchRow.Team2Player2Id,
+        rating: matchRow.Team2Player2Rating
+    }] : []
+    
+    return {
+        team1: [ { id: matchRow.Team1Player1Id, rating: matchRow.Team1Player1Rating }, ...team1Player2Array],
+        team2: [ { id: matchRow.Team2Player1Id, rating: matchRow.Team2Player1Rating }, ...team2Player2Array],
+        date: matchRow.Date,
+        team1Won: matchRow.Team1Won
+    }
+}

@@ -1,10 +1,11 @@
 {
-  "name": "foosbal-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "foosball-backend",
+  "version": "0.0.1",
+  "description": "The backend part of a Foosball Rating app.",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
