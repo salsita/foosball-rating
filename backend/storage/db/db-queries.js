@@ -1,6 +1,6 @@
 exports.selectUser = 'SELECT * FROM "Users" WHERE "UserID" = $1'
 
-exports.updateCurrentRatingForUser = 'UPDATE "Users" SET "CurrentRating" = $1 WHERE "UserID" = $2'
+exports.updateCurrentRatingForUser = 'UPDATE "Users" SET "CurrentRating" = $1 WHERE "UserID" = $2 RETURNING *'
 
 exports.insertUser = 'INSERT INTO "Users"("Name", "CurrentRating", "Active", "InitialRating") VALUES($1, $2, $3, $4) RETURNING *'
 

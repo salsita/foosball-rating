@@ -16,7 +16,7 @@ const executeQuery = async (query, values) => {
 }
 
 exports.executeSingleResultQuery = async (query, values, rowResultExtractor) => {
-    const result = await dbExecutor.executeQuery(query, values)
+    const result = await executeQuery(query, values)
     if (result.rowCount == 0) {
         return null
     }
@@ -25,5 +25,5 @@ exports.executeSingleResultQuery = async (query, values, rowResultExtractor) => 
 }
 
 exports.executeMultiResultQuery = async (query, values, rowResultExtractor) => 
-    dbExecutor.executeQuery(query, values)
+    executeQuery(query, values)
         .then(result => result.rows.map(row => rowResultExtractor(row)))
