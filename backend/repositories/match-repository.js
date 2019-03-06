@@ -1,5 +1,5 @@
-const storage = require("./storage/storage.js")
-const ratingCalculator = require("./rating-calculator.js")
+const storage = require("../storage/storage.js")
+const ratingCalculator = require("../rating/rating-calculator.js")
 
 const changeRating = (team, difference) => {
     team.forEach(player => {

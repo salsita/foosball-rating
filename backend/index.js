@@ -32,7 +32,6 @@ app.get('/matches', (req, res) => {
 })
 
 app.post('/users', (req, res) => {
-    console.log(req.body)
     storage.addUser(req.body)
         .then(user => res.send(user))
         .catch(error => {
@@ -43,7 +42,6 @@ app.post('/users', (req, res) => {
 })
 
 app.post('/matches', (req, res) => {
-    console.log(req.body)
     matchRepository.recordMatch(req.body)
         .then(match => res.send(match))
         .catch(error => {
@@ -53,4 +51,4 @@ app.post('/matches', (req, res) => {
         })
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Foosball backend running on ${port}!`))
