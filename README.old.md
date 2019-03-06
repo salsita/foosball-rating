@@ -1,2 +1,0 @@
-# foosball-rating
-Test project
