@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import {
-  Title, Subtitle, TextSpan,
-  ListCon, ListItem,
+  TextSpan,
+  ListItem,
   ALink,
-  GridContainer
 } from '../../../styles/blocks';
 
 const BattleHistoryRow = ({ match }) => (

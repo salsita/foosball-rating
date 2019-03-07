@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-
 import { 
   Title,
   Subtitle,
   GridContainer,
-  Btn,
+  Button,
   SelectBox, SelectLabel
 } from './../../../styles/blocks';
-
 
 class Match extends Component {
   render() {
@@ -34,7 +32,7 @@ class Match extends Component {
               <option value="Nick">Nick</option>
             </SelectBox>
 
-            <Btn>Team 1 Win</Btn>
+            <Button>Team 1 Win</Button>
           </div>
           <div>
             <Subtitle>Team 2</Subtitle>
@@ -55,7 +53,7 @@ class Match extends Component {
               <option value="Nick">Nick</option>
             </SelectBox>
 
-            <Btn>Team 2 Win</Btn>
+            <Button>Team 2 Win</Button>
           </div>
         </GridContainer>
       </>

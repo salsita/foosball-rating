@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { 
   Subtitle,
-  Btn
+  Button
 } from './../../../styles/blocks';
 
 
@@ -19,7 +19,7 @@ class Dashboard extends Component {
       <Subtitle textAlign="center">Top Rating</Subtitle>
       <TopRating />
       
-      <Btn>Add Match</Btn>
+      <Button>Add Match</Button>
 
       </>
     )
