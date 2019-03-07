@@ -1,49 +1,76 @@
 import React, { Component } from 'react';
 
-// components pure html
 import {
-  Title, Subtitle, TextSpan,
-  ListCon, ListItem,
-  ALink,
-  GridContainer
+  ListCon,
 } from './../../styles/blocks/';
 
-class BattleHistory extends Component {
-  render() {
-    return(
+import BattleHistoryRow from './BattleHistoryRow';
 
+class BattleHistory extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      matches: [
+        {
+          match: 1,
+          team1:
+            {
+              name1: 'Jhon jedna jedna',
+              name2: 'Jack jedna dva',
+              status: 'win',
+            },
+          team2: 
+            {
+              name1: 'Patrick dva jedna',
+              name2: 'Rob dva dva',
+            }
+          
+        },
+        {
+          match: 2,
+          team1:
+            {
+              name1: 'Jhon',
+              name2: 'Jack',
+            }
+          ,
+          team2: 
+            {
+              name1: 'Patrick',
+              name2: 'Rob',
+            }
+          
+        },
+        {
+          match: 3,
+          team1: 
+            {
+              name1: 'Jhon',
+              name2: 'Jack',
+              status: 'win',
+            }
+          ,
+          team2: 
+            {
+              name1: 'Patrick',
+              name2: 'Rob',
+            }
+          
+        }
+      ]
+    }
+  }
+  render() {
+
+    return(
       <ListCon>
 
-        {/* One Item of list */}
-        <ListItem Display="grid" Column="2fr 1fr 2fr">
-          <TextSpan textAlign="right">
-            <ALink>Jhon</ALink>
-            & 
-            <ALink>Jack</ALink>
-          </TextSpan>
-          <TextSpan textAlign="center">VS</TextSpan>
-          <TextSpan textAlign="left">
-            <ALink>Tom</ALink>
-            & 
-            <ALink>Nick</ALink>
-          </TextSpan>
-        </ListItem>
-
-        <ListItem Display="grid" Column="2fr 1fr 2fr">
-          <TextSpan textAlign="right">
-            <ALink>Jhon</ALink>
-            & 
-            <ALink>Jack</ALink>
-          </TextSpan>
-          <TextSpan textAlign="center">VS</TextSpan>
-          <TextSpan textAlign="left">
-            <ALink>Tom</ALink>
-            & 
-            <ALink>Nick</ALink>
-          </TextSpan>
-        </ListItem>
-
-
+        {this.state.matches.map((match) => 
+          
+          <BattleHistoryRow  match={match}/>
+        )}
+        
       </ListCon>
       
     )
