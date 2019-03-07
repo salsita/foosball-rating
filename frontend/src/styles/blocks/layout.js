@@ -5,6 +5,8 @@ const Container = styled.div`
   max-width: ${variables.MaxWidth};
   margin: 0 auto;
   text-align: center;
+  max-width: 800px;
+  color: ${variables.cBlack};
 `
 
 const GridContainer = styled.div`

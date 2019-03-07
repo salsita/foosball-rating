@@ -4,21 +4,17 @@ import {
   ListItem,
   ALink,
 } from '../../../styles/blocks';
+import Team from './Team';
+import cx from 'classnames';
 
 const BattleHistoryRow = ({ match }) => (
-  <ListItem Display="grid" Collumn="2fr 1fr 2fr">
-  <TextSpan textAlign="right">
-    <ALink>{match.team1.name1}</ALink>
-    &
-    <ALink>{match.team1.name2}</ALink>
-  </TextSpan>
-  <TextSpan textAlign="center">VS</TextSpan>
-  <TextSpan textAlign="left">
-    <ALink>{match.team2.name1}</ALink>
-    & 
-    <ALink>{match.team2.name2}</ALink>
-  </TextSpan>
+  <ListItem Display="grid" Column="2fr 1fr 2fr">
+    <Team team={match.team1}/>
+    <TextSpan textAlign="center">VS</TextSpan>
+    <Team team={match.team2}/>
   </ListItem>
 )
+
+
 
 export default BattleHistoryRow;

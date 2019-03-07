@@ -13,8 +13,11 @@ export default {
   // colors 
   cRed: 'rgba(202,28,16,.95)',
   cBlack: 'rgb(26, 26, 31)',
+  cWhite: '#ffffff',
 
   cBorder: 'black',
+
+  bgColor: '#d3d3d3',
 
   // spacings like margin, padding etc
   baseSpacing: '.8rem .4rem',
