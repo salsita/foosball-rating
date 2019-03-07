@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {
   ListCon,
-} from './../../styles/blocks/';
+} from '../../../styles/blocks';
 
 import BattleHistoryRow from './BattleHistoryRow';
 

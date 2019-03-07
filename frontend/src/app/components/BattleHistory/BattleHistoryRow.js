@@ -5,7 +5,7 @@ import {
   ListCon, ListItem,
   ALink,
   GridContainer
-} from './../../styles/blocks/';
+} from '../../../styles/blocks';
 
 const BattleHistoryRow = ({ match }) => (
   <ListItem Display="grid" Collumn="2fr 1fr 2fr">
