@@ -9,6 +9,23 @@ import {
 
 class Match extends Component {
   render() {
+
+    const Players = [
+      {
+        name: 'jack'
+      },{
+        name: 'john'
+      },{
+        name: 'patrick'
+      },{
+        name: 'tom'
+      },{
+        name: 'pavel'
+      },{
+        name: 'Olaf'
+      },
+    ]
+
     return(
       <>
         <Title>Match</Title>
@@ -18,18 +35,20 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              <option value="Tom">Tom</option>
-              <option value="Jack">Jack</option>
-              <option value="Peter">Peter</option>
-              <option value="Nick">Nick</option>
+              {Players.map((data) => 
+                <option value={data.name}>
+                  {data.name}
+                </option>  
+              )}
             </SelectBox>
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              <option value="Tom">Tom</option>
-              <option value="Jack">Jack</option>
-              <option value="Peter">Peter</option>
-              <option value="Nick">Nick</option>
+              {Players.map((data) => 
+                <option value={data.name}>
+                  {data.name}
+                </option>  
+              )}
             </SelectBox>
 
             <Button>Team 1 Win</Button>
@@ -39,18 +58,20 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              <option value="Tom">Tom</option>
-              <option value="Jack">Jack</option>
-              <option value="Peter">Peter</option>
-              <option value="Nick">Nick</option>
+              {Players.map((data) => 
+                <option value={data.name}>
+                  {data.name}
+                </option>  
+              )}
             </SelectBox>
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              <option value="Tom">Tom</option>
-              <option value="Jack">Jack</option>
-              <option value="Peter">Peter</option>
-              <option value="Nick">Nick</option>
+              {Players.map((data) => 
+                <option value={data.name}>
+                  {data.name}
+                </option>  
+              )}
             </SelectBox>
 
             <Button>Team 2 Win</Button>
