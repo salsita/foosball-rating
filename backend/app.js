@@ -36,7 +36,7 @@ app.post('/users', (req, res) => {
         .then(user => res.send(user))
         .catch(error => {
             console.error(error)
-            res.send("Failed to add user")
+            res.send(error.message)
         })
 })
 
@@ -45,7 +45,7 @@ app.post('/matches', (req, res) => {
         .then(match => res.send(match))
         .catch(error => {
             console.error(error)
-            res.send("Failed to record match")
+            res.send(error.message)
         })
 })
 

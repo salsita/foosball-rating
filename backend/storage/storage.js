@@ -1,6 +1,7 @@
 const dbExecutor = require('./db/db-executor')
 const dbTransformations = require('./db/db-transformations')
 const dbQueries = require('./db/db-queries')
+const dbErrors = require('./db/db-errors')
 
 exports.getAllUsers = async () =>{
     const rows = await dbExecutor.executeQuery(dbQueries.selectAllusers, [])
@@ -30,7 +31,18 @@ exports.addUser = async (user) => {
     const query = dbQueries.insertUser
     const values = [user.name, user.initialRating, true, user.initialRating]
 
-    const row = await dbExecutor.executeSingleResultQuery(query, values)
+    let row
+    try {
+        row = await dbExecutor.executeSingleResultQuery(query, values)
+    } catch (error) {
+        console.log(error.code)
+        if (dbErrors.isUniqueViolation(error)) {
+            throw new Error(`User ${user.name} already exists`)
+        }
+        console.log(error)
+        throw new Error("Unable to add user")
+    }
+
     return dbTransformations.createUserFromDbRow(row)
 }
 

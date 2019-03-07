@@ -8,8 +8,6 @@ exports.executeQuery = async (query, values) => {
     try {
         const res = await client.query(query, values)
         return res.rows
-    } catch (error) {
-        console.error(error)
     } finally {
         client.release()
     }
