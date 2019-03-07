@@ -9,7 +9,6 @@ import {
 
 class Match extends Component {
   render() {
-
     const Players = [
       {
         name: 'jack'
@@ -25,7 +24,6 @@ class Match extends Component {
         name: 'Olaf'
       },
     ]
-
     return(
       <>
         <Title>Match</Title>

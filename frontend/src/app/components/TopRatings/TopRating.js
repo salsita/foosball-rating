@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ListCon } from '../../../styles/blocks';
 import TopRatingRow from './TopRatingRow';
 
-const TopRatings = [
+const topRatings = [
   {
     name: 'Jack',
     rating: '1800',
@@ -25,7 +25,7 @@ class TopRating extends Component {
   render() {
     return(
       <ListCon>
-        {TopRatings.map((data) => 
+        {topRatings.map((data) => 
             <TopRatingRow data={data} />
         )}
       </ListCon>

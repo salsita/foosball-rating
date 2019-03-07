@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-
 import {
   ListCon,
 } from '../../../styles/blocks';
-
 import BattleHistoryRow from './BattleHistoryRow';
 
 class BattleHistory extends Component {
   constructor() {
     super();
-
     this.state = {
       matches: [
         {
@@ -25,7 +22,6 @@ class BattleHistory extends Component {
               name1: 'Patrick dva jedna',
               name2: 'Rob dva dva',
             }
-          
         },
         {
           match: 2,
@@ -40,7 +36,6 @@ class BattleHistory extends Component {
               name1: 'Patrick',
               name2: 'Rob',
             }
-          
         },
         {
           match: 3,
@@ -56,23 +51,17 @@ class BattleHistory extends Component {
               name1: 'Patrick',
               name2: 'Rob',
             }
-          
         }
       ]
     }
   }
   render() {
-
     return(
       <ListCon>
-
         {this.state.matches.map((match) => 
-          
           <BattleHistoryRow  match={match}/>
         )}
-        
       </ListCon>
-      
     )
   }
 }
