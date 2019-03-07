@@ -2,7 +2,7 @@ import { put, takeEvery, fork, call } from 'redux-saga/effects'
 import { getUsers, addUser } from './users-effects'
 import { UsersActions } from './users-actions'
 
-function* getUsersSaga() {
+export function* getUsersSaga() {
     try {
         const response = yield call(getUsers)
         yield put(UsersActions.Creators.usersLoaded(response.data))

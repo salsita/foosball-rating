@@ -6,11 +6,14 @@ import {
 } from '../../../styles/blocks';
 import cx from 'classnames';
 
+const createListFromTeam = (team) => team
+  .map(player => <ALink>{player.name} ({player.matchRating})</ALink>)
+  // Works only for 2 elements at maximum!
+  .reduce((prev, curr) => [prev, "&", curr])
+
 const Team = ({ team }) => (
   <WinnerSpan winner={team.winner}>
-      <ALink>{team.name1}</ALink>
-      &
-      <ALink>{team.name2}</ALink>
+    {createListFromTeam(team)}
   </WinnerSpan>
 )
 
