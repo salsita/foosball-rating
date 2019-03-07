@@ -48,9 +48,9 @@ const recordFilledMatch = async (filledMatch) => {
 
 /**
   * @param match Description of the match to record.
-  * @param match.team1 Array of 1 or 2 elements containing IDs of players from team1.
-  * @param match.team2 Array of 1 or 2 elements containing IDs of players from team2.
-  * @param match.team1Won True if team1 won, false if team2 won.
+  * @param {Array<number>} match.team1 Array of 1 or 2 elements containing IDs of players from team1.
+  * @param {Array<number>} match.team2 Array of 1 or 2 elements containing IDs of players from team2.
+  * @param {boolean} match.team1Won True if team1 won, false if team2 won.
   */
 exports.recordMatch = async (match) => {
     const matchWithDate = fillDateForMatch(match)
