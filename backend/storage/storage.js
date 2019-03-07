@@ -20,9 +20,6 @@ exports.updateRatingForUser = async (userId, newRating) => {
     const query = dbQueries.updateRatingForUser
     const values = [newRating, userId]
 
-    console.log(userId)
-    console.log(newRating)
-
     const row = await dbExecutor.executeSingleResultQuery(query, values)
     return dbTransformations.createUserFromDbRow(row)
 }
@@ -35,11 +32,10 @@ exports.addUser = async (user) => {
     try {
         row = await dbExecutor.executeSingleResultQuery(query, values)
     } catch (error) {
-        console.log(error.code)
         if (dbErrors.isUniqueViolation(error)) {
             throw new Error(`User ${user.name} already exists`)
         }
-        console.log(error)
+        console.error(error)
         throw new Error("Unable to add user")
     }
 
@@ -56,8 +52,6 @@ exports.insertMatch = async (match) => {
     const team1Player2 = match.team1[1] || { }
     const team2Player1 = match.team2[0]
     const team2Player2 = match.team2[1] || { }
-
-    console.log(match)
 
     const query = dbQueries.insertMatch
     const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,
