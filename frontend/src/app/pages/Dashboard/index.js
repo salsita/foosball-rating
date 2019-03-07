@@ -6,8 +6,8 @@ import {
 } from './../../../styles/blocks';
 
 
-import BattleHistory from './../../components/BattleHistory';
-import TopRating from './../../components/TopRating';
+import BattleHistory from './../../components/BattleHistory/BattleHistory';
+import TopRating from '../../components/TopRatings/TopRating';
 
 
 class Dashboard extends Component {
