@@ -6,6 +6,7 @@ import {Container} from './../styles/blocks/layout';
 // pages 
 import Dashboard from './pages/Dashboard';
 import CreateMatch from './pages/CreateMatch';
+import Profile from './pages/Profile';
 
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
           
           <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
           <Route exact path={ROUTES.CREATEMATCH} component={CreateMatch} />
+          <Route exact path={ROUTES.PROFILE} component={Profile} />
 
         </Container>
       </Router>
