@@ -1,2 +1,2 @@
 export const DASHBOARD = '/';
-export const MATCH = '/match';
+export const CREATEMATCH = '/create-match';
