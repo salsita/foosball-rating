@@ -1,6 +1,6 @@
 import { put, takeEvery, fork, call } from 'redux-saga/effects'
 import { getUsers, addUser } from './users-effects'
-import UsersActions from './users-actions'
+import { UsersActions } from './users-actions'
 
 function* getUsersSaga() {
     try {
@@ -20,7 +20,7 @@ function* addUserSaga(action) {
     }
 }
 
-export default function* usersSaga() {
+export function* usersSaga() {
     yield fork(getUsersSaga)
     yield takeEvery(UsersActions.Types.ADD_USER, addUserSaga)
 }

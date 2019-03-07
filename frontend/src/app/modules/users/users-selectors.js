@@ -4,5 +4,5 @@ export const getUsers = state => state.users.users
 
 export const getTopUsers = createSelector(
     getUsers, 
-    users => users.sort((user1, user2) => user2.rating - user1.rating)
+    users => [...users].sort((user1, user2) => user2.rating - user1.rating)
 )

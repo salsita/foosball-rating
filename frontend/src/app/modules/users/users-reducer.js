@@ -1,6 +1,6 @@
 import { createReducer } from 'reduxsauce'
 
-import UserActions from './users-actions'
+import { UsersActions } from './users-actions'
 
 const initState = {
     users: []
@@ -12,8 +12,6 @@ const usersLoaded = (state, { users }) => {
     }
 }
 
-const usersReducer = createReducer(initState, {
-    [UserActions.Types.USERS_LOADED]: usersLoaded
+export const usersReducer = createReducer(initState, {
+    [UsersActions.Types.USERS_LOADED]: usersLoaded
 })
-
-export default usersReducer

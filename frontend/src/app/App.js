@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
 import { createStore, compose, applyMiddleware } from 'redux';
-
 import { Provider } from 'react-redux'
-
 import createSagaMiddleware from 'redux-saga'
 
-import rootSaga from './modules/root/root-saga'
-import rootReducer from './modules/root/root-reducer'
-
+import { rootSaga } from './modules/root/root-saga'
+import { rootReducer } from './modules/root/root-reducer'
 import * as ROUTES from './const/routes';
 import Header from './components/header';
 import {Container} from './../styles/blocks/layout';
