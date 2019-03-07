@@ -6,7 +6,9 @@ const Container = styled.div`
   margin: 0 auto;
   text-align: center;
   max-width: 800px;
-  color: ${variables.cBlack};
+  color: ${variables.cWhite};
+  padding: ${variables.baseSpacing};
+
 `
 
 const GridContainer = styled.div`
