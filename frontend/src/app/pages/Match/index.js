@@ -9,7 +9,7 @@ import {
 
 class Match extends Component {
   render() {
-    const Players = [
+    const players = [
       {
         name: 'jack'
       },{
@@ -33,7 +33,7 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              {Players.map((data) => 
+              {players.map((data) => 
                 <option value={data.name}>
                   {data.name}
                 </option>  
@@ -42,7 +42,7 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              {Players.map((data) => 
+              {players.map((data) => 
                 <option value={data.name}>
                   {data.name}
                 </option>  
@@ -56,7 +56,7 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              {Players.map((data) => 
+              {players.map((data) => 
                 <option value={data.name}>
                   {data.name}
                 </option>  
@@ -65,7 +65,7 @@ class Match extends Component {
 
             <SelectBox>
               <option value=""> -- Chose Team Member -- </option>
-              {Players.map((data) => 
+              {players.map((data) => 
                 <option value={data.name}>
                   {data.name}
                 </option>  
