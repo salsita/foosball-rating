@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux"
+
 import { ListCon } from '../../../styles/blocks';
 import TopRatingRow from './TopRatingRow';
 
-const topRatings = [
-  {
-    name: 'Jack',
-    rating: '1800',
-  },{
-    name: 'Jack',
-    rating: '1700',
-  },{
-    name: 'Jack',
-    rating: '1600',
-  },{
-    name: 'Jack',
-    rating: '1500',
-  },{
-    name: 'Jack',
-    rating: '1400',
-  },
-]
+import { getTopUsers } from '../../modules/users/users-selectors'
 
 class TopRating extends Component {
   render() {
+
     return(
       <ListCon>
-        {topRatings.map((data) => 
-            <TopRatingRow data={data} />
-        )}
+      {this.props.topUsers.map(data => 
+        <TopRatingRow data={data} />
+      )}
       </ListCon>
     )
   }
 }
 
-export default TopRating;
+const mapStateToProps = state => ({
+  topUsers: getTopUsers(state)
+})
+
+const SmartTopRating = connect(mapStateToProps)(TopRating)
+
+export default SmartTopRating
