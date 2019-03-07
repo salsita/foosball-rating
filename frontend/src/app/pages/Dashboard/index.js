@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 
 import { 
   Subtitle,
-  Btn
+  Button
 } from './../../../styles/blocks';
 
 
-import BattleHistory from './../../components/BattleHistory';
-import TopRating from './../../components/TopRating';
+import BattleHistory from './../../components/BattleHistory/BattleHistory';
+import TopRating from '../../components/TopRatings/TopRating';
 
 
-class HP extends Component {
+class Dashboard extends Component {
   render() {
     return(
       <>
@@ -19,11 +19,11 @@ class HP extends Component {
       <Subtitle textAlign="center">Top Rating</Subtitle>
       <TopRating />
       
-      <Btn>Add Match</Btn>
+      <Button>Add Match</Button>
 
       </>
     )
   }
 }
 
-export default HP;
+export default Dashboard;
