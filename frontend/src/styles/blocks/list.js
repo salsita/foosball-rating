@@ -11,6 +11,21 @@ const ListCon = styled.ul`
   @media (min-width: ${variables.bpMedium}) {
     width: 450px;
   }
+
+  &.topPlayers {
+    li:nth-child(1) {
+      font-size: 28px;
+      color: ${variables.cTopPlayerGold}
+    }
+    li:nth-child(2) {
+      font-size: 22px;
+      color: ${variables.cTopPlayerSilver}
+    }
+    li:nth-child(3) {
+      font-size: 18px;
+      color: ${variables.cTopPlayerBronze}
+    }
+  }
 `
 
 const ListItem = styled.li`

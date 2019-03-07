@@ -24,6 +24,10 @@ export default {
   bgColorList: '#fff',
   bgColorListSec: '#ebebeb',
 
+  cTopPlayerGold: '#ffbf00',
+  cTopPlayerSilver: '#b4b4b4',
+  cTopPlayerBronze: '#cd7f32',
+
   // spacings like margin, padding etc
   baseSpacing: '.8rem .4rem',
 

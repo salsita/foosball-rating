@@ -24,7 +24,7 @@ const topRatings = [
 class TopRating extends Component {
   render() {
     return(
-      <ListCon>
+      <ListCon className="topPlayers">
         {topRatings.map((data) => 
             <TopRatingRow data={data} />
         )}
