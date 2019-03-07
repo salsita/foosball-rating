@@ -15,7 +15,7 @@ app.use(jsonParser)
 
 app.get('/users', (req, res) => {
     storage.getAllUsers()
-        .then(users => res.send(users))
+        .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
             res.send("Failed to fetch matches.")
@@ -24,7 +24,7 @@ app.get('/users', (req, res) => {
 
 app.get('/matches', (req, res) => {
     storage.getAllMatches()
-        .then(matches => res.send(matches))
+        .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
             res.send("Failed to fetch users.")
@@ -33,7 +33,7 @@ app.get('/matches', (req, res) => {
 
 app.post('/users', (req, res) => {
     storage.addUser(req.body)
-        .then(user => res.send(user))
+        .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
             res.send(error.message)
@@ -42,7 +42,7 @@ app.post('/users', (req, res) => {
 
 app.post('/matches', (req, res) => {
     matchRepository.recordMatch(req.body)
-        .then(match => res.send(match))
+        .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
             res.send(error.message)
