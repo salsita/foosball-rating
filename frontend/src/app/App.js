@@ -13,6 +13,7 @@ import {Container} from './../styles/blocks/layout';
 import Dashboard from './pages/Dashboard';
 import CreateMatch from './pages/CreateMatch';
 import Profile from './pages/Profile';
+import { AddUser } from './pages/AddUser';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -33,6 +34,7 @@ class App extends Component {
             <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
             <Route exact path={ROUTES.CREATEMATCH} component={CreateMatch} />
             <Route exact path={ROUTES.PROFILE} component={Profile} />
+            <Route exact path={ROUTES.ADD_USER} component={AddUser} />
           </Container>
         </Router>
       </Provider>
