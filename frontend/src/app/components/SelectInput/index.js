@@ -1,11 +1,11 @@
 import React from 'react';
 import { SelectBox } from './../../../styles/blocks';
 
-const SelectInput = ({ data }) => (
-  <SelectBox>
-    {data.map((data) => 
-      <option value={data.name}>
-        {data.name}
+const SelectInput = ({ items, selectedValue, onChange }) => (
+  <SelectBox onChange={onChange}>
+    {items.map((item) => 
+      <option value={item.value} selected={item.value == selectedValue}>
+        {item.label}
       </option>  
     )}
   </SelectBox>
