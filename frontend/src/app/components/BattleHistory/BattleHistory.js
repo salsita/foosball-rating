@@ -13,14 +13,14 @@ class BattleHistory extends Component {
           match: 1,
           team1:
             {
-              name1: 'Jhon jedna jedna',
-              name2: 'Jack jedna dva',
-              status: 'win',
+              name1: 'Jhon',
+              name2: 'Jack',
+              winner: true,
             },
           team2: 
             {
-              name1: 'Patrick dva jedna',
-              name2: 'Rob dva dva',
+              name1: 'Patrick',
+              name2: 'Rob',
             }
         },
         {
@@ -35,6 +35,7 @@ class BattleHistory extends Component {
             {
               name1: 'Patrick',
               name2: 'Rob',
+              winner: true,
             }
         },
         {
@@ -43,7 +44,7 @@ class BattleHistory extends Component {
             {
               name1: 'Jhon',
               name2: 'Jack',
-              status: 'win',
+              winner: true,
             }
           ,
           team2: 

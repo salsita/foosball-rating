@@ -1,15 +1,17 @@
-import {Title, Subtitle, TextSpan} from './typo';
-import {Container, GridContainer} from './layout';
+import {Title, Subtitle, TextSpan, WinnerSpan} from './typo';
+import {Container, GridContainer, Box} from './layout';
 import { ListCon, ListItem } from './list';
 import ALink from './link';
 import Button from './buttons';
 import { SelectBox, SelectLabel } from './inputs';
+import Logo from './logo';
 
 export { 
-    Title, Subtitle, TextSpan,
-    Container, GridContainer,
+    Title, Subtitle, TextSpan, WinnerSpan,
+    Container, GridContainer, Box,
     ListCon, ListItem,
     ALink,
     Button,
-    SelectBox, SelectLabel
+    SelectBox, SelectLabel,
+    Logo
 };

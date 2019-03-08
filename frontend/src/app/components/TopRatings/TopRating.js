@@ -10,7 +10,7 @@ class TopRating extends Component {
   render() {
 
     return(
-      <ListCon>
+      <ListCon className="topPlayers">
       {this.props.topUsers.map(data => 
         <TopRatingRow data={data} />
       )}

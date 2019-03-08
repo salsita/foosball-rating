@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
-  Title, Subtitle
+  Title, Subtitle,
+  Logo
 } from './../../styles/blocks/';
+
+const logo = require('./../../media/logo.png');
 
 class Header extends Component {
   render() {
     return(
       <div>
-        <Title>
-            Logo
-        </Title>
-        <Subtitle>
-            Powered by Salsita
-        </Subtitle>
+        <Logo href="https://www.salsitasoft.com/"><img src={logo} /></Logo>
       </div>
     )
   }

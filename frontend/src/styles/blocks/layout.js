@@ -5,10 +5,20 @@ const Container = styled.div`
   max-width: ${variables.MaxWidth};
   margin: 0 auto;
   text-align: center;
-`
+  max-width: 800px;
+  color: ${variables.cWhite};
+  padding: ${variables.baseSpacing};
 
+`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: ${props => props.Column};
 `
-export { Container, GridContainer };
+
+const Box = styled.div`
+  display: ${props => props.Display};
+  margin: ${props => props.Margin};
+  padding: ${props => props.Padding};
+`
+
+export { Container, GridContainer, Box };
