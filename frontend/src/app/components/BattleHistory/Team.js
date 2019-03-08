@@ -1,16 +1,16 @@
 import React from 'react';
 import {
   WinnerSpan,
-  ListItem,
   ALink,
 } from '../../../styles/blocks';
-import cx from 'classnames';
 
-const Team = ({ team }) => (
-  <WinnerSpan winner={team.winner}>
-      <ALink>{team.name1}</ALink>
-      &
-      <ALink>{team.name2}</ALink>
+const createListFromTeam = (team) => team
+  .map(player => [<ALink>{player.name} ({player.matchRating})</ALink>])
+  .reduce((prev, curr) => [...prev, "&", ...curr])
+
+const Team = ({ team, didWin }) => (
+  <WinnerSpan winner={didWin}>
+    {createListFromTeam(team)}
   </WinnerSpan>
 )
 
