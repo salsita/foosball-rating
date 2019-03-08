@@ -8,6 +8,7 @@ import { connect } from "react-redux"
 import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
+import { IN_PROGRESS, SUCCESS, FAILURE } from '../../modules/api/request-status'
 
 class CreateMatchForm extends Component {
   constructor(props) {
@@ -67,42 +68,57 @@ class CreateMatchForm extends Component {
     })
   }
 
+  getTextForRequestStatus = (status) => {
+    switch (status) {
+        case IN_PROGRESS:
+            return "Creating..."
+        case SUCCESS:
+            return "Succesfully created!"
+        case FAILURE:
+            return "Failed to create the match :("
+    }
+
+    return ""
+  }
+
   render = () => {
     const inputError = this.getErrorMessage()
     return (
     <>
-      <Box Margin="20px 10px" Padding="10px 0">
-        <Title>Match</Title>
-        <GridContainer Column="1fr 1fr">
-          <Box Margin="0 10px">
-            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                            teamName="Team 1" 
-                            users={this.props.users} 
-                            teamChanged={this.team1Changed} 
-                            teamSubmitted={() => this.submit(true)}
-                            canSubmit={() => inputError == null} />
-          </Box>
-          <Box Margin="0 10px">
-            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                            teamName="Team 2" 
-                            users={this.props.users} 
-                            teamChanged={this.team2Changed} 
-                            teamSubmitted={() => this.submit(false)}
-                            canSubmit={() => inputError == null} />
-          </Box>
-        </GridContainer>
-        <div>{inputError || ""}</div>
+      <Title>Match</Title>
+      <GridContainer Column="1fr 1fr">
+      <Box Margin="0 10px">
+        <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                        teamName="Team 1" 
+                        users={this.props.users} 
+                        teamChanged={this.team1Changed} 
+                        teamSubmitted={() => this.submit(true)}
+                        canSubmit={() => inputError == null} />
       </Box>
+      <Box Margin="0 10px">
+        <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                        teamName="Team 2" 
+                        users={this.props.users} 
+                        teamChanged={this.team2Changed} 
+                        teamSubmitted={() => this.submit(false)}
+                        canSubmit={() => inputError == null} />
+      </Box>
+      </GridContainer>
+      <div>{inputError || ""}</div>
+      <div>{this.getTextForRequestStatus(this.props.requestStatus)}</div>
     </>
   )}
 }
 
 const mapStateToProps = state => ({
-  users: getUsers(state)
+  users: getUsers(state),
+  requestStatus: state.matches.status
 })
 
 const mapDispatchToProps = dispatch => ({
-  createMatch: match => dispatch(MatchesActions.Creators.addMatch(match))
+  createMatch: match => {
+    dispatch(MatchesActions.Creators.addMatch(match))
+  }
 })
 
 export const SmartCreateMatchForm = connect(mapStateToProps, mapDispatchToProps)(CreateMatchForm)
