@@ -47,7 +47,7 @@ export class SelectTeamForm extends Component {
             <>                        
                 <Subtitle>{this.props.teamName}</Subtitle>
                     {selectInputs}
-                <Button onClick={this.props.teamSubmitted}>{this.props.teamName} Win</Button>
+                <Button disabled={!this.props.canSubmit} onClick={this.props.teamSubmitted}>{this.props.teamName} Win</Button>
             </>
         )
     }

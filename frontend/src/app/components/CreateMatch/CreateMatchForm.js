@@ -5,10 +5,13 @@ import {
     Box,
   } from './../../../styles/blocks'
 import { connect } from "react-redux"
+import { withRouter } from 'react-router-dom'
 import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
-import { IN_PROGRESS, SUCCESS, FAILURE } from '../../modules/api/request-status'
+import { SUCCESS, READY } from '../../modules/api/request-status'
+import { DASHBOARD } from '../../const/routes'
+import { StatusReportField } from '../StatusReport/StatusReportField';
 
 class CreateMatchForm extends Component {
   constructor(props) {
@@ -57,7 +60,7 @@ class CreateMatchForm extends Component {
   }
 
   submit = (team1Won) => {
-    if (this.state.error != null) {
+    if (this.getErrorMessage() != null) {
       return
     }
 
@@ -82,7 +85,13 @@ class CreateMatchForm extends Component {
   }
 
   render = () => {
+    if (this.props.requestStatus == SUCCESS) {
+      this.props.history.push(DASHBOARD)
+    }
+
     const inputError = this.getErrorMessage()
+    const canSubmit = inputError == null && this.props.requestStatus == READY
+    
     return (
     <>
       <Title>Match</Title>
@@ -93,7 +102,7 @@ class CreateMatchForm extends Component {
                         users={this.props.users} 
                         teamChanged={this.team1Changed} 
                         teamSubmitted={() => this.submit(true)}
-                        canSubmit={() => inputError == null} />
+                        canSubmit={canSubmit} />
       </Box>
       <Box Margin="0 10px">
         <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
@@ -101,11 +110,11 @@ class CreateMatchForm extends Component {
                         users={this.props.users} 
                         teamChanged={this.team2Changed} 
                         teamSubmitted={() => this.submit(false)}
-                        canSubmit={() => inputError == null} />
+                        canSubmit={canSubmit} />
       </Box>
       </GridContainer>
       <div>{inputError || ""}</div>
-      <div>{this.getTextForRequestStatus(this.props.requestStatus)}</div>
+      <StatusReportField status={this.props.requestStatus} />
     </>
   )}
 }
@@ -121,4 +130,5 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export const SmartCreateMatchForm = connect(mapStateToProps, mapDispatchToProps)(CreateMatchForm)
+const RoutingCreateMatchForm = withRouter(CreateMatchForm)
+export const SmartCreateMatchForm = connect(mapStateToProps, mapDispatchToProps)(RoutingCreateMatchForm)
