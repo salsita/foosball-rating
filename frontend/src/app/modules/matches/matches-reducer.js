@@ -8,7 +8,7 @@ const initState = {
 
 const matchesLoaded = (state, { matches }) => {
     return {
-        matches: matches
+        matches
     }
 }
 

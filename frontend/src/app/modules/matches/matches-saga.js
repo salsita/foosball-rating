@@ -3,8 +3,7 @@ import { getMatches, addMatch } from './matches-effects'
 import { getUsersSaga } from '../users/users-saga'
 import { MatchesActions } from './matches-actions'
 
-// Transform JSON representation into Date
-const transformMatch = (match) => ({
+const convertDateInMatch = (match) => ({
     ...match,
     date: new Date(match.date)
 })
@@ -12,7 +11,7 @@ const transformMatch = (match) => ({
 function* getMatchesSaga() {
     try {
         const response = yield call(getMatches)
-        const matches = response.data.map(transformMatch)
+        const matches = response.data.map(convertDateInMatch)
         yield put(MatchesActions.Creators.matchesLoaded(matches))
     } catch (error) {
         console.error(error)

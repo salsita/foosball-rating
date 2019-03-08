@@ -5,9 +5,8 @@ import {
 } from '../../../styles/blocks';
 
 const createListFromTeam = (team) => team
-  .map(player => <ALink>{player.name} ({player.matchRating})</ALink>)
-  // Works only for 2 elements at maximum!
-  .reduce((prev, curr) => [prev, "&", curr])
+  .map(player => [<ALink>{player.name} ({player.matchRating})</ALink>])
+  .reduce((prev, curr) => [...prev, "&", ...curr])
 
 const Team = ({ team, didWin }) => (
   <WinnerSpan winner={didWin}>
