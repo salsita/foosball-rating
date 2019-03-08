@@ -1,12 +1,4 @@
-import React, { Component } from 'react'
-import { SmartNewUserForm } from '../../components/AddUser/NewUserForm'
+import React from 'react'
+import { SmartAddUserForm } from '../../components/AddUser/AddUserForm'
 
-export class AddUser extends Component {
-  render() {
-    return(
-      <>
-        <SmartNewUserForm />
-      </>
-    )
-  }
-}
+export const AddUser = () => <SmartAddUserForm />
