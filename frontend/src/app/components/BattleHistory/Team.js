@@ -9,8 +9,8 @@ const createListFromTeam = (team) => team
   // Works only for 2 elements at maximum!
   .reduce((prev, curr) => [prev, "&", curr])
 
-const Team = ({ team }) => (
-  <WinnerSpan winner={team.winner}>
+const Team = ({ team, didWin }) => (
+  <WinnerSpan winner={didWin}>
     {createListFromTeam(team)}
   </WinnerSpan>
 )
