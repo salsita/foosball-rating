@@ -21,4 +21,14 @@ const Box = styled.div`
   padding: ${props => props.Padding};
 `
 
-export { Container, GridContainer, Box };
+const Card = styled.div`
+  padding: ${variables.baseSpacing};
+  border-radius: 8px;
+  background: ${variables.cWhite};
+  display: inline-block;
+  color: ${variables.cBlack};
+
+`
+
+
+export { Container, GridContainer, Box, Card };

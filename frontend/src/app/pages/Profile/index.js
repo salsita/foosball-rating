@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { 
-  Title,
-  Subtitle,
-  GridContainer,
-  Button,
-  SelectBox, SelectLabel
+  Title, TextSpan, Subtitle,
+  Card
 } from './../../../styles/blocks';
 import ProfileBattleHistory from './../../components/ProfileBattleHistory'
 
-const TotalRating = '+1642';
+const userDetails = {
+  name: 'thomas',
+  totalRating: '+1634',
+  matches: '20',
+  winRating: '46%',
+  winStreak: '6'
+}
 
 const historicalMatches = [
   {
@@ -29,11 +32,19 @@ const historicalMatches = [
 class Profile extends Component {
   render() {
     return(
-      <>
-        <Title>Profile</Title>
-        <Subtitle>{TotalRating}</Subtitle>
+      <Card>
+        <Title>{userDetails.name}</Title>
+        <Subtitle>{userDetails.totalRating}</Subtitle>
+
+        <div>
+          <TextSpan>MAtches:{userDetails.matches}</TextSpan>
+          
+          <TextSpan>Win rating:{userDetails.winRating}</TextSpan>
+          
+          <TextSpan>Win streak:{userDetails.winStreak}</TextSpan>
+        </div>
         <ProfileBattleHistory />
-      </>
+      </ Card>
     )
   }
 }
