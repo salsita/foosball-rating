@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
   Title,
   Subtitle,
-  GridContainer,
+  GridContainer, Box,
   Button,
 } from './../../../styles/blocks';
 import SelectInput from './../../components/SelectInput';
@@ -29,22 +29,22 @@ class CreateMatch extends Component {
       <>
         <Title>Match</Title>
         <GridContainer Column="1fr 1fr">
-          <div>
+          <Box Margin="0 10px">
             <Subtitle>Team 1</Subtitle>
 
             <SelectInput data={players} />
             <SelectInput data={players} />
             
             <Button>Team 1 Win</Button>
-          </div>
-          <div>
+          </Box>
+          <Box Margin="0 10px">
             <Subtitle>Team 2</Subtitle>
 
             <SelectInput data={players} />
             <SelectInput data={players} />
             
             <Button>Team 2 Win</Button>
-          </div>
+          </Box>
         </GridContainer>
       </>
     )
