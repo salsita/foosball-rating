@@ -5,6 +5,8 @@ import {
 } from './../../../styles/blocks';
 import SelectInput from '../SelectInput/index'
 
+const INVALID_PLAYER_ID = -1
+
 export class SelectTeamForm extends Component {
     constructor(props) {
         super(props)
@@ -20,18 +22,20 @@ export class SelectTeamForm extends Component {
 
     createUserItemsWithNone = () => [{
         label: "None",
-        value: -1
+        value: INVALID_PLAYER_ID
     }, ...this.createUserItems()]
 
     playerSelected = (index, playerId) => {
-        const selectedPlayerIds = [...this.state.selectedPlayerIds]
-        selectedPlayerIds[index] = playerId
-
-        this.setState({
-            selectedPlayerIds
+        this.setState((state, props) => {
+            const selectedPlayerIds = [...state.selectedPlayerIds]
+            selectedPlayerIds[index] = playerId
+            return {
+                selectedPlayerIds
+            }
+        }, () => {
+            const validPlayers = this.state.selectedPlayerIds.filter(playerId => playerId != INVALID_PLAYER_ID)
+            this.props.teamChanged(validPlayers)
         })
-
-        this.props.teamChanged(selectedPlayerIds.filter(playerId => playerId != -1))
     }
 
     render = () => {
