@@ -16,7 +16,7 @@ class BattleHistory extends Component {
   render() {
     return(
       <ListCon>
-        {this.props.lastMatches.map((match) => 
+        {this.props.lastMatches.slice(0, this.props.maxItems).map((match) => 
           <BattleHistoryRow match={match}/>
         )}
       </ListCon>

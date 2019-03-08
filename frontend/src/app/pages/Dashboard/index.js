@@ -11,9 +11,9 @@ class Dashboard extends Component {
     return(
       <>
         <Subtitle textAlign="center">Last Battles</Subtitle>
-        <BattleHistory />
+        <BattleHistory maxItems={5} />
         <Subtitle textAlign="center">Top Rating</Subtitle>
-        <TopRating />
+        <TopRating maxItems={5} />
         <Button>Add Match</Button>
       </>
     )
