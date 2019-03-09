@@ -1,5 +1,5 @@
 import {Title, Subtitle, TextSpan, WinnerSpan} from './typo';
-import {Container, GridContainer, Box} from './layout';
+import {Nav, Container, GridContainer, Box} from './layout';
 import { ListCon, ListItem } from './list';
 import ALink from './link';
 import Button from './buttons';
@@ -8,7 +8,7 @@ import Logo from './logo';
 
 export { 
     Title, Subtitle, TextSpan, WinnerSpan,
-    Container, GridContainer, Box,
+    Nav, Container, GridContainer, Box,
     ListCon, ListItem,
     ALink,
     Button,

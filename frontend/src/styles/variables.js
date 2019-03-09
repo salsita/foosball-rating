@@ -13,13 +13,15 @@ export default {
   fontSizeSubtitle: '1.6rem',
   
   // colors 
-  cRed: 'rgba(202,28,16,.95)',
-  cBlack: 'rgb(26, 26, 31)',
+  cRed: '#f44336',
+  cBlack: '#262626',
   cWhite: '#ffffff',
+  cGrey: '#ddd',
+  cYellow: '#ffdf50',
 
   cBorder: 'black',
 
-  bgColor: '#d3d3d3',
+  bgColor: '#262626',
 
   bgColorList: '#fff',
   bgColorListSec: '#ebebeb',
