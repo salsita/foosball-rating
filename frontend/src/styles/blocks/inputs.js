@@ -24,8 +24,14 @@ const SelectBox = styled.select`
   }
 `
 
-const SelectLabel = styled.label`
-
+const Label = styled.label`
+  font-weight: 400;
+  padding: 0 5px;
 `
 
-export { SelectBox, SelectLabel };
+const Input = styled.input`
+  padding: 0 5px;
+  min-height: 20px;
+`
+
+export { SelectBox, Label, Input };

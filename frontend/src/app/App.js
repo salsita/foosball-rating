@@ -29,13 +29,15 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Container>
+          <>
             <Header />
-            <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
-            <Route exact path={ROUTES.CREATEMATCH} component={CreateMatch} />
-            <Route exact path={ROUTES.PROFILE} component={Profile} />
-            <Route exact path={ROUTES.ADD_USER} component={AddUser} />
-          </Container>
+            <Container>
+              <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+              <Route exact path={ROUTES.CREATEMATCH} component={CreateMatch} />
+              <Route exact path={ROUTES.PROFILE} component={Profile} />
+              <Route exact path={ROUTES.ADD_USER} component={AddUser} />
+            </Container>
+          </>
         </Router>
       </Provider>
     );

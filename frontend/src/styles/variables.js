@@ -11,15 +11,18 @@ export default {
   //typo 
   fontSizeTitle: '1.8rem',
   fontSizeSubtitle: '1.6rem',
+  fontSizeProfileDetails: '.8rem',
   
   // colors 
-  cRed: 'rgba(202,28,16,.95)',
-  cBlack: 'rgb(26, 26, 31)',
+  cRed: '#f44336',
+  cBlack: '#262626',
   cWhite: '#ffffff',
+  cGrey: '#ddd',
+  cYellow: '#ffdf50',
 
   cBorder: 'black',
 
-  bgColor: '#d3d3d3',
+  bgColor: '#262626',
 
   bgColorList: '#fff',
   bgColorListSec: '#ebebeb',

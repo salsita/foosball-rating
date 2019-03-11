@@ -6,8 +6,8 @@ const ListCon = styled.ul`
   padding: 0;
   text-align: center;
   box-shadow: 0 4px 18px 0 rgba(0,0,0,0.12),0 7px 10px -5px rgba(0,0,0,0.15);
-  border-radius: 8px;
   overflow: hidden;
+  background: ${variables.cBlack};
   @media (min-width: ${variables.bpMedium}) {
     width: 450px;
   }
@@ -32,17 +32,9 @@ const ListItem = styled.li`
   padding: ${variables.baseSpacing};
   display: ${props => props.Display};
   grid-template-columns: ${props => props.Column};
-  color: ${variables.cBlack};
+  color: ${variables.cGrey};
   list-style: none;
-  border-bottom: 1px solid ${variables.bgColor};
-  background: ${variables.bgColorList};
-
-  :last-child {
-    border-bottom: none;
-  }
-  :nth-child(even) {
-    background: ${variables.bgColorListSec}
-  }
+  border: 1px solid #393939;
 `
 
 export { ListCon, ListItem};

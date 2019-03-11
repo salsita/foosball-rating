@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Title, Subtitle,
-  Logo
+  Logo,
+  Nav
 } from './../../styles/blocks/';
 
 const logo = require('./../../media/logo.png');
@@ -9,9 +10,10 @@ const logo = require('./../../media/logo.png');
 class Header extends Component {
   render() {
     return(
-      <div>
+      <Nav>
         <Logo href="https://www.salsitasoft.com/"><img src={logo} /></Logo>
-      </div>
+        <Title>ELO rating</Title>
+      </Nav>
     )
   }
 }

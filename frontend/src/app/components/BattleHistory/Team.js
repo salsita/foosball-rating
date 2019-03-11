@@ -5,7 +5,7 @@ import {
 } from '../../../styles/blocks';
 
 const createListFromTeam = (team) => team
-  .map(player => [<ALink>{player.name} ({player.matchRating})</ALink>])
+  .map(player => [<ALink>{player.name} <span>({player.matchRating})</span></ALink>])
   .reduce((prev, curr) => [...prev, "&", ...curr])
 
 const Team = ({ team, didWin }) => (
