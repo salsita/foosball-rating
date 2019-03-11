@@ -11,7 +11,7 @@ class TopRating extends Component {
 
     return(
       <ListCon className="topPlayers">
-      {this.props.topUsers.map(data => 
+      {this.props.topUsers.slice(0, this.props.maxItems).map(data => 
         <TopRatingRow data={data} />
       )}
       </ListCon>
