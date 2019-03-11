@@ -18,5 +18,5 @@ exports.addUser = async (user) => {
         throw new InputError("The name is not valid")
     }
 
-    storage.insertUser(user)
+    await storage.insertUser(user)
 }
