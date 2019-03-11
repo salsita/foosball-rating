@@ -10,11 +10,11 @@ class Dashboard extends Component {
   render() {
     return(
       <>
+        <Button>Add Match</Button>
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory />
         <Subtitle textAlign="center">Top Rating</Subtitle>
         <TopRating />
-        <Button>Add Match</Button>
       </>
     )
   }
