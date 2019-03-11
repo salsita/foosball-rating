@@ -1,13 +1,9 @@
 import React from 'react';
 import { ListItem, TextSpan } from './../../../styles/blocks';
 
-const ProfileBattleHistoryRow = ({ data }) => (
+export const ProfileBattleHistoryRow = ({ match }) => (
   <ListItem>
-    <TextSpan>{data.date}</TextSpan>
-    <TextSpan>{data.name}</TextSpan>
-    <TextSpan>{data.ratingChange}</TextSpan>
+    <TextSpan>{match.date.toLocaleDateString()}</TextSpan>
+    <TextSpan>{match.ratingChangeString}</TextSpan>
   </ListItem>
 )
-
-export default ProfileBattleHistoryRow;
-

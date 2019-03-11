@@ -1,16 +1,18 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom'
 import {
   TextSpan,
   ListItem,
   ALink,
 } from '../../../styles/blocks';
+import { createProfilePath } from '../../const/routes';
 
-const TopRatingRow = ({data}) => (
+const TopRatingRowComponent = ({user}) => (
   <ListItem>
     <TextSpan textAlign="right">
-      <ALink>{data.name}</ALink>{data.rating}
+      <Link to={createProfilePath(user.id)}>{user.name}</Link>{user.rating}
     </TextSpan>
   </ListItem>
 )
 
-export default TopRatingRow;
+export const TopRatingRow = withRouter(TopRatingRowComponent)

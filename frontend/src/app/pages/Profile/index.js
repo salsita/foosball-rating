@@ -1,51 +1,40 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { 
   Title,
   Subtitle,
   Box, ProfileDetail
 } from './../../../styles/blocks';
 import ProfileBattleHistory from './../../components/ProfileBattleHistory'
+import { getUser } from '../../modules/users/users-selectors'
+import { getStatisticsForUser } from '../../modules/matches/matches-selectors';
 
-const userDetails = {
-  name: 'Jack',
-  totalRating: '+1600',
-  matches: '20',
-  winRatings: '46%',
-  winStreak: '6'
-};
-
-const historicalMatches = [
-  {
-    data: '1/3/2019',
-    name: 'Foosball',
-    ratingDiff: '+12'
-  },{
-    data: '28/2/2019',
-    name: 'Foosball',
-    ratingDiff: '-5'
-  },{
-    data: '25/2/2019',
-    name: 'Foosball',
-    ratingDiff: '+7'
-  },
-];
-
-class Profile extends Component {
+class ProfileComponent extends Component {
   render() {
+    if (!this.props.user) {
+      return <div></div>
+    }
+
     return(
       <Box Display="inline-block" Padding="20px" Margin="20px 0">
-        <Title>{userDetails.name}</Title>
-        <Subtitle>ELO: {userDetails.totalRating}</Subtitle>
+        <Title>{this.props.user.name}</Title>
+        <Subtitle>ELO: {this.props.user.rating}</Subtitle>
         <ProfileDetail>
-          <Subtitle>Matches: {userDetails.matches}</Subtitle>
-          <Subtitle>Win Rate: {userDetails.winRatings}</Subtitle>
-          <Subtitle>Win Streak: {userDetails.winStreak}</Subtitle>
+          <Subtitle>Matches: {this.props.statistics.totalMatches}</Subtitle>
+          <Subtitle>Win Rate: {this.props.statistics.winRatio * 100}%</Subtitle>
+          <Subtitle>Win Streak: {this.props.statistics.longestStreak}</Subtitle>
           
         </ProfileDetail>
-        <ProfileBattleHistory />
+        <ProfileBattleHistory matches={this.props.statistics.matchChanges} />
       </Box>
     )
   }
 }
 
-export default Profile;
+
+const mapStateToProps = (state, props) => ({
+  user: getUser(state, props),
+  statistics: getStatisticsForUser(state, props)
+})
+
+export const Profile = connect(mapStateToProps)(ProfileComponent)
