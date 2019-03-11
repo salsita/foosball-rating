@@ -1,7 +1,7 @@
 import { put, takeEvery, fork, call, delay } from 'redux-saga/effects'
 import { getUsers, addUser } from './users-effects'
 import { UsersActions } from './users-actions'
-import { IN_PROGRESS, SUCCESS, FAILURE, READY } from '../api/request-status';
+import { inProgress, success, failure, ready } from '../api/request-status';
 
 export function* getUsersSaga() {
     try {
@@ -14,20 +14,20 @@ export function* getUsersSaga() {
 
 function* addUserSaga(action) {
     try {
-        yield put(UsersActions.Creators.updateStatus(IN_PROGRESS))
+        yield put(UsersActions.Creators.updateStatus(inProgress))
         yield call(addUser, action.user)
         yield call(getUsersSaga)
-        yield fork(setTemporaryStatusSaga, SUCCESS, 2000)
+        yield fork(setTemporaryStatusSaga, success, 2000)
     } catch (error) {
         console.error(error)
-        yield fork(setTemporaryStatusSaga, FAILURE, 6000)
+        yield fork(setTemporaryStatusSaga, failure(error.response.data), 6000)
     }
 }
 
 function* setTemporaryStatusSaga(status, time) {
     yield put(UsersActions.Creators.updateStatus(status))
     yield delay(time)
-    yield put(UsersActions.Creators.updateStatus(READY))
+    yield put(UsersActions.Creators.updateStatus(ready))
 }
 
 export function* usersSaga() {
