@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { 
   Subtitle,
   Button
@@ -8,7 +8,7 @@ import {
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
 import { TopRating } from '../../components/TopRatings/TopRating';
 import { CreateMatchStatus } from '../../components/CreateMatch/CreateMatchStatus';
-import { CREATE_MATCH } from '../../const/routes'
+import { CREATE_MATCH, ALL_MATCHES, ALL_USERS } from '../../const/routes'
 
 class DashboardComponent extends Component {
   createMatch = () => {
@@ -22,8 +22,10 @@ class DashboardComponent extends Component {
         <CreateMatchStatus status={this.props.createMatchStatus} />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
+        <Link to={ALL_MATCHES}>Show all...</Link>
         <Subtitle textAlign="center">Top Rating</Subtitle>
         <TopRating maxItems={5} />
+        <Link to={ALL_USERS}>Show all...</Link>
       </>
     )
   }

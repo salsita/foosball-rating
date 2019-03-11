@@ -14,6 +14,8 @@ import { Dashboard } from './pages/Dashboard';
 import { CreateMatchPage } from './pages/CreateMatch';
 import Profile from './pages/Profile';
 import { AddUserPage } from './pages/AddUser';
+import { AllUsersPage } from './pages/AllUsers';
+import { AllMatchesPage } from './pages/AllMatches';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -36,6 +38,8 @@ class App extends Component {
               <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
               <Route exact path={ROUTES.PROFILE} component={Profile} />
               <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
+              <Route exact path={ROUTES.ALL_USERS} component={AllUsersPage} />
+              <Route exact path={ROUTES.ALL_MATCHES} component={AllMatchesPage} />
             </Container>
           </>
         </Router>
