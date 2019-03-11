@@ -33,7 +33,7 @@ class App extends Component {
             <Header />
             <Container>
               <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
-              <Route exact path={ROUTES.CREATEMATCH} component={CreateMatchPage} />
+              <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
               <Route exact path={ROUTES.PROFILE} component={Profile} />
               <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
             </Container>
