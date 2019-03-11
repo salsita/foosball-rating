@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom'
 import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
-import { SUCCESS, READY } from '../../modules/api/request-status'
+import { SUCCESS, READY, IN_PROGRESS, FAILURE } from '../../modules/api/request-status'
 import { DASHBOARD } from '../../const/routes'
 import { CreateMatchStatus } from './CreateMatchStatus'
 
@@ -42,7 +42,7 @@ class CreateMatchComponent extends Component {
     return allPlayers.length === distinctPlayersSet.size
   }
 
-  getErrorMessage = () => {
+  getInputErrorMessage = () => {
     if (!this.hasEnoughPlayersOnTeam(this.state.team1)) {
       return "Not enough players on Team 1"
     }
@@ -84,7 +84,8 @@ class CreateMatchComponent extends Component {
   }
 
   render = () => {
-    if (this.props.requestStatus == SUCCESS) {
+    if (this.props.status == SUCCESS) {
+      console.log(DASHBOARD)
       this.props.history.push(DASHBOARD)
     }
 
@@ -95,25 +96,25 @@ class CreateMatchComponent extends Component {
     <>
       <Title>Match</Title>
       <GridContainer Column="1fr 1fr">
-      <Box Margin="0 10px">
-        <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                        teamName="Team 1" 
-                        users={this.props.users} 
-                        teamChanged={this.team1Changed} 
-                        teamSubmitted={() => this.submit(true)}
-                        canSubmit={canSubmit} />
-      </Box>
-      <Box Margin="0 10px">
-        <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                        teamName="Team 2" 
-                        users={this.props.users} 
-                        teamChanged={this.team2Changed} 
-                        teamSubmitted={() => this.submit(false)}
-                        canSubmit={canSubmit} />
-      </Box>
+        <Box Margin="0 10px">
+            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                            teamName="Team 1" 
+                            users={this.props.users} 
+                            teamChanged={this.team1Changed} 
+                            teamSubmitted={() => this.submit(true)}
+                            canSubmit={canSubmit} />
+        </Box>
+        <Box Margin="0 10px">
+            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                            teamName="Team 2" 
+                            users={this.props.users} 
+                            teamChanged={this.team2Changed} 
+                            teamSubmitted={() => this.submit(false)}
+                            canSubmit={canSubmit} />
+        </Box>
       </GridContainer>
       <div>{errorMessage || ""}</div>
-      <StatusReportField status={this.props.status} />
+      <CreateMatchStatus status={this.props.status} />
     </>
   )}
 }
