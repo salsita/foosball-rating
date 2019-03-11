@@ -22,44 +22,36 @@ app.use(addCrossDomainHeaders)
 app.use(urlencodedParser)
 app.use(jsonParser)
 
+const processError = (response, error) => {
+    console.error(error)
+    response.statusCode = error.httpStatusCode || 500
+    response.send(error.message)
+}
+
 app.get('/users', (req, res) => {
     storage.getAllUsers()
         .then(res.send.bind(res))
-        .catch(error => {
-            console.error(error)
-            res.statusCode = 500
-            res.send("Failed to fetch matches.")
-        })
+        .catch((error) => processError(res, error))
 })
 
 app.get('/matches', (req, res) => {
     storage.getAllMatches()
         .then(res.send.bind(res))
-        .catch(error => {
-            console.error(error)
-            res.statusCode = 500
-            res.send("Failed to fetch users.")
-        })
+        .catch((error) => processError(res, error))
+
 })
 
 app.post('/users', (req, res) => {
     userRepository.addUser(req.body)
         .then(res.send.bind(res))
-        .catch(error => {
-            console.error(error)
-            res.statusCode = error.httpStatusCode || 500
-            res.send(error.message)
-        })
+        .catch((error) => processError(res, error))
+
 })
 
 app.post('/matches', (req, res) => {
     matchRepository.recordMatch(req.body)
         .then(res.send.bind(res))
-        .catch(error => {
-            console.error(error)
-            res.statusCode = error.httpStatusCode || 500
-            res.send(error.message)
-        })
+        .catch((error) => processError(res, error))
 })
 
 app.listen(port, () => console.log(`Foosball backend running on ${port}!`))
