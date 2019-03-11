@@ -15,6 +15,7 @@ const Subtitle = styled.h2`
 const TextSpan = styled.span`
   text-align: ${props => props.textAlign};
   font-weight: 400;
+  padding: 0 5px;
 `
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};

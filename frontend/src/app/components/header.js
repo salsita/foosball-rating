@@ -12,6 +12,7 @@ class Header extends Component {
     return(
       <Nav>
         <Logo href="https://www.salsitasoft.com/"><img src={logo} /></Logo>
+        <Title>ELO rating</Title>
       </Nav>
     )
   }

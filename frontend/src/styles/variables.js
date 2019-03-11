@@ -11,6 +11,7 @@ export default {
   //typo 
   fontSizeTitle: '1.8rem',
   fontSizeSubtitle: '1.6rem',
+  fontSizeProfileDetails: '.8rem',
   
   // colors 
   cRed: '#f44336',

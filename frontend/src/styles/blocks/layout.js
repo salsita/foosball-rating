@@ -8,6 +8,11 @@ const Nav = styled.nav`
   width: 100%;
   height: 50px;
   background: ${variables.cYellow};
+  text-align: center;
+
+  h1 {
+    margin-top: 10px;
+  }
 `
 
 const Container = styled.div`
@@ -30,6 +35,26 @@ const Box = styled.div`
   display: ${props => props.Display};
   margin: ${props => props.Margin};
   padding: ${props => props.Padding};
+  background: ${variables.cBlack};
+
+  ul {
+    box-shadow: none;
+
+    li {
+      border: none;
+    }
+  }
+`
+const ProfileDetail = styled.div`
+  display: flex;
+  margin: ${props => props.Margin};
+  padding: ${props => props.Padding};
+  justify-content: center;
+
+  h2 {
+    font-size: ${variables.fontSizeProfileDetails};
+    padding: ${variables.baseSpacing};
+  }
 `
 
-export { Nav, Container, GridContainer, Box };
+export { Nav, Container, GridContainer, Box, ProfileDetail };
