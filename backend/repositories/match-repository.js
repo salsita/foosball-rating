@@ -29,7 +29,12 @@ const recordFilledMatch = async (filledMatch) => {
 
     const ratingChange = ratingCalculator.computeRatingChange(winningTeam, losingTeam)
 
-    const result = await storage.insertMatch(filledMatch)
+    const matchWithRatingChange = {
+        ...filledMatch,
+        ratingChange
+    }
+
+    const result = await storage.insertMatch(matchWithRatingChange)
     
     await updateRatingForTeam(winningTeam, ratingChange)
     await updateRatingForTeam(losingTeam, 0 - ratingChange)

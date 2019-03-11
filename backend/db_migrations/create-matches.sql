@@ -10,6 +10,7 @@ CREATE TABLE "Matches"
     "Team2Player2Id" integer,
     "Team2Player2Rating" integer,
     "Date" timestamp without time zone NOT NULL,
+    "RatingChange" integer NOT NULL,
     "Team1Won" boolean NOT NULL,
     CONSTRAINT "Matches_pkey" PRIMARY KEY ("Id"),
     FOREIGN KEY ("Team1Player1Id") REFERENCES "Users"("Id") ON DELETE RESTRICT,

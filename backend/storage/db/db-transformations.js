@@ -18,9 +18,11 @@ exports.createMatchFromDbRow = (matchRow) => {
     }] : []
     
     return {
+        id: matchRow.Id,
         team1: [ { id: matchRow.Team1Player1Id, matchRating: matchRow.Team1Player1Rating }, ...team1Player2Array],
         team2: [ { id: matchRow.Team2Player1Id, matchRating: matchRow.Team2Player1Rating }, ...team2Player2Array],
         date: matchRow.Date,
+        ratingChange: matchRow.RatingChange,
         team1Won: matchRow.Team1Won
     }
 }
