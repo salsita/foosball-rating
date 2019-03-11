@@ -2,6 +2,8 @@ const dbExecutor = require('./db/db-executor')
 const dbTransformations = require('./db/db-transformations')
 const dbQueries = require('./db/db-queries')
 const dbErrors = require('./db/db-errors')
+const { ConflictError } = require('../errors/conflict-error')
+const { InputError } = require('../errors/input-error')
 
 exports.getAllUsers = async () =>{
     const rows = await dbExecutor.executeQuery(dbQueries.selectAllusers, [])
@@ -33,7 +35,7 @@ exports.addUser = async (user) => {
         row = await dbExecutor.executeSingleResultQuery(query, values)
     } catch (error) {
         if (dbErrors.isUniqueViolation(error)) {
-            throw new Error(`User ${user.name} already exists`)
+            throw new ConflictError(`User ${user.name} already exists`)
         }
         console.error(error)
         throw new Error("Unable to add user")
@@ -45,7 +47,7 @@ exports.addUser = async (user) => {
 exports.insertMatch = async (match) => {
     const isTeamSupported = (team) => team.length >= 1 && team.length <= 2
     if (!isTeamSupported(match.team1) || !isTeamSupported(match.team2)) {
-        throw new Error("Inserting teams with unsupported number of players")
+        throw new InputError("Inserting teams with unsupported number of players")
     }
 
     const team1Player1 = match.team1[0]

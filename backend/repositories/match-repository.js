@@ -1,5 +1,6 @@
 const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
+const { InputError } = require('../errors/input-error')
 
 const updateRatingForTeam = async (team, difference) => {
     await Promise.all(team.map(player => {
@@ -60,7 +61,7 @@ exports.recordMatch = async (match) => {
         filledMatch = await fillPlayersForMatch(matchWithDate)
     } catch (error) {
         console.error(error)
-        throw new Error("Unable to find players for match.")
+        throw new InputError("Unable to find players for match.")
     }
 
     return await recordFilledMatch(filledMatch)
