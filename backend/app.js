@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 
 const storage = require("./storage/storage")
 const matchRepository = require("./repositories/match-repository")
+const userRepository = require("./repositories/user-repository")
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -42,7 +43,7 @@ app.get('/matches', (req, res) => {
 })
 
 app.post('/users', (req, res) => {
-    storage.addUser(req.body)
+    userRepository.addUser(req.body)
         .then(res.send.bind(res))
         .catch(error => {
             console.error(error)

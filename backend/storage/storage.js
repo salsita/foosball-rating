@@ -22,11 +22,18 @@ exports.updateRatingForUser = async (userId, newRating) => {
     const query = dbQueries.updateRatingForUser
     const values = [newRating, userId]
 
-    const row = await dbExecutor.executeSingleResultQuery(query, values)
+    let row
+    try {
+        row = await dbExecutor.executeSingleResultQuery(query, values)
+    } catch (error) {
+        console.log(error)
+        throw new Error("Unable to update rating for user")
+    }
+
     return dbTransformations.createUserFromDbRow(row)
 }
 
-exports.addUser = async (user) => {
+exports.insertUser = async (user) => {
     const query = dbQueries.insertUser
     const values = [user.name, user.initialRating, true, user.initialRating]
 
@@ -34,10 +41,10 @@ exports.addUser = async (user) => {
     try {
         row = await dbExecutor.executeSingleResultQuery(query, values)
     } catch (error) {
+        console.error(error)
         if (dbErrors.isUniqueViolation(error)) {
             throw new ConflictError(`User ${user.name} already exists`)
         }
-        console.error(error)
         throw new Error("Unable to add user")
     }
 
@@ -60,7 +67,14 @@ exports.insertMatch = async (match) => {
                     team2Player1.id, team2Player1.rating, team2Player2.id, team2Player2.rating,
                     match.date, match.team1Won]
     
-    const row = await dbExecutor.executeSingleResultQuery(query, values)
+    let row
+    try {
+        row = await dbExecutor.executeSingleResultQuery(query, values)
+    } catch (error) {
+        console.error(error)
+        throw new Error("Unable to create match")
+    }
+
     return dbTransformations.createMatchFromDbRow(row)
 }
 

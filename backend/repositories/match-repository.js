@@ -1,6 +1,7 @@
 const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
+const { ConflictError } = require('../errors/conflict-error')
 
 const updateRatingForTeam = async (team, difference) => {
     await Promise.all(team.map(player => {
@@ -28,22 +29,11 @@ const recordFilledMatch = async (filledMatch) => {
 
     const ratingChange = ratingCalculator.computeRatingChange(winningTeam, losingTeam)
 
-    let result
-    try {
-        result = await storage.insertMatch(filledMatch)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to store new match")
-    }
-
-    try {
-        await updateRatingForTeam(winningTeam, ratingChange)
-        await updateRatingForTeam(losingTeam, 0 - ratingChange)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to update ratings for teams")
-    }
-
+    const result = await storage.insertMatch(filledMatch)
+    
+    await updateRatingForTeam(winningTeam, ratingChange)
+    await updateRatingForTeam(losingTeam, 0 - ratingChange)
+    
     return result
 }
 
