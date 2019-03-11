@@ -1,23 +1,114 @@
 {
     "env": {
-        "browser": true,
-        "es6": true
+      "es6": true,
+      "node": true,
+      "mocha": true,
+      "browser": true
     },
-    "extends": "airbnb",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 2018,
-        "sourceType": "module"
+      "sourceType": "module",
+      "ecmaVersion": 2017,
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true,
+        "jsx": true,
+        "modules": true
+      }
+    },
+    "rules": {
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "mocha/no-exclusive-tests": "error",
+      "no-var": "error",
+      "prefer-arrow-callback": "warn",
+      "no-unused-vars": "warn",
+      "no-warning-comments": "warn",
+      "no-console": "warn",
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "max-len": [
+        "warn",
+        {
+          "code": 100,
+          "ignoreComments": true,
+          "ignoreUrls": true,
+          "ignoreStrings": true,
+          "ignoreTemplateLiterals": true,
+          "ignoreRegExpLiterals": true
+        }
+      ],
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "eol-last": [
+        "error",
+        "always"
+      ],
+      "keyword-spacing": [
+        "error"
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "no-trailing-spaces": "error",
+      "prefer-const": "warn",
+      "react/self-closing-comp": [
+        "error",
+        {
+          "component": true,
+          "html": true
+        }
+      ],
+      "operator-linebreak": [
+        "error",
+        "after",
+        {
+          "overrides": {
+            "?": "before",
+            ":": "before",
+            "===": "ignore"
+          }
+        }
+      ],
+      "arrow-parens": [
+        "warn",
+        "as-needed"
+      ],
+      "consistent-return": "error",
+      "react/button-has-type": "warn"
     },
     "plugins": [
-        "react"
+      "import",
+      "mocha",
+      "react",
+      "babel"
     ],
-    "rules": {
+    "settings": {
+      "react": {
+        "createClass": "createReactClass",
+        "pragma": "React",
+        "version": "15.0",
+        "flowVersion": "0.53"
+      },
+      "propWrapperFunctions": [
+        "forbidExtraProps"
+      ]
     }
-}
+  }

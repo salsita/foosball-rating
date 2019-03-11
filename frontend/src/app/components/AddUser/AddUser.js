@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux"
 import { UsersActions } from '../../modules/users/users-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
+import { AddUserStatus } from './AddUserStatus'
 
 class AddUserComponent extends Component {
   constructor() {
@@ -37,28 +38,33 @@ class AddUserComponent extends Component {
   }
 
   render = () => (
-    <Box Margin="20px 10px" Display="inline-block">
-      <form onSubmit={this.submitForm}>
-        <GridContainer Column="1fr 1fr" Padding="10px">
-          <Label>
-              Name:
-          </Label>
-          <Input value={this.state.name} onChange={this.nameChanged} />
-        </GridContainer>
-        <GridContainer Column="1fr 1fr" Padding="10px">
-          <Label>
-              Initial Rating:
-          </Label>
-          <Input type="number" value={this.state.initialRating} onChange={this.initialRatingChanged} />
-        </GridContainer>
-        <Button type="submit" value="Create">Create</Button>
-      </form>
-    </Box>
+    <>
+        <Box Margin="20px 10px" Display="inline-block">
+            <GridContainer Column="1fr 1fr" Padding="10px">
+            <Label>
+                Name:
+            </Label>
+            <Input value={this.state.name} onChange={this.nameChanged} />
+            </GridContainer>
+            <GridContainer Column="1fr 1fr" Padding="10px">
+            <Label>
+                Initial Rating:
+            </Label>
+            <Input type="number" value={this.state.initialRating} onChange={this.initialRatingChanged} />
+            </GridContainer>
+            <Button onClick={this.submitForm}>Create</Button>
+        </Box>
+        <AddUserStatus status={this.props.status} />
+    </>
   )
 } 
 
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = (state) => ({
+    status: state.users.status
+})
+
+const mapDispatchToProps = (dispatch) => ({
   addUser: user => dispatch(UsersActions.Creators.addUser(user))
 })
 
-export const AddUser = connect(null, mapDispatchToProps)(AddUserComponent)
+export const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent)

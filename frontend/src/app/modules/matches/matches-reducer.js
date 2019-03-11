@@ -9,19 +9,15 @@ const initialState = {
     matches: []
 }
 
-const matchesLoaded = (state, { matches }) => {
-    return {
-        ...state,
-        matches
-    }
-}
+const matchesLoaded = (state, { matches }) => ({
+    ...state,
+    matches
+})
 
-const updateStatus = (state, { status }) => {
-    return {
-        ...state,
-        status
-    }
-}
+const updateStatus = (state, { status }) => ({
+    ...state,
+    status
+})
 
 export const matchesReducer = createReducer(initialState, {
     [MatchesActions.Types.MATCHES_LOADED]: matchesLoaded,

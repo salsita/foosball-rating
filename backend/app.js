@@ -26,6 +26,7 @@ app.get('/users', (req, res) => {
         .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
+            res.statusCode = 500
             res.send("Failed to fetch matches.")
         })
 })
@@ -35,6 +36,7 @@ app.get('/matches', (req, res) => {
         .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
+            res.statusCode = 500
             res.send("Failed to fetch users.")
         })
 })
@@ -44,6 +46,7 @@ app.post('/users', (req, res) => {
         .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
+            res.statusCode = error.httpStatusCode || 500
             res.send(error.message)
         })
 })
@@ -53,6 +56,7 @@ app.post('/matches', (req, res) => {
         .then(res.send.bind(res))
         .catch(error => {
             console.error(error)
+            res.statusCode = error.httpStatusCode || 500
             res.send(error.message)
         })
 })
