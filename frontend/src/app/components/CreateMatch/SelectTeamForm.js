@@ -33,7 +33,7 @@ export class SelectTeamForm extends Component {
                 selectedPlayerIds
             }
         }, () => {
-            const validPlayers = this.state.selectedPlayerIds.filter(playerId => playerId != INVALID_PLAYER_ID)
+            const validPlayers = this.state.selectedPlayerIds.filter(playerId => playerId !== INVALID_PLAYER_ID)
             this.props.teamChanged(validPlayers)
         })
     }
@@ -47,7 +47,7 @@ export class SelectTeamForm extends Component {
             <>                        
                 <Subtitle>{this.props.teamName}</Subtitle>
                     {selectInputs}
-                <Button onClick={this.props.teamSubmitted}>{this.props.teamName} Win</Button>
+                <Button disabled={!this.props.canSubmit} onClick={this.props.teamSubmitted}>{this.props.teamName} Win</Button>
             </>
         )
     }

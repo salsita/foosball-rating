@@ -6,7 +6,7 @@ import TopRatingRow from './TopRatingRow';
 
 import { getTopUsers } from '../../modules/users/users-selectors'
 
-class TopRating extends Component {
+class TopRatingComponent extends Component {
   render() {
 
     return(
@@ -23,6 +23,4 @@ const mapStateToProps = state => ({
   topUsers: getTopUsers(state)
 })
 
-const SmartTopRating = connect(mapStateToProps)(TopRating)
-
-export default SmartTopRating
+export const TopRating = connect(mapStateToProps)(TopRatingComponent)

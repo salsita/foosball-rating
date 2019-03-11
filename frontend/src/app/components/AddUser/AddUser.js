@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { UsersActions } from '../../modules/users/users-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
 
-class AddUserForm extends Component {
+class AddUserComponent extends Component {
   constructor() {
     super()
     this.state = {
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => ({
   addUser: user => dispatch(UsersActions.Creators.addUser(user))
 })
 
-export const SmartAddUserForm = connect(null, mapDispatchToProps)(AddUserForm)
+export const AddUser = connect(null, mapDispatchToProps)(AddUserComponent)

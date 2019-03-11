@@ -3,19 +3,22 @@ import {
     Title,
     GridContainer, 
     Box,
-  } from './../../../styles/blocks'
+  } from '../../../styles/blocks'
 import { connect } from "react-redux"
+import { withRouter } from 'react-router-dom'
 import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
+import { SUCCESS, READY, IN_PROGRESS, FAILURE } from '../../modules/api/request-status'
+import { DASHBOARD } from '../../const/routes'
+import { CreateMatchStatus } from './CreateMatchStatus'
 
-class CreateMatchForm extends Component {
+class CreateMatchComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
       team1: [],
       team2: [],
-      error: null
     }
   }
 
@@ -36,10 +39,10 @@ class CreateMatchForm extends Component {
   arePlayersDistinct = () => {
     const allPlayers = [...this.state.team1, ...this.state.team2]
     const distinctPlayersSet = new Set(allPlayers)
-    return allPlayers.length == distinctPlayersSet.size
+    return allPlayers.length === distinctPlayersSet.size
   }
 
-  getErrorMessage = () => {
+  getInputErrorMessage = () => {
     if (!this.hasEnoughPlayersOnTeam(this.state.team1)) {
       return "Not enough players on Team 1"
     }
@@ -56,7 +59,7 @@ class CreateMatchForm extends Component {
   }
 
   submit = (team1Won) => {
-    if (this.state.error != null) {
+    if (this.getInputErrorMessage()) {
       return
     }
 
@@ -67,42 +70,65 @@ class CreateMatchForm extends Component {
     })
   }
 
+  getTextForRequestStatus = (status) => {
+    switch (status) {
+        case IN_PROGRESS:
+            return "Creating..."
+        case SUCCESS:
+            return "Succesfully created!"
+        case FAILURE:
+            return "Failed to create the match :("
+    }
+
+    return ""
+  }
+
   render = () => {
-    const inputError = this.getErrorMessage()
+    if (this.props.status == SUCCESS) {
+      console.log(DASHBOARD)
+      this.props.history.push(DASHBOARD)
+    }
+
+    const errorMessage = this.getInputErrorMessage()
+    const canSubmit = !errorMessage && this.props.status == READY    
+    
     return (
     <>
-      <Box Margin="20px 10px" Padding="10px 0">
-        <Title>Match</Title>
-        <GridContainer Column="1fr 1fr">
-          <Box Margin="0 10px">
+      <Title>Match</Title>
+      <GridContainer Column="1fr 1fr">
+        <Box Margin="0 10px">
             <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
                             teamName="Team 1" 
                             users={this.props.users} 
                             teamChanged={this.team1Changed} 
                             teamSubmitted={() => this.submit(true)}
-                            canSubmit={() => inputError == null} />
-          </Box>
-          <Box Margin="0 10px">
+                            canSubmit={canSubmit} />
+        </Box>
+        <Box Margin="0 10px">
             <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
                             teamName="Team 2" 
                             users={this.props.users} 
                             teamChanged={this.team2Changed} 
                             teamSubmitted={() => this.submit(false)}
-                            canSubmit={() => inputError == null} />
-          </Box>
-        </GridContainer>
-        <div>{inputError || ""}</div>
-      </Box>
+                            canSubmit={canSubmit} />
+        </Box>
+      </GridContainer>
+      <div>{errorMessage || ""}</div>
+      <CreateMatchStatus status={this.props.status} />
     </>
   )}
 }
 
 const mapStateToProps = state => ({
-  users: getUsers(state)
+  users: getUsers(state),
+  status: state.matches.status
 })
 
 const mapDispatchToProps = dispatch => ({
-  createMatch: match => dispatch(MatchesActions.Creators.addMatch(match))
+  createMatch: (match) => {
+    dispatch(MatchesActions.Creators.addMatch(match))
+  }
 })
 
-export const SmartCreateMatchForm = connect(mapStateToProps, mapDispatchToProps)(CreateMatchForm)
+const RoutingCreateMatchComponent = withRouter(CreateMatchComponent)
+export const CreateMatch = connect(mapStateToProps, mapDispatchToProps)(RoutingCreateMatchComponent)

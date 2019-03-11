@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { SmartCreateMatchForm } from '../../components/CreateMatch/CreateMatchForm';
+import { CreateMatch } from '../../components/CreateMatch/CreateMatch';
 
-class CreateMatch extends Component {
-  render = () => <SmartCreateMatchForm maxPlayerNumber={2} minPlayerNumber={1} />
+export class CreateMatchPage extends Component {
+  render = () => <CreateMatch maxPlayerNumber={2} minPlayerNumber={1} />
 }
-
-export default CreateMatch;
