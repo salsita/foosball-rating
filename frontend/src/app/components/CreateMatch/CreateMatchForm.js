@@ -71,26 +71,28 @@ class CreateMatchForm extends Component {
     const inputError = this.getErrorMessage()
     return (
     <>
-      <Title>Match</Title>
-      <GridContainer Column="1fr 1fr">
-        <Box Margin="0 10px">
-          <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                          teamName="Team 1" 
-                          users={this.props.users} 
-                          teamChanged={this.team1Changed} 
-                          teamSubmitted={() => this.submit(true)}
-                          canSubmit={() => inputError == null} />
-        </Box>
-        <Box Margin="0 10px">
-          <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
-                          teamName="Team 2" 
-                          users={this.props.users} 
-                          teamChanged={this.team2Changed} 
-                          teamSubmitted={() => this.submit(false)}
-                          canSubmit={() => inputError == null} />
-        </Box>
-      </GridContainer>
-      <div>{inputError || ""}</div>
+      <Box Margin="20px 10px" Padding="10px 0">
+        <Title>Match</Title>
+        <GridContainer Column="1fr 1fr">
+          <Box Margin="0 10px">
+            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                            teamName="Team 1" 
+                            users={this.props.users} 
+                            teamChanged={this.team1Changed} 
+                            teamSubmitted={() => this.submit(true)}
+                            canSubmit={() => inputError == null} />
+          </Box>
+          <Box Margin="0 10px">
+            <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
+                            teamName="Team 2" 
+                            users={this.props.users} 
+                            teamChanged={this.team2Changed} 
+                            teamSubmitted={() => this.submit(false)}
+                            canSubmit={() => inputError == null} />
+          </Box>
+        </GridContainer>
+        <div>{inputError || ""}</div>
+      </Box>
     </>
   )}
 }

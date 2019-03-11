@@ -3,7 +3,7 @@ import {Nav, Container, GridContainer, Box, ProfileDetail} from './layout';
 import { ListCon, ListItem } from './list';
 import ALink from './link';
 import Button from './buttons';
-import { SelectBox, SelectLabel } from './inputs';
+import { SelectBox, Label, Input } from './inputs';
 import Logo from './logo';
 
 export { 
@@ -12,6 +12,6 @@ export {
     ListCon, ListItem,
     ALink,
     Button,
-    SelectBox, SelectLabel,
+    SelectBox, Label, Input,
     Logo
 };

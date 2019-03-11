@@ -28,6 +28,7 @@ const Container = styled.div`
 `
 const GridContainer = styled.div`
   display: grid;
+  padding: ${props => props.Padding};
   grid-template-columns: ${props => props.Column};
 `
 
