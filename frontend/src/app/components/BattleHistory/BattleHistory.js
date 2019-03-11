@@ -7,8 +7,7 @@ import BattleHistoryRow from './BattleHistoryRow'
 
 import { getLastMatches } from '../../modules/matches/matches-selectors'
 
-
-class BattleHistory extends Component {
+class BattleHistoryComponent extends Component {
   constructor() {
     super();
   }
@@ -28,6 +27,4 @@ const mapStateToProps = state => ({
   lastMatches: getLastMatches(state)
 })
 
-const SmartBattleHistory = connect(mapStateToProps)(BattleHistory)
-
-export default SmartBattleHistory;
+export const BattleHistory = connect(mapStateToProps)(BattleHistoryComponent)

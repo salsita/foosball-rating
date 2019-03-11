@@ -10,10 +10,10 @@ import * as ROUTES from './const/routes';
 import Header from './components/header';
 import {Container} from './../styles/blocks/layout';
 // pages 
-import Dashboard from './pages/Dashboard';
-import CreateMatch from './pages/CreateMatch';
+import { Dashboard } from './pages/Dashboard';
+import { CreateMatchPage } from './pages/CreateMatch';
 import Profile from './pages/Profile';
-import { AddUser } from './pages/AddUser';
+import { AddUserPage } from './pages/AddUser';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -33,9 +33,9 @@ class App extends Component {
             <Header />
             <Container>
               <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
-              <Route exact path={ROUTES.CREATEMATCH} component={CreateMatch} />
+              <Route exact path={ROUTES.CREATEMATCH} component={CreateMatchPage} />
               <Route exact path={ROUTES.PROFILE} component={Profile} />
-              <Route exact path={ROUTES.ADD_USER} component={AddUser} />
+              <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
             </Container>
           </>
         </Router>

@@ -4,7 +4,7 @@ import { MatchesActions } from './matches-actions'
 import { READY } from '../api/request-status'
 
 
-const initState = {
+const initialState = {
     status: READY,
     matches: []
 }
@@ -23,7 +23,7 @@ const updateStatus = (state, { status }) => {
     }
 }
 
-export const matchesReducer = createReducer(initState, {
+export const matchesReducer = createReducer(initialState, {
     [MatchesActions.Types.MATCHES_LOADED]: matchesLoaded,
     [MatchesActions.Types.UPDATE_STATUS]: updateStatus
 })

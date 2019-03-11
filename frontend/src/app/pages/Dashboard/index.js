@@ -4,16 +4,16 @@ import {
   Subtitle,
   Button
 } from './../../../styles/blocks';
-import BattleHistory from './../../components/BattleHistory/BattleHistory';
-import TopRating from '../../components/TopRatings/TopRating';
-import { StatusReportField } from '../../components/StatusReport/StatusReportField';
+import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
+import { TopRating } from '../../components/TopRatings/TopRating';
+import { CreateMatchStatus } from '../../components/CreateMatch/CreateMatchStatus';
 
-class Dashboard extends Component {
+class DashboardComponent extends Component {
   render() {
     return(
       <>
         <Button>Add Match</Button>
-        <StatusReportField status={this.props.requestStatus} />
+        <CreateMatchStatus status={this.props.createMatchStatus} />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
         <Subtitle textAlign="center">Top Rating</Subtitle>
@@ -24,8 +24,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  requestStatus: state.matches.status
+  createMatchStatus: state.matches.status
 })
 
-const LinkedDashboard = connect(mapStateToProps)(Dashboard)
-export default LinkedDashboard
+export const Dashboard = connect(mapStateToProps)(DashboardComponent)

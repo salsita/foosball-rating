@@ -33,7 +33,7 @@ export class SelectTeamForm extends Component {
                 selectedPlayerIds
             }
         }, () => {
-            const validPlayers = this.state.selectedPlayerIds.filter(playerId => playerId != INVALID_PLAYER_ID)
+            const validPlayers = this.state.selectedPlayerIds.filter(playerId => playerId !== INVALID_PLAYER_ID)
             this.props.teamChanged(validPlayers)
         })
     }

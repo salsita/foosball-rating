@@ -3,7 +3,7 @@ import {
     Title,
     GridContainer, 
     Box,
-  } from './../../../styles/blocks'
+  } from '../../../styles/blocks'
 import { connect } from "react-redux"
 import { withRouter } from 'react-router-dom'
 import { getUsers } from '../../modules/users/users-selectors'
@@ -11,15 +11,14 @@ import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
 import { SUCCESS, READY } from '../../modules/api/request-status'
 import { DASHBOARD } from '../../const/routes'
-import { StatusReportField } from '../StatusReport/StatusReportField';
+import { CreateMatchStatus } from './CreateMatchStatus'
 
-class CreateMatchForm extends Component {
+class CreateMatchComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
       team1: [],
       team2: [],
-      error: null
     }
   }
 
@@ -40,7 +39,7 @@ class CreateMatchForm extends Component {
   arePlayersDistinct = () => {
     const allPlayers = [...this.state.team1, ...this.state.team2]
     const distinctPlayersSet = new Set(allPlayers)
-    return allPlayers.length == distinctPlayersSet.size
+    return allPlayers.length === distinctPlayersSet.size
   }
 
   getErrorMessage = () => {
@@ -60,7 +59,7 @@ class CreateMatchForm extends Component {
   }
 
   submit = (team1Won) => {
-    if (this.getErrorMessage() != null) {
+    if (this.getInputErrorMessage()) {
       return
     }
 
@@ -89,8 +88,8 @@ class CreateMatchForm extends Component {
       this.props.history.push(DASHBOARD)
     }
 
-    const inputError = this.getErrorMessage()
-    const canSubmit = inputError == null && this.props.requestStatus == READY
+    const errorMessage = this.getInputErrorMessage()
+    const canSubmit = !errorMessage && this.props.status == READY    
     
     return (
     <>
@@ -113,22 +112,22 @@ class CreateMatchForm extends Component {
                         canSubmit={canSubmit} />
       </Box>
       </GridContainer>
-      <div>{inputError || ""}</div>
-      <StatusReportField status={this.props.requestStatus} />
+      <div>{errorMessage || ""}</div>
+      <StatusReportField status={this.props.status} />
     </>
   )}
 }
 
 const mapStateToProps = state => ({
   users: getUsers(state),
-  requestStatus: state.matches.status
+  status: state.matches.status
 })
 
 const mapDispatchToProps = dispatch => ({
-  createMatch: match => {
+  createMatch: (match) => {
     dispatch(MatchesActions.Creators.addMatch(match))
   }
 })
 
-const RoutingCreateMatchForm = withRouter(CreateMatchForm)
-export const SmartCreateMatchForm = connect(mapStateToProps, mapDispatchToProps)(RoutingCreateMatchForm)
+const RoutingCreateMatchComponent = withRouter(CreateMatchComponent)
+export const CreateMatch = connect(mapStateToProps, mapDispatchToProps)(RoutingCreateMatchComponent)

@@ -1,4 +1,4 @@
 import React from 'react'
-import { SmartAddUserForm } from '../../components/AddUser/AddUserForm'
+import { AddUser } from '../../components/AddUser/AddUser'
 
-export const AddUser = () => <SmartAddUserForm />
+export const AddUserPage = () => <AddUser />
