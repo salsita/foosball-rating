@@ -1,10 +1,10 @@
 import { createReducer } from 'reduxsauce'
 
 import { UsersActions } from './users-actions'
-import { READY } from '../api/request-status'
+import { ready } from '../api/request-status'
 
 const initialState = {
-    status: READY,
+    status: ready,
     users: []
 }
 

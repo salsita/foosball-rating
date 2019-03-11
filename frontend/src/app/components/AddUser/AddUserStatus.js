@@ -1,14 +1,14 @@
-import { IN_PROGRESS, SUCCESS, FAILURE } from '../../modules/api/request-status'
+import { StatusType } from '../../modules/api/request-status'
 import React from 'react'
 
 const getMessageForStatus = (status) => {
-    switch (status) {
-        case IN_PROGRESS:
+    switch (status.type) {
+        case StatusType.IN_PROGRESS:
             return "Adding..."
-        case SUCCESS:
+        case StatusType.SUCCESS:
             return "Succesfully added!"
-        case FAILURE:
-            return "Failed to add the user :("
+        case StatusType.FAILURE:
+            return `Failed to add user :( - ${status.error}`
     }
 
     return ""

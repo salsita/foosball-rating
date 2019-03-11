@@ -1,11 +1,11 @@
 import { createReducer } from 'reduxsauce'
 
 import { MatchesActions } from './matches-actions'
-import { READY } from '../api/request-status'
+import { ready } from '../api/request-status'
 
 
 const initialState = {
-    status: READY,
+    status: ready,
     matches: []
 }
 

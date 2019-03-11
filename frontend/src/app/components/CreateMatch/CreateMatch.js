@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom'
 import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
-import { SUCCESS, READY, IN_PROGRESS, FAILURE } from '../../modules/api/request-status'
+import { StatusType } from '../../modules/api/request-status'
 import { DASHBOARD } from '../../const/routes'
 import { CreateMatchStatus } from './CreateMatchStatus'
 
@@ -70,27 +70,14 @@ class CreateMatchComponent extends Component {
     })
   }
 
-  getTextForRequestStatus = (status) => {
-    switch (status) {
-        case IN_PROGRESS:
-            return "Creating..."
-        case SUCCESS:
-            return "Succesfully created!"
-        case FAILURE:
-            return "Failed to create the match :("
-    }
-
-    return ""
-  }
-
   render = () => {
-    if (this.props.status == SUCCESS) {
+    if (this.props.status.type == StatusType.SUCCESS) {
       console.log(DASHBOARD)
       this.props.history.push(DASHBOARD)
     }
 
     const errorMessage = this.getInputErrorMessage()
-    const canSubmit = !errorMessage && this.props.status == READY    
+    const canSubmit = !errorMessage && this.props.status.type == StatusType.READY    
     
     return (
     <>
