@@ -3,14 +3,14 @@ import { withRouter, Link } from 'react-router-dom'
 import {
   TextSpan,
   ListItem,
-  ALink,
+  StyledLink,
 } from '../../../styles/blocks';
 import { createProfilePath } from '../../const/routes';
 
 const TopRatingRowComponent = ({user}) => (
   <ListItem>
     <TextSpan textAlign="right">
-      <Link to={createProfilePath(user.id)}>{user.name}</Link>{user.rating}
+      <StyledLink to={createProfilePath(user.id)}>{user.name} ({user.rating})</StyledLink>
     </TextSpan>
   </ListItem>
 )

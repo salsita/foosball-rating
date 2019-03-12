@@ -1,11 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import {
   WinnerSpan,
-  ALink,
+  StyledLink
 } from '../../../styles/blocks';
+import { createProfilePath } from '../../const/routes';
 
 const createListFromTeam = (team) => team
-  .map(player => [<ALink>{player.name} <span>({player.matchRating})</span></ALink>])
+  .map(player => [<StyledLink to={createProfilePath(player.id)}>{player.name} <span>({player.matchRating})</span></StyledLink>])
   .reduce((prev, curr) => [...prev, "&", ...curr])
 
 const Team = ({ team, didWin }) => (
