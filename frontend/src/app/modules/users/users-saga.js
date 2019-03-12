@@ -17,17 +17,11 @@ function* addUserSaga(action) {
         yield put(UsersActions.Creators.updateStatus(inProgress))
         yield call(addUser, action.user)
         yield call(getUsersSaga)
-        yield fork(setTemporaryStatusSaga, success, 2000)
+        yield put(UsersActions.Creators.updateStatus(success))
     } catch (error) {
         console.error(error)
-        yield fork(setTemporaryStatusSaga, failure(error.response.data), 6000)
+        yield put(UsersActions.Creators.updateStatus(failure(error.response.data)))
     }
-}
-
-function* setTemporaryStatusSaga(status, time) {
-    yield put(UsersActions.Creators.updateStatus(status))
-    yield delay(time)
-    yield put(UsersActions.Creators.updateStatus(ready))
 }
 
 export function* usersSaga() {

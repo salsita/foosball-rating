@@ -29,7 +29,7 @@ function* addMatchSaga(action) {
         yield fork(setTemporaryStatusSaga, success, 2000)
     } catch (error) {
         console.error(error)
-        yield fork(setTemporaryStatusSaga, failure(error.response.data), 6000)
+        yield put(MatchesActions.Creators.updateStatus(failure(error.response.data)))
     }
 }
 
