@@ -8,7 +8,7 @@ import {
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
 import { TopRating } from '../../components/TopRatings/TopRating';
 import { CreateMatchStatus } from '../../components/CreateMatch/CreateMatchStatus';
-import { CREATE_MATCH, ALL_MATCHES, ALL_USERS } from '../../const/routes'
+import { CREATE_MATCH, MATCH_LIST, USER_LIST } from '../../const/routes'
 
 class DashboardComponent extends Component {
   createMatch = () => {
@@ -22,10 +22,10 @@ class DashboardComponent extends Component {
         <CreateMatchStatus status={this.props.createMatchStatus} />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
-        <Link to={ALL_MATCHES}>Show all...</Link>
+        <Link to={MATCH_LIST}>Show all...</Link>
         <Subtitle textAlign="center">Top Rating</Subtitle>
         <TopRating maxItems={5} />
-        <Link to={ALL_USERS}>Show all...</Link>
+        <Link to={USER_LIST}>Show all...</Link>
       </>
     )
   }
