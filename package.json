@@ -1,0 +1,23 @@
+{
+  "name": "foosball-rating",
+  "version": "1.0.0",
+  "description": "Foosball Rating App",
+  "main": "index.js",
+  "scripts": {
+    "start": "./start.sh",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salsita/foosball-rating.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salsita/foosball-rating/issues"
+  },
+  "homepage": "https://github.com/salsita/foosball-rating#readme",
+  "dependencies": {
+    "serve": "^10.1.2"
+  }
+}
