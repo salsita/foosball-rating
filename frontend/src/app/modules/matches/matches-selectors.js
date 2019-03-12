@@ -15,7 +15,7 @@ const getMatches = (state) => state.matches.matches.map(match => ({
     team2: fillUsers(match.team2, state)
 }))
 
-const userPlayedMatch = (userId, match) => {
+const didUserPlayMatch = (userId, match) => {
     const allPlayers = [...match.team1, ...match.team2]
     return allPlayers.find((player) => player.id == userId)
 }
@@ -28,7 +28,7 @@ export const getLastMatches = createSelector(
 const getLastMatchesForUser = createSelector(
     getLastMatches,
     (state, props) => Number(props.match.params.userId),
-    (matches, userId) => matches.filter((match) => userPlayedMatch(userId, match))
+    (matches, userId) => matches.filter((match) => didUserPlayMatch(userId, match))
 )
 
 const generateStatisticsForUser = (userId, userMatches) => ({

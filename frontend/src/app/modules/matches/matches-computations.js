@@ -39,5 +39,5 @@ export const computeLongestWinStreak = (userId, userMatches) => {
 
 export const computeWinRatio = (userId, userMatches) => {
     const wonMatchesCount = userMatches.filter((match) => didUserWin(userId, match)).length
-    return (wonMatchesCount > 0) ? (wonMatchesCount / userMatches.length) : 0
+    return (userMatches.length > 0) ? (wonMatchesCount / userMatches.length) : 0
 }
