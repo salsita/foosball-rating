@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux"
 
 import { ListCon } from '../../../styles/blocks';
-import TopRatingRow from './TopRatingRow';
+import { TopRatingRow } from './TopRatingRow';
 
 import { getTopUsers } from '../../modules/users/users-selectors'
 
@@ -11,8 +11,8 @@ class TopRatingComponent extends Component {
 
     return(
       <ListCon className="topPlayers">
-      {this.props.topUsers.slice(0, this.props.maxItems).map(data => 
-        <TopRatingRow data={data} />
+      {this.props.topUsers.slice(0, this.props.maxItems).map(user => 
+        <TopRatingRow user={user} />
       )}
       </ListCon>
     )

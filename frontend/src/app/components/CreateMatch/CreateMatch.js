@@ -72,7 +72,6 @@ class CreateMatchComponent extends Component {
 
   render = () => {
     if (this.props.status.type == StatusType.SUCCESS) {
-      console.log(DASHBOARD)
       this.props.history.push(DASHBOARD)
     }
 

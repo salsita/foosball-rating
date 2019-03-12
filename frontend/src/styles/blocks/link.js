@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import variables from './../variables';
+import { Link } from 'react-router-dom'
 
-const ALink = styled.a`
+export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 5px;
+  color: inherit;
 
   span {
     font-size: 10px;
   }
 `
-
-export default ALink;
