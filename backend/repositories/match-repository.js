@@ -1,6 +1,7 @@
 const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
+const { NotFoundError } = require('../errors/not-found-error')
 
 const updateRatingForTeam = async (team, difference) => {
     await Promise.all(team.map(player => {
@@ -28,22 +29,11 @@ const recordFilledMatch = async (filledMatch) => {
 
     const ratingChange = ratingCalculator.computeRatingChange(winningTeam, losingTeam)
 
-    let result
-    try {
-        result = await storage.insertMatch(filledMatch)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to store new match")
-    }
-
-    try {
-        await updateRatingForTeam(winningTeam, ratingChange)
-        await updateRatingForTeam(losingTeam, 0 - ratingChange)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to update ratings for teams")
-    }
-
+    const result = await storage.insertMatch(filledMatch)
+    
+    await updateRatingForTeam(winningTeam, ratingChange)
+    await updateRatingForTeam(losingTeam, 0 - ratingChange)
+    
     return result
 }
 
@@ -61,7 +51,10 @@ exports.recordMatch = async (match) => {
         filledMatch = await fillPlayersForMatch(matchWithDate)
     } catch (error) {
         console.error(error)
-        throw new InputError("Unable to find players for match.")
+        if (error instanceof NotFoundError) {
+            throw new InputError(`Invalid players for the match (${error.message})`)
+        }
+        throw new Error("Unable to fetch players for match.")
     }
 
     return await recordFilledMatch(filledMatch)
