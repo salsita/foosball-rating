@@ -38,7 +38,7 @@ const getRatingChange = ({team1, team2}, team1Won) => {
     const winningTeam = team1Won ? team1 : team2
     const losingTeam = team1Won ? team2 : team1
 
-    return ratingChange = ratingCalculator.computeRatingChange(winningTeam, losingTeam)
+    return ratingCalculator.computeRatingChange(winningTeam, losingTeam)
 }
 
 class Match {
