@@ -27,7 +27,7 @@ export const getLastMatches = createSelector(
 
 const getLastMatchesForUser = createSelector(
     getLastMatches,
-    (state, props) => Number(props.match.params.userId),
+    (state, userId) => userId,
     (matches, userId) => matches.filter((match) => didUserPlayMatch(userId, match))
 )
 
@@ -40,6 +40,6 @@ const generateStatisticsForUser = (userId, userMatches) => ({
 
 export const getStatisticsForUser = createSelector(
     getLastMatchesForUser,
-    (state, props) => Number(props.match.params.userId),
+    (state, userId) => userId,
     (userMatches, userId) => generateStatisticsForUser(userId, userMatches)
 )

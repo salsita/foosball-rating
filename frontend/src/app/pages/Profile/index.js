@@ -32,8 +32,8 @@ class ProfileComponent extends Component {
 
 
 const mapStateToProps = (state, props) => ({
-  user: getUser(state, props),
-  statistics: getStatisticsForUser(state, props)
+  user: getUser(state, Number(props.match.params.userId)),
+  statistics: getStatisticsForUser(state, Number(props.match.params.userId))
 })
 
 export const Profile = connect(mapStateToProps)(ProfileComponent)

@@ -4,7 +4,7 @@ export const getUsers = state => state.users.users
 
 export const getUser = createSelector(
     getUsers,
-    (stats, props) => Number(props.match.params.userId),
+    (stats, userId) => userId,
     (users, userId) => users.find((user) => user.id == userId)
 )
 
