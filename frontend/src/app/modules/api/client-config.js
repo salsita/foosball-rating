@@ -1,4 +1,4 @@
 export const config = {
-    baseURL: 'http://localhost:3000',
+    baseURL: `${window.location.protocol}//${window.location.hostname}:3000`,
     timeout: 5000
 }
