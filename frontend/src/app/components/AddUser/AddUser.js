@@ -73,5 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
   addUser: user => dispatch(UsersActions.Creators.addUser(user))
 })
 
-const RoutingAddUserComponent = withRouter(AddUserComponent)
-export const AddUser = connect(mapStateToProps, mapDispatchToProps)(RoutingAddUserComponent)
+export const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent)
