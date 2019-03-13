@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux"
 import { UsersActions } from '../../modules/users/users-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
 import { AddUserStatus } from './AddUserStatus'
+import { DASHBOARD } from '../../const/routes'
+import { StatusType } from '../../modules/api/request-status';
 
 class AddUserComponent extends Component {
   constructor() {
@@ -37,7 +40,10 @@ class AddUserComponent extends Component {
     }))
   }
 
-  render = () => (
+  render = () => {
+    const canSubmit = this.props.status.type != StatusType.IN_PROGRESS
+
+    return (
     <>
         <Box Margin="20px 10px" Display="inline-block">
             <GridContainer Column="1fr 1fr" Padding="10px">
@@ -52,11 +58,11 @@ class AddUserComponent extends Component {
             </Label>
             <Input type="number" value={this.state.initialRating} onChange={this.initialRatingChanged} />
             </GridContainer>
-            <Button onClick={this.submitForm}>Create</Button>
+            <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
         </Box>
         <AddUserStatus status={this.props.status} />
     </>
-  )
+  )}
 } 
 
 const mapStateToProps = (state) => ({

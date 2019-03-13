@@ -76,7 +76,7 @@ class CreateMatchComponent extends Component {
     }
 
     const errorMessage = this.getInputErrorMessage()
-    const canSubmit = !errorMessage && this.props.status.type == StatusType.READY    
+    const canSubmit = !errorMessage && this.props.status.type != StatusType.IN_PROGRESS
     
     return (
     <>
