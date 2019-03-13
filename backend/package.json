@@ -1,6 +1,6 @@
 {
   "name": "foosball-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The backend part of a Foosball Rating app.",
   "main": "app.js",
   "scripts": {
