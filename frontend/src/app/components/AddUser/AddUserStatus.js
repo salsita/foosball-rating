@@ -1,5 +1,6 @@
 import { StatusType } from '../../modules/api/request-status'
 import React from 'react'
+import Snackbar from '@material-ui/core/Snackbar'
 
 const getMessageForStatus = (status) => {
     switch (status.type) {
@@ -15,5 +16,11 @@ const getMessageForStatus = (status) => {
 }
 
 export const AddUserStatus = ({ status }) => (
-    <div>{getMessageForStatus(status)}</div>
+    <Snackbar open={status.type == StatusType.SUCCESS || status.type == StatusType.FAILURE}
+              message={getMessageForStatus(status)} 
+              anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+              }}
+              />
 )
