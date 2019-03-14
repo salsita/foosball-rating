@@ -8,7 +8,7 @@ import {
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
 import { TopRating } from '../../components/TopRatings/TopRating';
 import { CREATE_MATCH, MATCH_LIST, USER_LIST } from '../../const/routes'
-import { SnackbarAlert } from '../../components/CreateMatch/SnackbarAlert';
+import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert';
 
 class DashboardComponent extends Component {
   createMatch = () => {

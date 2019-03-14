@@ -10,8 +10,7 @@ import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
 import { StatusType } from '../../modules/api/request-status'
-import { DASHBOARD } from '../../const/routes'
-import { SnackbarAlert } from './SnackbarAlert';
+import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert';
 import { RootActions } from '../../modules/root/root-actions';
 
 class CreateMatchComponent extends Component {

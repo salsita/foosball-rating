@@ -1,7 +1,7 @@
 export const AlertType = {
-    SUCCESS: 'success',
-    ERROR: 'error',
-    INFO: 'info',
+    SUCCESS: Symbol('success'),
+    ERROR: Symbol('error'),
+    INFO: Symbol('info'),
 }
 
 export class UserAlert {

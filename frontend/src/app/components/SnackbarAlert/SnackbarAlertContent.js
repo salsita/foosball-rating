@@ -1,3 +1,6 @@
+// Copied from https://github.com/mui-org/material-ui/blob/master/docs/src/pages/demos/snackbars/CustomizedSnackbars.js
+// (only the component name was changed)
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -11,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
-import { AlertType } from '../../modules/root/user-alert';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -82,7 +84,7 @@ SnackabarAlertContentComponent.propTypes = {
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
-  variant: PropTypes.oneOf([AlertType.SUCCESS, AlertType.ERROR, AlertType.INFO]).isRequired,
+  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
 export const SnackabarAlertContent = withStyles(styles)(SnackabarAlertContentComponent);

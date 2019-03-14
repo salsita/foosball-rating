@@ -77,7 +77,7 @@ const dismissRedirect = (state) => ({
 
 const dismissAlert = (state) => {
     if (!state.activeAlert) {
-        return
+        return state
     }
 
     const dismissedAlert = state.activeAlert.asDismissed()

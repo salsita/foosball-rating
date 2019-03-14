@@ -5,8 +5,21 @@ import { connect } from 'react-redux'
 import { RootActions } from '../../modules/root/root-actions';
 import { AlertType } from '../../modules/root/user-alert';
 
+const getVariantForAlertType = (alertType) => {
+    switch (alertType) {
+        case AlertType.INFO:
+            return "info"
+        case AlertType.SUCCESS:
+            return "success"
+        case AlertType.ERROR:
+            return "error"
+    }
+
+    return "info"
+}
+
 const SnackbarAlertComponent = ({ alert, onClose }) => {
-    const variant = alert ? alert.type : AlertType.INFO
+    const variant = alert ? getVariantForAlertType(alert.type) : "info"
     const message = alert ? alert.text : ""
 
     const open = Boolean(alert && !alert.dismissed)
@@ -32,7 +45,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onClose: () => {
-        console.log("Dismissing alert")
       dispatch(RootActions.Creators.dismissAlert())
     }
 })
