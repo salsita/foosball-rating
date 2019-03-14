@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from "react-redux"
 import { UsersActions } from '../../modules/users/users-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
-import { AddUserStatus } from './AddUserStatus'
-import { DASHBOARD } from '../../const/routes'
 import { StatusType } from '../../modules/api/request-status';
+import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert';
 
 class AddUserComponent extends Component {
   constructor() {
@@ -60,13 +58,13 @@ class AddUserComponent extends Component {
             </GridContainer>
             <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
         </Box>
-        <AddUserStatus status={this.props.status} />
+        <SnackbarAlert />
     </>
   )}
 } 
 
 const mapStateToProps = (state) => ({
-    status: state.users.status
+    status: state.usersStatus
 })
 
 const mapDispatchToProps = (dispatch) => ({
