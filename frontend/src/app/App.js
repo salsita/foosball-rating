@@ -16,6 +16,7 @@ import { Profile } from './pages/Profile';
 import { AddUserPage } from './pages/AddUser';
 import { MatchListPage } from './pages/MatchList';
 import { UserListPage } from './pages/UserList';
+import { Footer } from './components/Footer/footer';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -41,6 +42,7 @@ class App extends Component {
               <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
               <Route exact path={ROUTES.PROFILE} component={Profile} />
             </Container>
+            <Footer />
           </>
         </Router>
       </Provider>
