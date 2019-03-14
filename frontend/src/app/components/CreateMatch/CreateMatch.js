@@ -12,6 +12,7 @@ import { MatchesActions } from '../../modules/matches/matches-actions'
 import { StatusType } from '../../modules/api/request-status'
 import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert';
 import { RootActions } from '../../modules/root/root-actions';
+import { CircularProgress } from '@material-ui/core';
 
 class CreateMatchComponent extends Component {
   constructor(props) {
@@ -80,6 +81,10 @@ class CreateMatchComponent extends Component {
     const errorMessage = this.getInputErrorMessage()
     const canSubmit = !errorMessage && this.props.status.type != StatusType.IN_PROGRESS
     
+    const progress = this.props.status.type == StatusType.IN_PROGRESS 
+      ? <CircularProgress variant="indeterminate" /> 
+      : null
+
     return (
     <>
       <Title>Match</Title>
@@ -103,6 +108,7 @@ class CreateMatchComponent extends Component {
       </GridContainer>
       <div>{errorMessage || ""}</div>
       <SnackbarAlert />
+      {progress}
     </>
   )}
 }
