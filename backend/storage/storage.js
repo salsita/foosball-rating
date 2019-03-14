@@ -2,7 +2,7 @@ const dbTransactions = require('./db/db-transactions')
 const { StorageContext } = require('./storage-context')
 
 exports.makeStorageContext = async () => {
-    const transaction = await dbTransactions.makeTransaction()
+    const transaction = await dbTransactions.beginTransaction()
     return new StorageContext(transaction)
 }
 

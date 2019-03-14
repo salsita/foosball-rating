@@ -49,7 +49,7 @@ class Transaction {
     }
 }
 
-exports.makeTransaction = async () => {
+exports.beginTransaction = async () => {
     const client = await pool.connect()
     try {
         await client.query('BEGIN')

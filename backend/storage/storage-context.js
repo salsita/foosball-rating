@@ -79,8 +79,8 @@ class StorageContext {
     }
     
     async insertMatch(match) {
-        const isTeamSupported = (team) => team.length >= 1 && team.length <= 2
-        if (!isTeamSupported(match.team1) || !isTeamSupported(match.team2)) {
+        const isTeamSizeSupported = (team) => team.length >= 1 && team.length <= 2
+        if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
             throw new InputError("Inserting teams with unsupported number of players")
         }
     
