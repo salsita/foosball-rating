@@ -3,21 +3,31 @@ const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
 
-const updateRatingForTeam = async (team, difference) => {
+const updateRatingForTeam = async (team, difference, storageContext) => {
     await Promise.all(team.map(player => {
         const newRating = player.rating + difference
-        return storage.updateRatingForUser(player.id, newRating)  
+        return storageContext.updateRatingForUser(player.id, newRating)  
     }))
 }
 
 const storeMatch = async (match) => {
-    const result = await storage.insertMatch(match)
-    
     const winningTeam = match.team1Won ? match.team1 : match.team2
     const losingTeam = match.team1Won ? match.team2 : match.team1
 
-    await updateRatingForTeam(winningTeam, match.ratingChange)
-    await updateRatingForTeam(losingTeam, -match.ratingChange)
+    const storageContext = await storage.makeStorageContext()
+    
+    let result
+    try {
+        result = await storageContext.insertMatch(match)
+
+        await updateRatingForTeam(winningTeam, match.ratingChange, storageContext)
+        await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+
+        await storageContext.commit()
+    } catch (error) {
+        await storageContext.rollback()
+        throw error
+    }
     
     return result
 }
