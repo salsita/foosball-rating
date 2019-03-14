@@ -26,17 +26,12 @@ function* addMatchSaga(action) {
         yield call(getMatchesSaga)
         // Need to reload users because ratings have changed
         yield call(getUsersSaga)
-        yield fork(setTemporaryStatusSaga, success, 2000)
+        yield put(MatchesActions.Creators.updateStatus(success))
     } catch (error) {
         console.error(error)
-        yield put(MatchesActions.Creators.updateStatus(failure(error.response.data)))
+        const message = error.response ? error.response.data : error.message 
+        yield put(MatchesActions.Creators.updateStatus(failure(message)))
     }
-}
-
-function* setTemporaryStatusSaga(status, time) {
-    yield put(MatchesActions.Creators.updateStatus(status))
-    yield delay(time)
-    yield put(MatchesActions.Creators.updateStatus(ready))
 }
 
 export function* matchesSaga() {

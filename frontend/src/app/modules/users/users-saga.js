@@ -20,7 +20,8 @@ function* addUserSaga(action) {
         yield put(UsersActions.Creators.updateStatus(success))
     } catch (error) {
         console.error(error)
-        yield put(UsersActions.Creators.updateStatus(failure(error.response.data)))
+        const message = error.response ? error.response.data : error.message 
+        yield put(UsersActions.Creators.updateStatus(failure(message)))
     }
 }
 

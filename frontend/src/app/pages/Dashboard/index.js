@@ -7,8 +7,8 @@ import {
 } from './../../../styles/blocks';
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
 import { TopRating } from '../../components/TopRatings/TopRating';
-import { CreateMatchStatus } from '../../components/CreateMatch/CreateMatchStatus';
 import { CREATE_MATCH, MATCH_LIST, USER_LIST } from '../../const/routes'
+import { SnackbarAlert } from '../../components/CreateMatch/SnackbarAlert';
 
 class DashboardComponent extends Component {
   createMatch = () => {
@@ -19,7 +19,7 @@ class DashboardComponent extends Component {
     return(
       <>
         <Button onClick={this.createMatch}>Add Match</Button>
-        <CreateMatchStatus status={this.props.createMatchStatus} />
+        <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
         <Link to={MATCH_LIST}>Show all...</Link>
@@ -32,7 +32,7 @@ class DashboardComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  createMatchStatus: state.matches.status
+  createMatchStatus: state.matchesStatus
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

@@ -6,6 +6,7 @@ import { Box, GridContainer, Input, Label, Button } from './../../../styles/bloc
 import { AddUserStatus } from './AddUserStatus'
 import { DASHBOARD } from '../../const/routes'
 import { StatusType } from '../../modules/api/request-status';
+import { SnackbarAlert } from '../CreateMatch/SnackbarAlert';
 
 class AddUserComponent extends Component {
   constructor() {
@@ -60,13 +61,13 @@ class AddUserComponent extends Component {
             </GridContainer>
             <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
         </Box>
-        <AddUserStatus status={this.props.status} />
+        <SnackbarAlert />
     </>
   )}
 } 
 
 const mapStateToProps = (state) => ({
-    status: state.users.status
+    status: state.usersStatus
 })
 
 const mapDispatchToProps = (dispatch) => ({
