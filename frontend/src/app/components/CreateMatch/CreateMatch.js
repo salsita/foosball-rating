@@ -10,8 +10,9 @@ import { getUsers } from '../../modules/users/users-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
 import { StatusType } from '../../modules/api/request-status'
-import { DASHBOARD } from '../../const/routes'
-import { CreateMatchStatus } from './CreateMatchStatus'
+import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert';
+import { RootActions } from '../../modules/root/root-actions';
+import { CircularProgress } from '@material-ui/core';
 
 class CreateMatchComponent extends Component {
   constructor(props) {
@@ -71,13 +72,19 @@ class CreateMatchComponent extends Component {
   }
 
   render = () => {
-    if (this.props.status.type == StatusType.SUCCESS) {
-      this.props.history.push(DASHBOARD)
+    const redirect = this.props.activeRedirect
+    if (redirect) {
+      this.props.history.push(redirect)
+      this.props.dismissRedirect()
     }
 
     const errorMessage = this.getInputErrorMessage()
     const canSubmit = !errorMessage && this.props.status.type != StatusType.IN_PROGRESS
     
+    const progress = this.props.status.type == StatusType.IN_PROGRESS 
+      ? <CircularProgress variant="indeterminate" /> 
+      : null
+
     return (
     <>
       <Title>Match</Title>
@@ -100,20 +107,25 @@ class CreateMatchComponent extends Component {
         </Box>
       </GridContainer>
       <div>{errorMessage || ""}</div>
-      <CreateMatchStatus status={this.props.status} />
+      <SnackbarAlert />
+      {progress}
     </>
   )}
 }
 
 const mapStateToProps = state => ({
   users: getUsers(state),
-  status: state.matches.status
+  status: state.matchesStatus,
+  activeRedirect: state.activeRedirect,
 })
 
 const mapDispatchToProps = dispatch => ({
   createMatch: (match) => {
     dispatch(MatchesActions.Creators.addMatch(match))
-  }
+  },
+  dismissRedirect: () => {
+    dispatch(RootActions.Creators.dismissRedirect())
+  },
 })
 
 const RoutingCreateMatchComponent = withRouter(CreateMatchComponent)

@@ -1,110 +1,32 @@
-const dbExecutor = require('./db/db-executor')
-const dbTransformations = require('./db/db-transformations')
-const dbQueries = require('./db/db-queries')
-const dbErrors = require('./db/db-errors')
-const { ConflictError } = require('../errors/conflict-error')
-const { InputError } = require('../errors/input-error')
-const { NotFoundError } = require('../errors/not-found-error')
+const dbTransactions = require('./db/db-transactions')
+const { StorageContext } = require('./storage-context')
 
-exports.getAllUsers = async () =>{
-    let rows
-    try {
-        rows = await dbExecutor.executeQuery(dbQueries.selectAllusers, [])
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to retrieve users")
-    }
-
-    return rows.map(dbTransformations.createUserFromDbRow)
+exports.makeStorageContext = async () => {
+    const transaction = await dbTransactions.beginTransaction()
+    return new StorageContext(transaction)
 }
 
-exports.getUser = async (userId) => {
-    const query = dbQueries.selectUser
-    const values = [userId]
-
-    let row
+const executeAndCommit = async (operation) => {
+    const context = await exports.makeStorageContext()
     try {
-        row = await dbExecutor.executeSingleResultQuery(query, values)
+        const result = await operation(context)
+        await context.commit()
+        return result
     } catch (error) {
-        console.error(error)
-        throw new Error("Unable to fetch user")
+        await context.rollback()
+        throw error
     }
-
-    if (!row) {
-        throw new NotFoundError(`User ${userId} doesn't exist`)
-    }
-
-    return dbTransformations.createUserFromDbRow(row)
 }
 
-exports.updateRatingForUser = async (userId, newRating) => {
-    const query = dbQueries.updateRatingForUser
-    const values = [newRating, userId]
+exports.getAllUsers = async () => executeAndCommit((context) => context.getAllUsers())
 
-    let row
-    try {
-        row = await dbExecutor.executeSingleResultQuery(query, values)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to update rating for user")
-    }
+exports.getUser = async (userId) => executeAndCommit((context) => context.getUser(userId))
 
-    return dbTransformations.createUserFromDbRow(row)
-}
+exports.updateRatingForUser = async (userId, newRating) => 
+    executeAndCommit((context) => context.updateRatingForUser(userId, newRating))
 
-exports.insertUser = async (user) => {
-    const query = dbQueries.insertUser
-    const values = [user.name, user.initialRating, true, user.initialRating]
+exports.insertUser = async (user) => executeAndCommit((context) => context.insertUser(user))
 
-    let row
-    try {
-        row = await dbExecutor.executeSingleResultQuery(query, values)
-    } catch (error) {
-        console.error(error)
-        if (dbErrors.isUniqueViolation(error)) {
-            throw new ConflictError(`User ${user.name} already exists`)
-        }
-        throw new Error("Unable to add user")
-    }
+exports.insertMatch = async (match) => executeAndCommit((context) => context.insertMatch(match))
 
-    return dbTransformations.createUserFromDbRow(row)
-}
-
-exports.insertMatch = async (match) => {
-    const isTeamSupported = (team) => team.length >= 1 && team.length <= 2
-    if (!isTeamSupported(match.team1) || !isTeamSupported(match.team2)) {
-        throw new InputError("Inserting teams with unsupported number of players")
-    }
-
-    const team1Player1 = match.team1[0]
-    const team1Player2 = match.team1[1] || { }
-    const team2Player1 = match.team2[0]
-    const team2Player2 = match.team2[1] || { }
-
-    const query = dbQueries.insertMatch
-    const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,
-                    team2Player1.id, team2Player1.rating, team2Player2.id, team2Player2.rating,
-                    match.date, match.ratingChange, match.team1Won]
-    
-    let row
-    try {
-        row = await dbExecutor.executeSingleResultQuery(query, values)
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to create match")
-    }
-
-    return dbTransformations.createMatchFromDbRow(row)
-}
-
-exports.getAllMatches = async () => {
-    let rows
-    try {
-        rows = await dbExecutor.executeQuery(dbQueries.selectAllMatches, [])
-    } catch (error) {
-        console.error(error)
-        throw new Error("Unable to retrieve matches")
-    }
-
-    return rows.map(dbTransformations.createMatchFromDbRow)
-}
+exports.getAllMatches = async () => executeAndCommit((context) => context.getAllMatches())
