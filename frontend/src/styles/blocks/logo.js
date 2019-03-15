@@ -6,6 +6,11 @@ const Logo = styled.a`
     height: 50px;
     position: absolute;
     left: 10px;
+
+    @media (max-width: 320px) {
+      height: 30px;
+      margin: 10px 0;
+    }
   }
 `
 

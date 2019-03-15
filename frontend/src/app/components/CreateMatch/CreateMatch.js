@@ -87,9 +87,9 @@ class CreateMatchComponent extends Component {
 
     return (
     <>
-      <Title>Match</Title>
+      <Title Margin="10px 0">Match</Title>
       <GridContainer Column="1fr 1fr">
-        <Box Margin="0 10px">
+        <Box Margin="0 10px 10px" Padding="10px 10px 20px">
             <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
                             teamName="Team 1" 
                             users={this.props.users} 
@@ -97,7 +97,7 @@ class CreateMatchComponent extends Component {
                             teamSubmitted={() => this.submit(true)}
                             canSubmit={canSubmit} />
         </Box>
-        <Box Margin="0 10px">
+        <Box Margin="0 10px 10px" Padding="10px 10px 20px">
             <SelectTeamForm maxPlayerNumber={this.props.maxPlayerNumber} 
                             teamName="Team 2" 
                             users={this.props.users} 

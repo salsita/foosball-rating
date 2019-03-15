@@ -8,6 +8,7 @@ import { rootSaga } from './modules/root/root-saga'
 import { rootReducer } from './modules/root/root-reducer'
 import * as ROUTES from './const/routes';
 import Header from './components/header';
+import Footer from './components/Footer/footer'
 import {Container} from './../styles/blocks/layout';
 // pages 
 import { Dashboard } from './pages/Dashboard';
@@ -16,7 +17,7 @@ import { Profile } from './pages/Profile';
 import { AddUserPage } from './pages/AddUser';
 import { MatchListPage } from './pages/MatchList';
 import { UserListPage } from './pages/UserList';
-import { Footer } from './components/Footer/footer';
+
 
 const sagaMiddleware = createSagaMiddleware()
 
