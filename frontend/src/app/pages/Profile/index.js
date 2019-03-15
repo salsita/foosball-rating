@@ -21,7 +21,7 @@ class ProfileComponent extends Component {
         <Subtitle>Elo rating: {this.props.user.rating}</Subtitle>
         <ProfileDetail>
           <Subtitle>Matches: {this.props.statistics.totalMatches}</Subtitle>
-          <Subtitle>Win Rate: {this.props.statistics.winRatio * 100}%</Subtitle>
+          <Subtitle>Win Rate: {(this.props.statistics.winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {this.props.statistics.longestStreak}</Subtitle>
         </ProfileDetail>
         <ProfileBattleHistory matches={this.props.statistics.matchChanges} />
