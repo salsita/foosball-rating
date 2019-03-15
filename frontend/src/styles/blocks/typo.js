@@ -4,7 +4,7 @@ import variables from './../variables';
 const Title = styled.h1`
   font-size: ${variables.fontSizeTitle};
   text-align: ${props => props.textAlign};
-  margin: 0;
+  margin: ${props => props.Margin};
   font-weight: 400;
 `
 const Subtitle = styled.h2`
@@ -19,8 +19,18 @@ const TextSpan = styled.span`
 `
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
-  color: ${({ winner }) => winner ? "rgb(29, 125, 80)" : "#f44336"};
+  color: ${({ winner }) => winner ? "#22925e" : "#f44336"};
   font-weight: 400;
 `
 
-export {Title, Subtitle, TextSpan, WinnerSpan};
+const StyledHyperLink = styled.a`
+  text-decoration: none;
+  padding: 5px;
+  color: ${variables.cWhite};
+
+  span {
+    font-size: 10px;
+  }
+`
+
+export {Title, Subtitle, TextSpan, WinnerSpan, StyledHyperLink};

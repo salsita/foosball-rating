@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { 
+import {
+  Box, 
   Subtitle,
-  Button
+  Button,
+  StyledLink
 } from './../../../styles/blocks';
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
 import { TopRating } from '../../components/TopRatings/TopRating';
@@ -17,16 +19,16 @@ class DashboardComponent extends Component {
 
   render() {
     return(
-      <>
+      <Box Margin="10px" Padding="10px">
         <Button onClick={this.createMatch}>Add Match</Button>
         <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
-        <Link to={MATCH_LIST}>Show all...</Link>
+        <StyledLink to={MATCH_LIST}>Show all...</StyledLink>
         <Subtitle textAlign="center">Top Rating</Subtitle>
         <TopRating maxItems={5} />
-        <Link to={USER_LIST}>Show all...</Link>
-      </>
+        <StyledLink to={USER_LIST}>Show all...</StyledLink>
+      </Box>
     )
   }
 }

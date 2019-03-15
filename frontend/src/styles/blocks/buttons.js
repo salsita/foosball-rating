@@ -9,8 +9,7 @@ const Button = styled.button`
   width: 100%;
   font-weight: 700;
   color: ${variables.cBlack};
-  margin: ${variables.baseSpacing};
-
+ 
   @media (min-width: ${variables.bpMedium}) {
     width: 300px;
   }

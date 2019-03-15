@@ -12,6 +12,8 @@ const Nav = styled.nav`
 
   h1 {
     margin-top: 10px;
+    background: ${variables.cYellow};
+    text-align: center;
   }
 `
 
@@ -20,6 +22,7 @@ const Container = styled.div`
   margin: 0 auto;
   text-align: center;
   max-width: 800px;
+  min-height: calc(100vh - 90px);
   background: #333 url(${bgPat}) 0 0 repeat scroll;
   color: ${variables.cGrey};
   padding: ${variables.baseSpacing};
