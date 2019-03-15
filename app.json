@@ -1,0 +1,28 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "description": "",
+  "env": {
+    "BASE_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "foosball-rating",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
