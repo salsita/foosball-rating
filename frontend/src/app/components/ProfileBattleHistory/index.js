@@ -7,7 +7,7 @@ class ProfileBattleHistory extends Component {
     return(
       <ListCon>
         {this.props.matches.map((match) => 
-          <ProfileBattleHistoryRow match={match} /> 
+          <ProfileBattleHistoryRow key={match.id} match={match} /> 
         )}
       </ListCon>
     )

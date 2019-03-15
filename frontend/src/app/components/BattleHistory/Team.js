@@ -7,7 +7,7 @@ import {
 import { createProfilePath } from '../../const/routes';
 
 const createListFromTeam = (team) => team
-  .map(player => [<StyledLink to={createProfilePath(player.id)}>{player.name} <span>({player.matchRating})</span></StyledLink>])
+  .map((player, index) => [<StyledLink key={index} to={createProfilePath(player.id)}>{player.name} <span>({player.matchRating})</span></StyledLink>])
   .reduce((prev, curr) => [...prev, "&", ...curr])
 
 const Team = ({ team, didWin }) => (
