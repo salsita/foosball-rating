@@ -71,13 +71,15 @@ class CreateMatchComponent extends Component {
     })
   }
 
-  render = () => {
-    const redirect = this.props.activeRedirect
+  componentWillReceiveProps = (newProps) => {
+    const redirect = newProps.activeRedirect
     if (redirect) {
-      this.props.history.push(redirect)
-      this.props.dismissRedirect()
+      newProps.history.push(redirect)
+      newProps.dismissRedirect()
     }
+  }
 
+  render = () => {
     const errorMessage = this.getInputErrorMessage()
     const canSubmit = !errorMessage && this.props.status.type != StatusType.IN_PROGRESS
     
