@@ -35,6 +35,10 @@ const ListItem = styled.li`
   color: ${variables.cGrey};
   list-style: none;
   border: 1px solid #393939;
+
+  &:nth-child(even) {
+    background: ${variables.bgColorListSec};
+  }
 `
 
 export { ListCon, ListItem};

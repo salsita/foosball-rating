@@ -25,7 +25,7 @@ export default {
   bgColor: '#262626',
 
   bgColorList: '#fff',
-  bgColorListSec: '#ebebeb',
+  bgColorListSec: '#303030',
 
   cTopPlayerGold: '#ffbf00',
   cTopPlayerSilver: '#b4b4b4',

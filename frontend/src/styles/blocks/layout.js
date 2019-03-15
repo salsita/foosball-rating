@@ -40,14 +40,6 @@ const Box = styled.div`
   margin: ${props => props.Margin};
   padding: ${props => props.Padding};
   background: ${variables.cBlack};
-
-  ul {
-    box-shadow: none;
-
-    li {
-      border: none;
-    }
-  }
 `
 const ProfileDetail = styled.div`
   display: flex;
