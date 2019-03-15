@@ -12,7 +12,7 @@ class TopRatingComponent extends Component {
     return(
       <ListCon className="topPlayers">
       {this.props.topUsers.slice(0, this.props.maxItems).map(user => 
-        <TopRatingRow user={user} />
+        <TopRatingRow key={user.id} user={user} />
       )}
       </ListCon>
     )

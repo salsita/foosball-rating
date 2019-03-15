@@ -8,6 +8,7 @@ export const generateMatchRatingChanges = (userId, userMatches) => userMatches.m
     const ratingChangeString = `${didWin ? "+" : "-"}${match.ratingChange}`
 
     return {
+        id: match.id,
         date: match.date,
         didWin,
         ratingChangeString
