@@ -9,9 +9,6 @@
   ],
   "description": "",
   "env": {
-    "BASE_URL": {
-      "required": true
-    },
     "NODE_ENV": {
       "required": true
     }
