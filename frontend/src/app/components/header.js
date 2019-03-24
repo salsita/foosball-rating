@@ -7,12 +7,13 @@ import {
   StyledLink,
 } from './../../styles/blocks/';
 import { CREATE_MATCH, MATCH_LIST, USER_LIST } from '../const/routes'
-
 import { DASHBOARD } from '../const/routes';
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
 
 const logo = require('./../../media/logo.png');
 
-class Header extends Component {
+class HeaderComponent extends Component {
   createMatch = () => {
     this.props.history.push(CREATE_MATCH)
   }
@@ -27,4 +28,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  createMatchStatus: state.matchesStatus
+})
+
+const RoutingHeader = withRouter(HeaderComponent)
+
+export const Header = connect(mapStateToProps)(RoutingHeader)
