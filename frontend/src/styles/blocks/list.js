@@ -35,6 +35,7 @@ const ListItem = styled.li`
   color: ${variables.cGrey};
   list-style: none;
   border: 1px solid #393939;
+  align-items: center;
 
   &:nth-child(even) {
     background: ${variables.bgColorListSec};
