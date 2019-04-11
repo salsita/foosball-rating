@@ -39,7 +39,7 @@ const postResultToSlack = (match) => {
   const suffix = isComedyDuo?  ':marioluigi:' : '';
 
   const messageText = `${prefix}${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}. Rating change: ${ratingChange}${suffix}`
-  bot.postMessage(channel.id, messageText);
+  bot.postMessage(channel.id, messageText, {as_user: true});
 }
 
 module.exports = {
