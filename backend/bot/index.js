@@ -6,8 +6,6 @@ var bot = new SlackBot({
 
 let channel;
 
-console.log('lez go');
-
 bot.on('start', async () => {
   console.log('Foosbot started');
   channel = await bot.getGroup(process.env.FOOS_CHANNEL_NAME);
