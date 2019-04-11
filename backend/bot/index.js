@@ -27,15 +27,7 @@ const postResultToSlack = (match) => {
   const winningPlayers = winningTeam.map(player => `${player.name} (${player.rating})`)
   const losingPlayers = losingTeam.map(player => `${player.name} (${player.rating})`)
 
-  let isComedyDuo = true;
-  if (winningPlayers.length != 2) {
-    isComedyDuo = false;
-  }
-  winningTeam.forEach(player => {
-    if (player.name !== 'Pepa' && player.name !== 'Tonda') {
-      isComedyDuo = false;
-    }
-  })
+  const isComedyDuo = winningPlayers.length == 2 && winningTeam.every(player => player.name === 'Pepa' || player.name === 'Tonda')
 
   let prefix = '';
   if (isComedyDuo) {
