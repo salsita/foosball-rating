@@ -80,6 +80,7 @@ const constructMatch = async (matchDescription) => {
   */
 exports.recordMatch = async (matchDescription) => {
     const match = await constructMatch(matchDescription)
-    bot.postResultToSlack(match);
-    return await storeMatch(match)
+    const result = await storeMatch(match)
+    bot.postResultToSlack(match)
+    return result
 }
