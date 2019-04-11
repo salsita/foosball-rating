@@ -2,6 +2,7 @@ const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
+const bot = require('../bot');
 
 const updateRatingForTeam = async (team, difference, storageContext) => {
     await Promise.all(team.map(player => {
@@ -79,5 +80,6 @@ const constructMatch = async (matchDescription) => {
   */
 exports.recordMatch = async (matchDescription) => {
     const match = await constructMatch(matchDescription)
+    bot.postResultToSlack(match);
     return await storeMatch(match)
 }
