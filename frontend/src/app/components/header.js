@@ -28,10 +28,4 @@ class HeaderComponent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  createMatchStatus: state.matchesStatus
-})
-
-const RoutingHeader = withRouter(HeaderComponent)
-
-export const Header = connect(mapStateToProps)(RoutingHeader)
+export const Header = withRouter(HeaderComponent)
