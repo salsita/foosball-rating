@@ -1,16 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Barlow');
+
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 420px) {
+  html {
+    font-size: 14px;
+  }
+}
 
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  font-family: 'Montserrat', sans-serif;
-
+  font-family: Barlow,sans-serif;
   background: #262626;
-
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }

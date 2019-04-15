@@ -21,6 +21,11 @@ const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
   color: ${({ winner }) => winner ? "#22925e" : "#f44336"};
   font-weight: 400;
+  order: ${({ winner }) => winner ? "1" : "3"};
+`
+
+const BattleLabel = styled.span`
+  order: 2;
 `
 
 const StyledHyperLink = styled.a`
@@ -33,4 +38,4 @@ const StyledHyperLink = styled.a`
   }
 `
 
-export {Title, Subtitle, TextSpan, WinnerSpan, StyledHyperLink};
+export {Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, StyledHyperLink};

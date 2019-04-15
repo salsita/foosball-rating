@@ -15,6 +15,14 @@ const Nav = styled.nav`
     background: ${variables.cYellow};
     text-align: center;
   }
+  button {
+    float: right;
+    width: auto;
+    background: ${variables.cBlack};
+    padding: 10px 15px;
+    color: ${variables.cYellow};
+    margin: 7px;
+  }
 `
 
 const Container = styled.div`

@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from './modules/root/root-saga'
 import { rootReducer } from './modules/root/root-reducer'
 import * as ROUTES from './const/routes';
-import Header from './components/header';
+import { Header } from './components/header';
 import Footer from './components/Footer/footer'
 import {Container} from './../styles/blocks/layout';
 // pages 
