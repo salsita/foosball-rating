@@ -7,7 +7,7 @@ Foosball Rating App
 This is the root of the project. The application itself is divided into several sub-projects:
 
  - [`frontend`](./frontend/README.md): The frontend application created in React
- - [`backend`](./api-server/README.md): The backend in ...............
+ - [`backend`](./backend/README.md): The backend application in Node.js using Express
 
  
 ## Available scripts
@@ -15,9 +15,18 @@ This is the root of the project. The application itself is divided into several 
  - `start`: Starts the frontend and api-server in development mode
 
 
- ## database on local host
+ ## Running the application
 
-- change API adress 
+ - For running the backend locally, please see the [`backend readme`](./backend/README.md)
+ - In order for the frontend to run against the local backend, please change the following line of the file `frontend/src/app/modules/api/client-config.js`:
+   ```
+   baseURL: `${window.location.protocol}//${window.location.hostname}/api`
+   ```
+   to
+   ```
+   baseURL: `${window.location.protocol}//${window.location.hostname}:3000`
+   ```
+   (replace `3000` by the port where your backend is running on `localhost`)
 
  ## frontend general information 
 
