@@ -25,11 +25,11 @@ This is the root of the project. The application itself is divided into several 
  
  # structure 
 
- -- app
+ - app
     <br/>|-- components : reusable components like: inputs, navs, buttons, accordion etc.
     <br/>|-- const : definition of application routes
     <br/>|-- modules : services for connecting to the API / actions / reducers / selectors
     <br/>|-- pages : AddUser, CreateMatch, Dashboard etc.. 
     
- -- media : folder for images/assets 
- -- styles : reusable styled components / styles
+ - media : folder for images/assets 
+ - styles : reusable styled components / styles
