@@ -30,9 +30,9 @@ const postResultToSlack = (match) => {
   let prefix = '';
   if (isComedyDuo) {
     prefix = ':tondab: :pepadab: ';
-  } else if (ratingChange < 10) {
+  } else if (ratingChange <= 10) {
     prefix = 'Easy. ';
-  } else if (ratingChange > 20) {
+  } else if (ratingChange >= 20) {
     prefix = 'HOLY SHIT! ';
   }
 
