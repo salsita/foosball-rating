@@ -33,7 +33,7 @@ const postResultToSlack = (match) => {
   } else if (ratingChange <= 10) {
     prefix = 'Easy. ';
   } else if (ratingChange >= 20) {
-    prefix = 'HOLY SHIT! L2P, noobs! ';
+    prefix = `HOLY SHIT! L2P, ${losingTeam.length > 1 ? 'noobs' : 'noob'}! `;
   }
 
   const suffix = isComedyDuo?  ':marioluigi:' : '';
