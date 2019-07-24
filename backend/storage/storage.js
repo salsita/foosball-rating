@@ -30,3 +30,5 @@ exports.insertUser = async (user) => executeAndCommit((context) => context.inser
 exports.insertMatch = async (match) => executeAndCommit((context) => context.insertMatch(match))
 
 exports.getAllMatches = async () => executeAndCommit((context) => context.getAllMatches())
+
+exports.getLatestMatch = async () => executeAndCommit((context) => context.getLatestMatch())

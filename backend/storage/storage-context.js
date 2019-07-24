@@ -117,6 +117,18 @@ class StorageContext {
         return rows.map(dbTransformations.createMatchFromDbRow)
     }
 
+    async getLatestMatch() {
+        let row
+        try {
+            row = await this.transaction.executeSingleResultQuery(dbQueries.selectLatestMatch, [])
+        } catch (error) {
+            console.error(error)
+            throw new Error("Unable to retrieve latest match")
+        }
+    
+        return row != null ? dbTransformations.createMatchFromDbRow(row) : null
+    }
+
     async commit() {
         try {
             await this.transaction.commit()

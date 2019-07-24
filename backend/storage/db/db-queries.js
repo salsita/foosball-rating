@@ -10,4 +10,6 @@ exports.insertMatch = `INSERT INTO "Matches"("Team1Player1Id", "Team1Player1Rati
 
 exports.selectAllMatches = 'SELECT * FROM "Matches"'
 
+exports.selectLatestMatch = 'SELECT * FROM "Matches" ORDER BY "Date" DESC LIMIT 1'
+
 exports.selectAllusers = 'SELECT * FROM "Users"'

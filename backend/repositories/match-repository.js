@@ -73,11 +73,14 @@ const constructMatch = async (matchDescription) => {
     return new Match(teams, matchDescription.team1Won, date, ratingChange)
 }
 
-const getElapsedSecondsSinceLastMatch = async () => {
-    const matchTimes = (await storage.getAllMatches()).map(match => match.date.getTime()) 
-    const maxTime = Math.max(...matchTimes)
+const getElapsedSecondsSinceLatestMatch = async () => {
+    const latestMatch = await storage.getLatestMatch()
+    if (latestMatch == null) {
+        return null
+    }
+    
     const currentTime = Date.now()
-    const timeDiffSec = Math.round((currentTime - maxTime) / 1000)
+    const timeDiffSec = Math.round((currentTime - latestMatch.date.getTime()) / 1000)
     return timeDiffSec
 }
 
@@ -88,8 +91,8 @@ const getElapsedSecondsSinceLastMatch = async () => {
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
   */
 exports.recordMatch = async (matchDescription) => {
-    const elapsedTime = await getElapsedSecondsSinceLastMatch()
-    if (elapsedTime < ADD_MATCH_COOLDOWN) {
+    const elapsedTime = await getElapsedSecondsSinceLatestMatch()
+    if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
         throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
     }
 
