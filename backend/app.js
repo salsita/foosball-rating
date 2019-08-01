@@ -51,6 +51,7 @@ app.post('/users', (req, res) => {
 })
 
 app.post('/matches', (req, res) => {
+    if (req.connection.remoteAddress == "192.168.23.86") return
     matchRepository.recordMatch(req.body)
         .then(res.send.bind(res))
         .catch((error) => processError(res, error))
