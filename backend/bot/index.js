@@ -32,11 +32,17 @@ const ratingComparator = (a, b) => b.rating - a.rating
 
 const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
   await postMatchResult(match)
+
   const oldRankings = oldUsers.sort(ratingComparator)
   const newRankings = newUsers.sort(ratingComparator)
-  const shouldUpdatePurpose = await postRankingChangeMessage(oldRankings, newRankings)
+
+  await postRankingChangeMessage(oldRankings, newRankings)
+
+  const maxSignificantIndex = 5
+  const shouldUpdatePurpose = hasLeaderboardChanged(maxSignificantIndex, oldRankings, newRankings)
+
   if (shouldUpdatePurpose) {
-    await updatePurpose(newRankings)
+    await updatePurpose(newRankings.slice(0, maxSignificantIndex))
   }
 }
 
@@ -69,7 +75,6 @@ const postMatchResult = async (match) => {
 }
 
 const postRankingChangeMessage = async (oldRankings, newRankings) => {
-  let shouldUpdatePurpose = false
   const rankingChanges = []
   oldRankings.forEach((oldPlayer, index) => {
     const newPlayer = newRankings[index]
@@ -79,28 +84,42 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
       }
       rankingChanges.push({
         name: oldPlayer.name,
-        oldRanking: index +1 ,
+        oldRanking: index + 1,
         newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1
       })
     }
   })
+
+  if (rankingChanges.length === 0) {
+    return
+  }
+
   const messageText = rankingChanges
     .map((c) => (
       `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
     )
     .join('\n')
   await bot.postMessage(channel.id, messageText, { as_user: true });
+}
 
-  return shouldUpdatePurpose
+const hasLeaderboardChanged = (maxSignificant, oldRankings, newRankings) => {
+  const clampedMax = Math.min(maxSignificant, Math.min(oldRankings.length, newRankings.length))
+
+  for (let i = 0; i < clampedMax; i++) {
+    if (oldRankings[i].id != newRankings[i].id) {
+      return true
+    }
+  }
+
+  return false
 }
 
 const updatePurpose = async (rankings) => {
-  const purpose = ['TOP PLAYERS:']
-  for (let i = 0; i < 5; i++) {
-    purpose.push(`${i + 1}. ${rankings[i].name} (${rankings[i].rating})`)
-  }
-  const purposeText = purpose.join('\n')
-  await bot.setGroupPurpose(channel.id, purposeText)
+  const rankingsText = rankings
+    .map((ranking, i) => `${i + 1}. ${ranking.name} (${ranking.rating})`)
+    .join('\n')
+  const purpose = 'TOP PLAYERS\n' + rankingsText
+  await bot.setGroupPurpose(channel.id, purpose)
 }
 
 
