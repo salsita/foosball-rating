@@ -1,6 +1,19 @@
-var SlackBot = require('slackbots');
+const SlackBot = require('slackbots');
 
-var bot = new SlackBot({
+class FoosBot extends SlackBot {
+  /**
+   * Sets the purpose for a private channel
+   * @param {string} id - channel ID
+   * @param {string} purpose
+   * @returns {vow.Promise}
+   */
+  setGroupPurpose(id, purpose) {
+    return this._api('groups.setPurpose', { channel: id, purpose });
+  }
+
+}
+
+const bot = new FoosBot({
   token: process.env.FOOSBOT_TOKEN
 });
 
@@ -14,7 +27,20 @@ bot.on('start', async () => {
   }
 });
 
-const postResultToSlack = (match) => {
+
+const ratingComparator = (a, b) => b.rating - a.rating
+
+const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
+  await postMatchResult(match)
+  const oldRankings = oldUsers.sort(ratingComparator)
+  const newRankings = newUsers.sort(ratingComparator)
+  const shouldUpdatePurpose = await postRankingChangeMessage(oldRankings, newRankings)
+  if (shouldUpdatePurpose) {
+    await updatePurpose(newRankings)
+  }
+}
+
+const postMatchResult = async (match) => {
   const { team1, team2, team1Won, ratingChange } = match;
   let winningTeam, losingTeam;
   if (team1Won) {
@@ -36,12 +62,48 @@ const postResultToSlack = (match) => {
     prefix = 'HOLY SHIT! ';
   }
 
-  const suffix = isComedyDuo?  ':marioluigi:' : '';
+  const suffix = isComedyDuo ? ':marioluigi:' : '';
 
   const messageText = `${prefix}${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}. Rating change: ${ratingChange}${suffix}`
-  bot.postMessage(channel.id, messageText, {as_user: true});
+  await bot.postMessage(channel.id, messageText, { as_user: true });
 }
 
+const postRankingChangeMessage = async (oldRankings, newRankings) => {
+  let shouldUpdatePurpose = false
+  const rankingChanges = []
+  oldRankings.forEach((oldPlayer, index) => {
+    const newPlayer = newRankings[index]
+    if (newPlayer.id !== oldPlayer.id) {
+      if (index <= 4) {
+        shouldUpdatePurpose = true
+      }
+      rankingChanges.push({
+        name: oldPlayer.name,
+        oldRanking: index +1 ,
+        newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1
+      })
+    }
+  })
+  const messageText = rankingChanges
+    .map((c) => (
+      `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
+    )
+    .join('\n')
+  await bot.postMessage(channel.id, messageText, { as_user: true });
+
+  return shouldUpdatePurpose
+}
+
+const updatePurpose = async (rankings) => {
+  const purpose = ['TOP PLAYERS:']
+  for (let i = 0; i < 5; i++) {
+    purpose.push(`${i + 1}. ${rankings[i].name} (${rankings[i].rating})`)
+  }
+  const purposeText = purpose.join('\n')
+  await bot.setGroupPurpose(channel.id, purposeText)
+}
+
+
 module.exports = {
-  postResultToSlack
+  reportMatchOnSlack
 };
