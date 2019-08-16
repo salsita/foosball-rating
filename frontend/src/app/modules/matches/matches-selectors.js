@@ -52,7 +52,6 @@ export const getStatisticsForUser = createSelector(
 
 export const getRatingHistoryGraphForUser = createSelector(
   getLastMatchesForUser,
-  (state, userId) => userId,
   getUser,
-  (userMatches, userId, user) => generateRatingHistoryGraphForUser(userMatches, userId, user.initialRating)
+  (userMatches, user) => generateRatingHistoryGraphForUser(userMatches, user.id, user.initialRating)
 )
