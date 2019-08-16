@@ -75,17 +75,13 @@ const postMatchResult = async (match) => {
 }
 
 const postRankingChangeMessage = async (oldRankings, newRankings) => {
-  const rankingChanges = []
-  oldRankings.forEach((oldPlayer, index) => {
-    const newPlayer = newRankings[index]
-    if (newPlayer.id !== oldPlayer.id) {
-      rankingChanges.push({
-        name: oldPlayer.name,
-        oldRanking: index + 1,
-        newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1
-      })
-    }
-  })
+  const rankingChanges = oldRankings
+    .map((oldPlayer, index) => ({
+      name: oldPlayer.name,
+      oldRanking: index + 1,
+      newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1
+    }))
+    .filter(ranking => ranking.oldRanking != ranking.newRanking)
 
   if (rankingChanges.length === 0) {
     return
@@ -99,17 +95,9 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
   await bot.postMessage(channel.id, messageText, { as_user: true });
 }
 
-const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => {
-  const clampedMax = Math.min(leaderboardSize, oldRankings.length, newRankings.length)
-
-  for (let i = 0; i < clampedMax; i++) {
-    if (oldRankings[i].id != newRankings[i].id) {
-      return true
-    }
-  }
-
-  return false
-}
+const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => (
+  oldRankings.findIndex((oldPlayer, index) => oldPlayer.id !== newRankings[index].id) < leaderboardSize
+)
 
 const updatePurpose = async (rankings) => {
   const rankingsText = rankings
