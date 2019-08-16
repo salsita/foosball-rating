@@ -78,7 +78,7 @@ const getElapsedSecondsSinceLatestMatch = async () => {
     if (latestMatch == null) {
         return null
     }
-    
+
     const currentTime = Date.now()
     const timeDiffSec = Math.round((currentTime - latestMatch.date.getTime()) / 1000)
     return timeDiffSec
@@ -96,8 +96,10 @@ exports.recordMatch = async (matchDescription) => {
         throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
     }
 
+    const oldUsers = await storage.getAllUsers()
     const match = await constructMatch(matchDescription)
     const result = await storeMatch(match)
-    bot.postResultToSlack(match)
+    const newUsers = await storage.getAllUsers()
+    bot.reportMatchOnSlack(match, oldUsers, newUsers)
     return result
 }
