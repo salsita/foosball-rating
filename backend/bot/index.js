@@ -38,11 +38,11 @@ const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
 
   await postRankingChangeMessage(oldRankings, newRankings)
 
-  const maxSignificantIndex = 5
-  const shouldUpdatePurpose = hasLeaderboardChanged(maxSignificantIndex, oldRankings, newRankings)
+  const leaderboardSize = 5
+  const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
 
   if (shouldUpdatePurpose) {
-    await updatePurpose(newRankings.slice(0, maxSignificantIndex))
+    await updatePurpose(newRankings.slice(0, leaderboardSize))
   }
 }
 
@@ -79,9 +79,6 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
   oldRankings.forEach((oldPlayer, index) => {
     const newPlayer = newRankings[index]
     if (newPlayer.id !== oldPlayer.id) {
-      if (index <= 4) {
-        shouldUpdatePurpose = true
-      }
       rankingChanges.push({
         name: oldPlayer.name,
         oldRanking: index + 1,
