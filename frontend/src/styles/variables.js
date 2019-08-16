@@ -18,6 +18,7 @@ export default {
   cBlack: '#262626',
   cWhite: '#ffffff',
   cGrey: '#ddd',
+  cDarkGray: '#393939',
   cYellow: '#ffdf50',
 
   cBorder: 'black',
