@@ -22,8 +22,32 @@ const storeMatch = async (match) => {
     try {
         result = await storageContext.insertMatch(match)
 
-        await updateRatingForTeam(winningTeam, match.ratingChange, storageContext)
-        await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+        // FIXME: foosbot's report of rating change is incorrect if the number of players on each side is not the same
+        // one player beat two players
+        if (winningTeam.length < losingTeam.length) {
+            // he gains rating from both opponents
+            await updateRatingForTeam(winningTeam, 2 * match.ratingChange, storageContext)
+            // they each lose half of what he gains
+            await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+
+        // two players beat one player
+        } else if (winningTeam.length > losingTeam.length) {
+            // they split his rating in half (rounded up)
+            const splitRatingChange = match.ratingChange / 2
+            const actualRatingChange = Math.round(splitRatingChange)
+            await updateRatingForTeam(winningTeam, actualRatingChange, storageContext)
+            if (actualRatingChange !== splitRatingChange) {
+                // rounding gave winners extra half a point each, loser needs to lose one more
+                await updateRatingForTeam(losingTeam, -(match.ratingChange + 1), storageContext)
+            } else {
+                await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+            }
+
+        // two players beat two or one player beat one
+        } else {
+            await updateRatingForTeam(winningTeam, match.ratingChange, storageContext)
+            await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+        }
 
         await storageContext.commit()
     } catch (error) {
