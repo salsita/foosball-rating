@@ -99,8 +99,8 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
   await bot.postMessage(channel.id, messageText, { as_user: true });
 }
 
-const hasLeaderboardChanged = (maxSignificant, oldRankings, newRankings) => {
-  const clampedMax = Math.min(maxSignificant, Math.min(oldRankings.length, newRankings.length))
+const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => {
+  const clampedMax = Math.min(leaderboardSize, oldRankings.length, newRankings.length)
 
   for (let i = 0; i < clampedMax; i++) {
     if (oldRankings[i].id != newRankings[i].id) {
