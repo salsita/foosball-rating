@@ -15,6 +15,23 @@ export const generateMatchRatingChanges = (userId, userMatches) => userMatches.m
     }
 })
 
+export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRating) => userMatches
+  .reverse()
+  .map(
+      function(match) {
+        const didWin = didUserWin(userId, match)
+        const change = didWin ? match.ratingChange : -match.ratingChange
+
+        this.rating += change
+
+        return {
+          y: this.rating,
+          x: match.date
+        }
+    },
+    { rating: initialRating }
+  )
+
 export const computeLongestWinStreak = (userId, userMatches) => {
     const initialState = {
         longest: 0,

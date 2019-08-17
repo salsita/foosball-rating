@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import variables from './../variables';
 
 const ListCon = styled.ul`
-  margin: 0 auto 1rem auto;
+  margin: 10px auto 1rem auto;
   padding: 0;
   text-align: center;
   box-shadow: 0 4px 18px 0 rgba(0,0,0,0.12),0 7px 10px -5px rgba(0,0,0,0.15);
@@ -34,7 +34,7 @@ const ListItem = styled.li`
   grid-template-columns: ${props => props.Column};
   color: ${variables.cGrey};
   list-style: none;
-  border: 1px solid #393939;
+  border: 1px solid ${variables.cDarkGray};
   align-items: center;
 
   &:nth-child(even) {

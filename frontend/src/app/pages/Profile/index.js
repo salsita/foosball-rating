@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { 
+import {
   Title,
   Subtitle,
   Box, ProfileDetail
 } from './../../../styles/blocks';
 import ProfileBattleHistory from './../../components/ProfileBattleHistory'
+import ProfileRatingGraph from '../../components/ProfileRatingGraph'
 import { getUser } from '../../modules/users/users-selectors'
-import { getStatisticsForUser } from '../../modules/matches/matches-selectors';
+import { getStatisticsForUser } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
   render() {
@@ -15,16 +16,22 @@ class ProfileComponent extends Component {
       return <div />
     }
 
-    return(
+    const {
+      user: { name, rating, id },
+      statistics: { totalMatches, winRatio, longestStreak, matchChanges }
+    } = this.props
+
+    return (
       <Box Display="inline-block" Padding="20px" Margin="20px 0">
-        <Title>{this.props.user.name}</Title>
-        <Subtitle>Elo rating: {this.props.user.rating}</Subtitle>
+        <Title>{name}</Title>
+        <Subtitle>Elo rating: {rating}</Subtitle>
         <ProfileDetail>
-          <Subtitle>Matches: {this.props.statistics.totalMatches}</Subtitle>
-          <Subtitle>Win Rate: {(this.props.statistics.winRatio * 100).toFixed(2)}%</Subtitle>
-          <Subtitle>Win Streak: {this.props.statistics.longestStreak}</Subtitle>
+          <Subtitle>Matches: {totalMatches}</Subtitle>
+          <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
+          <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
-        <ProfileBattleHistory matches={this.props.statistics.matchChanges} />
+        <ProfileRatingGraph userId={id}/>
+        <ProfileBattleHistory matches={matchChanges}/>
       </Box>
     )
   }
