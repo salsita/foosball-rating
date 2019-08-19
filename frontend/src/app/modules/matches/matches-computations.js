@@ -5,7 +5,9 @@ const didUserWin = (userId, match) => {
 
 export const generateMatchRatingChanges = (userId, userMatches) => userMatches.map((match) => {
     const didWin = didUserWin(userId, match)
-    const ratingChangeString = `${didWin ? "+" : "-"}${match.ratingChange}`
+    const ratingChangeString = didWin
+      ? `+${match.winningTeamRatingChange}`
+      : `${match.losingTeamRatingChange}`
 
     return {
         id: match.id,
@@ -20,7 +22,7 @@ export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRa
   .map(
       function(match) {
         const didWin = didUserWin(userId, match)
-        const change = didWin ? match.ratingChange : -match.ratingChange
+        const change = didWin ? match.winningTeamRatingChange : match.losingTeamRatingChange
 
         this.rating += change
 

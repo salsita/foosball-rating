@@ -47,7 +47,7 @@ const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
 }
 
 const postMatchResult = async (match) => {
-  const { team1, team2, team1Won, ratingChange } = match;
+  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match;
   let winningTeam, losingTeam;
   if (team1Won) {
     [winningTeam, losingTeam] = [team1, team2];
@@ -61,17 +61,20 @@ const postMatchResult = async (match) => {
 
   let prefix = '';
   if (isComedyDuo) {
-    prefix = ':tondab: :pepadab: ';
-  } else if (ratingChange <= 10) {
-    prefix = 'Easy. ';
-  } else if (ratingChange >= 20) {
-    prefix = `HOLY SHIT! L2P, ${losingTeam.length > 1 ? 'noobs' : 'noob'}! `;
+    prefix = ':tondab: :pepadab:';
+  } else if (winningTeam.length === losingTeam.length) {
+    if (winningTeamRatingChange <= 10) {
+      prefix = 'Easy.';
+    } else if (winningTeamRatingChange >= 20) {
+      prefix = `HOLY SHIT!L2P, ${losingTeam.length > 1 ? 'noobs' : 'noob'}! `;
+    }
   }
 
   const suffix = isComedyDuo ? ':marioluigi:' : '';
 
-  const messageText = `${prefix}${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}. Rating change: ${ratingChange}${suffix}`
-  await bot.postMessage(channel.id, messageText, { as_user: true });
+  const matchResultInfo = `${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}.`
+  const ratingChangeInfo = `Each winner gets ${winningTeamRatingChange}, each loser loses ${-losingTeamRatingChange}.`
+  await bot.postMessage(channel.id, [prefix, matchResultInfo, ratingChangeInfo, suffix].join(' '), { as_user: true });
 }
 
 const postRankingChangeMessage = async (oldRankings, newRankings) => {

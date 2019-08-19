@@ -92,7 +92,7 @@ class StorageContext {
         const query = dbQueries.insertMatch
         const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,
                         team2Player1.id, team2Player1.rating, team2Player2.id, team2Player2.rating,
-                        match.date, match.ratingChange, match.team1Won]
+                        match.date, match.winningTeamRatingChange, match.losingTeamRatingChange, match.team1Won]
         
         let row
         try {
