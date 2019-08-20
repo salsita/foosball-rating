@@ -59,22 +59,28 @@ const postMatchResult = async (match) => {
 
   const isComedyDuo = winningPlayers.length == 2 && winningTeam.every(player => player.name === 'Pepa' || player.name === 'Tonda')
 
-  let prefix = '';
+  const messageParts = []
+
   if (isComedyDuo) {
-    prefix = ':tondab: :pepadab:';
-  } else if (winningTeam.length === losingTeam.length) {
+    messageParts.push(':tondab: :pepadab:')
+  }
+
+  if (winningTeam.length === losingTeam.length) {
     if (winningTeamRatingChange <= 10) {
-      prefix = 'Easy.';
+      messageParts.push('Easy.')
     } else if (winningTeamRatingChange >= 20) {
-      prefix = `HOLY SHIT!L2P, ${losingTeam.length > 1 ? 'noobs' : 'noob'}! `;
+      messageParts.push(`HOLY SHIT! L2P, ${losingTeam.length > 1 ? 'noobs' : 'noob'}!`)
     }
   }
 
-  const suffix = isComedyDuo ? ':marioluigi:' : '';
+  messageParts.push(`${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}.`)
+  messageParts.push(`Each winner gets ${winningTeamRatingChange} points, each loser loses ${-losingTeamRatingChange} points.`)
 
-  const matchResultInfo = `${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}.`
-  const ratingChangeInfo = `Each winner gets ${winningTeamRatingChange}, each loser loses ${-losingTeamRatingChange}.`
-  await bot.postMessage(channel.id, [prefix, matchResultInfo, ratingChangeInfo, suffix].join(' '), { as_user: true });
+  if (isComedyDuo) {
+    messageParts.push(':marioluigi:')
+  }
+
+  await bot.postMessage(channel.id, messageParts.join(' '), { as_user: true });
 }
 
 const postRankingChangeMessage = async (oldRankings, newRankings) => {
