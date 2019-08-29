@@ -13,7 +13,8 @@ psql -U username -d dbName -f ./db_migrations/02-create-matches.sql
 etc.
 ```
 
-To configure the application, edit the `./storage/db/db-config.js` file and fill it with your DB configuration.
+To configure your database, either edit the `./storage/db/db-config.js` with your DB configuration, or configure it as an environment variable.
+
 
 ## Running
 
@@ -31,3 +32,19 @@ npm start
 ```
 
 The port on which the server is listening is reported in the console output.
+
+## Environment variables
+Here's the list of the envirnment variables that could to be configured.
+
+```
+process.env.DATABASE_URL
+```
+- stores the url to the database. If the variable is missing, the backend connects to our test database. 
+
+```
+process.env.FOOSBOT_TOKEN
+process.env.FOOS_CHANNEL_NAME
+```
+- these variables are used by the slackbot to announce the results of the matches You can obtain the bot Token on slack settings page and then select the channel you'd like to deploy the bot on. 
+
+
