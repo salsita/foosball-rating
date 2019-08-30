@@ -2,7 +2,7 @@ const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
-const bot = require('../bot');
+const botFactory = require('../bot');
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
 const updateRatingForTeam = async (team, difference, storageContext) => {
@@ -101,6 +101,13 @@ exports.recordMatch = async (matchDescription) => {
     const match = await constructMatch(matchDescription)
     const result = await storeMatch(match)
     const newUsers = await storage.getAllUsers()
-    bot.reportMatchOnSlack(match, oldUsers, newUsers)
+
+    try {
+        const bot = await botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+        await bot.reportMatchOnSlack(match, oldUsers, newUsers)
+    } catch (error) {
+        console.log("Bot error", error)
+    }
+
     return result
 }

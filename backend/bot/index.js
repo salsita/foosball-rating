@@ -1,52 +1,46 @@
 const SlackBot = require('slackbots');
 
-class FoosBot extends SlackBot {
+class FoosBot {
+  constructor(channelId, slackbot) {
+    this.channelId = channelId
+    this.slackbot = slackbot
+  }
+
   /**
    * Sets the purpose for a private channel
-   * @param {string} id - channel ID
+
    * @param {string} purpose
    * @returns {vow.Promise}
    */
-  setGroupPurpose(id, purpose) {
-    return this._api('groups.setPurpose', { channel: id, purpose });
+  setGroupPurpose(purpose) {
+    return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose });
   }
 
+  postMessage(message, isAsUser = true) {
+    return this.slackbot.postMessage(this.channelId, message, { as_user: isAsUser })
+  }
+
+  reportMatchOnSlack = async (match, oldUsers, newUsers) => {
+    let matchResultMessage = createMatchResultMessage(match)
+  
+    const oldRankings = oldUsers.sort(ratingComparator)
+    const newRankings = newUsers.sort(ratingComparator)
+  
+    const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
+    await this.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`);
+  
+    const leaderboardSize = 5
+    const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
+    if (shouldUpdatePurpose) {
+      const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
+      await this.setGroupPurpose(purposeMessage)
+    }
+  }
 }
-
-const bot = new FoosBot({
-  token: process.env.FOOSBOT_TOKEN
-});
-
-let channel;
-
-bot.on('start', async () => {
-  console.log('Foosbot started');
-  channel = await bot.getGroup(process.env.FOOS_CHANNEL_NAME);
-  if (!channel) {
-    throw `Channel '${process.env.FOOS_CHANNEL_NAME}' not found!`
-  }
-});
-
 
 const ratingComparator = (a, b) => b.rating - a.rating
 
-const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
-  await postMatchResult(match)
-
-  const oldRankings = oldUsers.sort(ratingComparator)
-  const newRankings = newUsers.sort(ratingComparator)
-
-  await postRankingChangeMessage(oldRankings, newRankings)
-
-  const leaderboardSize = 5
-  const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
-
-  if (shouldUpdatePurpose) {
-    await updatePurpose(newRankings.slice(0, leaderboardSize))
-  }
-}
-
-const postMatchResult = async (match) => {
+const createMatchResultMessage = (match) => {
   const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match;
   let winningTeam, losingTeam;
   if (team1Won) {
@@ -80,10 +74,11 @@ const postMatchResult = async (match) => {
     messageParts.push(':marioluigi:')
   }
 
-  await bot.postMessage(channel.id, messageParts.join(' '), { as_user: true });
+  return messageParts.join(' ')
 }
 
-const postRankingChangeMessage = async (oldRankings, newRankings) => {
+
+const createRankingChangeMessage = (oldRankings, newRankings) => {
   const rankingChanges = oldRankings
     .map((oldPlayer, index) => ({
       name: oldPlayer.name,
@@ -101,22 +96,43 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
       `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
     )
     .join('\n')
-  await bot.postMessage(channel.id, messageText, { as_user: true });
+  return messageText
 }
 
 const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => (
   oldRankings.findIndex((oldPlayer, index) => oldPlayer.id !== newRankings[index].id) < leaderboardSize
 )
 
-const updatePurpose = async (rankings) => {
+const createPurposeMessage = async (rankings) => {
   const rankingsText = rankings
     .map((ranking, i) => `${i + 1}. ${ranking.name} (${ranking.rating})`)
     .join('\n')
   const purpose = 'TOP PLAYERS\n' + rankingsText
-  await bot.setGroupPurpose(channel.id, purpose)
+  return purpose
 }
 
 
+const makeBot = async (foosbotToken, channelName) => {
+  return new Promise((resolve, reject) => {
+    if (!foosbotToken || !channelName) {
+      return reject("Missing env variables!")
+    }
+
+    const slackBot = new SlackBot({
+      token: foosbotToken
+    })
+    
+    slackBot.on('start', async () => {
+      console.log('Foosbot started')
+      const channel = await slackBot.getGroup(channelName)
+      if (!channel) {
+        return reject(Error(`Channel '${channelName}' not found!`))
+      }
+      return resolve(new FoosBot(channel.id, slackBot))
+    })
+  })
+}
+
 module.exports = {
-  reportMatchOnSlack
+  makeBot
 };
