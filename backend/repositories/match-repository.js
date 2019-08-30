@@ -2,7 +2,6 @@ const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
-const botFactory = require('../bot');
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
 const updateRatingForTeam = async (team, difference, storageContext) => {
@@ -90,7 +89,7 @@ const getElapsedSecondsSinceLatestMatch = async () => {
   * @param {Array<number>} matchDescription.team1 Array of 1 or 2 elements containing IDs of players from team1.
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
-  * @param {SingleChannelBot?} bot Optional 
+  * @param {SingleChannelBot?} bot Optional, slackbot
   */
 exports.recordMatch = async (matchDescription, bot) => {
     const elapsedTime = await getElapsedSecondsSinceLatestMatch()
@@ -108,7 +107,7 @@ exports.recordMatch = async (matchDescription, bot) => {
             await bot.reportMatchOnSlack(match, oldUsers, newUsers)
         }
     } catch (error) {
-        console.log("Bot error", error)
+        console.log('Bot error', error)
     }
 
     return result

@@ -1,4 +1,4 @@
-const SlackBot = require('slackbots');
+const SlackBot = require('slackbots')
 
 class SingleChannelBot {
   constructor(channelId, slackbot) {
@@ -15,13 +15,13 @@ class SingleChannelBot {
   }
 
   reportMatchOnSlack = async (match, oldUsers, newUsers) => {
-    let matchResultMessage = createMatchResultMessage(match)
+    const matchResultMessage = createMatchResultMessage(match)
   
     const oldRankings = oldUsers.sort(ratingComparator)
     const newRankings = newUsers.sort(ratingComparator)
   
     const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
-    await this.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`);
+    await this.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
   
     const leaderboardSize = 5
     const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
@@ -35,12 +35,12 @@ class SingleChannelBot {
 const ratingComparator = (a, b) => b.rating - a.rating
 
 const createMatchResultMessage = (match) => {
-  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match;
-  let winningTeam, losingTeam;
+  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
+  let winningTeam, losingTeam
   if (team1Won) {
-    [winningTeam, losingTeam] = [team1, team2];
+    [winningTeam, losingTeam] = [team1, team2]
   } else {
-    [winningTeam, losingTeam] = [team2, team1];
+    [winningTeam, losingTeam] = [team2, team1]
   }
   const winningPlayers = winningTeam.map(player => `${player.name} (${player.rating})`)
   const losingPlayers = losingTeam.map(player => `${player.name} (${player.rating})`)
@@ -106,18 +106,17 @@ const createPurposeMessage = async (rankings) => {
 }
 
 
-const makeBot = async (foosbotToken, channelName) => {
+const makeBot = async (botToken, channelName) => {
   return new Promise((resolve, reject) => {
-    if (!foosbotToken || !channelName) {
-      return reject(Error("Missing env variables, bot didn't start!"))
+    if (!botToken || !channelName) {
+      return reject(Error(`Missing bot token or channel name, bot didn't start!`))
     }
 
     const slackBot = new SlackBot({
-      token: foosbotToken
+      token: botToken
     })
     
     slackBot.on('start', async () => {
-      console.log('Foosbot started')
       const groupId = await slackBot.getGroupId(channelName)
       if (!groupId) {
         return reject(Error(`Channel '${groupId}' not found!`))
@@ -129,4 +128,4 @@ const makeBot = async (foosbotToken, channelName) => {
 
 module.exports = {
   makeBot
-};
+}

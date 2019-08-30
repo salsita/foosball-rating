@@ -12,10 +12,10 @@ const app = express()
 const port = 3000
 
 const addCrossDomainHeaders = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', "*")
+    res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     res.header('Access-Control-Allow-Headers', 'Content-Type')
-    next();
+    next()
 }
 
 app.use(addCrossDomainHeaders)
@@ -23,8 +23,18 @@ app.use(urlencodedParser)
 app.use(jsonParser)
 
 
-const botFactory = require("./bot")
-const botPromise = botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+const botFactory = require('./bot')
+let bot
+botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+    .then(botInstance => {
+        bot = botInstance
+        console.log('Slackbot initialized!')
+    })
+    .catch(error => {
+        console.warn('Slackbot initialization failed!', error)
+    })
+        
+
 
 const processError = (response, error) => {
     console.error(error)
@@ -53,12 +63,6 @@ app.post('/users', (req, res) => {
 })
 
 app.post('/matches', async (req, res) => {
-    let bot
-    try {
-        bot = await botPromise
-    } catch (error) {
-    }
-     
     matchRepository.recordMatch(req.body, bot)
         .then(res.send.bind(res))
         .catch((error) => processError(res, error))
