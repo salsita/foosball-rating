@@ -1,17 +1,11 @@
 const SlackBot = require('slackbots');
 
-class FoosBot {
+class SingleChannelBot {
   constructor(channelId, slackbot) {
     this.channelId = channelId
     this.slackbot = slackbot
   }
 
-  /**
-   * Sets the purpose for a private channel
-
-   * @param {string} purpose
-   * @returns {vow.Promise}
-   */
   setGroupPurpose(purpose) {
     return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose });
   }
@@ -115,7 +109,7 @@ const createPurposeMessage = async (rankings) => {
 const makeBot = async (foosbotToken, channelName) => {
   return new Promise((resolve, reject) => {
     if (!foosbotToken || !channelName) {
-      return reject("Missing env variables!")
+      return reject(Error("Missing env variables, bot didn't start!"))
     }
 
     const slackBot = new SlackBot({
@@ -124,11 +118,11 @@ const makeBot = async (foosbotToken, channelName) => {
     
     slackBot.on('start', async () => {
       console.log('Foosbot started')
-      const channel = await slackBot.getGroup(channelName)
-      if (!channel) {
-        return reject(Error(`Channel '${channelName}' not found!`))
+      const groupId = await slackBot.getGroupId(channelName)
+      if (!groupId) {
+        return reject(Error(`Channel '${groupId}' not found!`))
       }
-      return resolve(new FoosBot(channel.id, slackBot))
+      return resolve(new SingleChannelBot(groupId, slackBot))
     })
   })
 }

@@ -90,8 +90,9 @@ const getElapsedSecondsSinceLatestMatch = async () => {
   * @param {Array<number>} matchDescription.team1 Array of 1 or 2 elements containing IDs of players from team1.
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
+  * @param {SingleChannelBot?} bot Optional 
   */
-exports.recordMatch = async (matchDescription) => {
+exports.recordMatch = async (matchDescription, bot) => {
     const elapsedTime = await getElapsedSecondsSinceLatestMatch()
     if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
         throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
@@ -103,8 +104,9 @@ exports.recordMatch = async (matchDescription) => {
     const newUsers = await storage.getAllUsers()
 
     try {
-        const bot = await botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
-        await bot.reportMatchOnSlack(match, oldUsers, newUsers)
+        if (bot) {
+            await bot.reportMatchOnSlack(match, oldUsers, newUsers)
+        }
     } catch (error) {
         console.log("Bot error", error)
     }

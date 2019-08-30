@@ -22,6 +22,10 @@ app.use(addCrossDomainHeaders)
 app.use(urlencodedParser)
 app.use(jsonParser)
 
+
+const botFactory = require("./bot")
+const botPromise = botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+
 const processError = (response, error) => {
     console.error(error)
     response.statusCode = error.httpStatusCode || 500
@@ -48,8 +52,14 @@ app.post('/users', (req, res) => {
 
 })
 
-app.post('/matches', (req, res) => {
-    matchRepository.recordMatch(req.body)
+app.post('/matches', async (req, res) => {
+    let bot
+    try {
+        bot = await botPromise
+    } catch (error) {
+    }
+     
+    matchRepository.recordMatch(req.body, bot)
         .then(res.send.bind(res))
         .catch((error) => processError(res, error))
 })
