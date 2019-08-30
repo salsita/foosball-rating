@@ -33,7 +33,8 @@ npm start
 The port on which the server is listening is reported in the console output.
 
 ## Environment variables
-Here's the list of the envirnment variables that could to be configured.
+
+Here's the list of the environment variables that could be configured.
 
 ```
 process.env.DATABASE_URL
@@ -44,6 +45,6 @@ process.env.DATABASE_URL
 process.env.FOOSBOT_TOKEN
 process.env.FOOS_CHANNEL_NAME
 ```
-- these variables are used by the slackbot to announce the results of the matches You can obtain the bot Token on slack settings page and then select the channel you'd like to deploy the bot on. 
+- these variables are used by the slackbot to announce the results of the matches. You can obtain the bot Token on slack settings page and then select the channel you'd like to deploy the bot on. 
 
 
