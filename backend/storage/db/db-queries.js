@@ -6,7 +6,8 @@ exports.insertUser = 'INSERT INTO "Users"("Name", "Rating", "Active", "InitialRa
 
 exports.insertMatch = `INSERT INTO "Matches"("Team1Player1Id", "Team1Player1Rating", "Team1Player2Id", "Team1Player2Rating", \
                        "Team2Player1Id", "Team2Player1Rating", "Team2Player2Id", "Team2Player2Rating", \
-                       "Date", "RatingChange", "Team1Won") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`
+                       "Date", "WinningTeamRatingChange", "LosingTeamRatingChange", "Team1Won") \
+                       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`
 
 exports.selectAllMatches = 'SELECT * FROM "Matches"'
 

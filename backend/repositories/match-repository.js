@@ -22,8 +22,8 @@ const storeMatch = async (match) => {
     try {
         result = await storageContext.insertMatch(match)
 
-        await updateRatingForTeam(winningTeam, match.ratingChange, storageContext)
-        await updateRatingForTeam(losingTeam, -match.ratingChange, storageContext)
+        await updateRatingForTeam(winningTeam, match.winningTeamRatingChange, storageContext)
+        await updateRatingForTeam(losingTeam, match.losingTeamRatingChange, storageContext)
 
         await storageContext.commit()
     } catch (error) {
@@ -46,20 +46,21 @@ const getFilledTeam = async (playedIds) => {
     }
 }
 
-const getRatingChange = ({team1, team2}, team1Won) => {
+const getRatingChanges = ({team1, team2}, team1Won) => {
     const winningTeam = team1Won ? team1 : team2
     const losingTeam = team1Won ? team2 : team1
 
-    return ratingCalculator.computeRatingChange(winningTeam, losingTeam)
+    return ratingCalculator.computeRatingChanges(winningTeam, losingTeam)
 }
 
 class Match {
-    constructor({team1, team2}, team1Won, date, ratingChange) {
+    constructor({team1, team2}, team1Won, date, winningTeamRatingChange, losingTeamRatingChange) {
         this.team1 = team1
         this.team2 = team2
         this.team1Won = team1Won
         this.date = date
-        this.ratingChange = ratingChange
+        this.winningTeamRatingChange = winningTeamRatingChange
+        this.losingTeamRatingChange = losingTeamRatingChange
     }
 }
 
@@ -68,9 +69,9 @@ const constructMatch = async (matchDescription) => {
         team1: await getFilledTeam(matchDescription.team1),
         team2: await getFilledTeam(matchDescription.team2),
     }
-    const ratingChange = getRatingChange(teams, matchDescription.team1Won)
+    const { winningTeamRatingChange, losingTeamRatingChange } = getRatingChanges(teams, matchDescription.team1Won)
     const date = new Date()
-    return new Match(teams, matchDescription.team1Won, date, ratingChange)
+    return new Match(teams, matchDescription.team1Won, date, winningTeamRatingChange, losingTeamRatingChange)
 }
 
 const getElapsedSecondsSinceLatestMatch = async () => {

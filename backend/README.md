@@ -6,10 +6,11 @@ Foosball rating app backend.
 
 The backed uses a PostgreSQL database for data storage purposes.
 
-To setup the DB schema, run the following SQL scripts:
+To setup the DB schema, run the SQL scripts in the `db_migrations` folder in an ascending order, e.g.:
 ```
-./db_migrations/create-matches.sql
-./db_migrations/create-users.sql
+psql -U username -d dbName -f ./db_migrations/01-create-users.sql
+psql -U username -d dbName -f ./db_migrations/02-create-matches.sql
+etc.
 ```
 
 To configure the application, edit the `./storage/db/db-config.js` file and fill it with your DB configuration.
