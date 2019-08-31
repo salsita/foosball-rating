@@ -7,7 +7,7 @@ class SingleChannelBot {
   }
 
   setGroupPurpose(purpose) {
-    return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose });
+    return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose })
   }
 
   postMessage(message, isAsUser = true) {

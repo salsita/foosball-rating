@@ -102,12 +102,12 @@ exports.recordMatch = async (matchDescription, bot) => {
     const result = await storeMatch(match)
     const newUsers = await storage.getAllUsers()
 
-    try {
-        if (bot) {
+    if (bot) {
+        try {
             await bot.reportMatchOnSlack(match, oldUsers, newUsers)
+        } catch (error) {
+            console.log('Bot error', error)
         }
-    } catch (error) {
-        console.log('Bot error', error)
     }
 
     return result

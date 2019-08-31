@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const storage = require("./storage/storage")
 const matchRepository = require("./repositories/match-repository")
 const userRepository = require("./repositories/user-repository")
+const botFactory = require('./botFactory')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -22,8 +23,6 @@ app.use(addCrossDomainHeaders)
 app.use(urlencodedParser)
 app.use(jsonParser)
 
-
-const botFactory = require('./bot')
 let bot
 botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
     .then(botInstance => {
@@ -62,7 +61,7 @@ app.post('/users', (req, res) => {
 
 })
 
-app.post('/matches', async (req, res) => {
+app.post('/matches', (req, res) => {
     matchRepository.recordMatch(req.body, bot)
         .then(res.send.bind(res))
         .catch((error) => processError(res, error))
