@@ -1,37 +1,20 @@
-const SlackBot = require('slackbots')
+const reportMatchOnSlack = async (bot, match, oldUsers, newUsers) => {
+  const matchResultMessage = createMatchResultMessage(match)
 
-class SingleChannelBot {
-  constructor(channelId, slackbot) {
-    this.channelId = channelId
-    this.slackbot = slackbot
-  }
+  const oldRankings = oldUsers.sort(ratingComparator)
+  const newRankings = newUsers.sort(ratingComparator)
 
-  setGroupPurpose(purpose) {
-    return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose })
-  }
-
-  postMessage(message, isAsUser = true) {
-    return this.slackbot.postMessage(this.channelId, message, { as_user: isAsUser })
-  }
-
-  reportMatchOnSlack = async (match, oldUsers, newUsers) => {
-    const matchResultMessage = createMatchResultMessage(match)
-  
-    const oldRankings = oldUsers.sort(ratingComparator)
-    const newRankings = newUsers.sort(ratingComparator)
-  
-    const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
-    await this.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
-  
-    const leaderboardSize = 5
-    const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
-    if (shouldUpdatePurpose) {
-      const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
-      await this.setGroupPurpose(purposeMessage)
-    }
+  const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
+  await bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
+  const leaderboardSize = 5
+  const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
+  if (shouldUpdatePurpose) {
+    const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
+    await bot.setGroupPurpose(purposeMessage)
   }
 }
-
+  
+  
 const ratingComparator = (a, b) => b.rating - a.rating
 
 const createMatchResultMessage = (match) => {
@@ -106,26 +89,6 @@ const createPurposeMessage = async (rankings) => {
 }
 
 
-const makeBot = async (botToken, channelName) => {
-  return new Promise((resolve, reject) => {
-    if (!botToken || !channelName) {
-      return reject(Error(`Missing bot token or channel name, bot didn't start!`))
-    }
-
-    const slackBot = new SlackBot({
-      token: botToken
-    })
-    
-    slackBot.on('start', async () => {
-      const groupId = await slackBot.getGroupId(channelName)
-      if (!groupId) {
-        return reject(Error(`Channel '${groupId}' not found!`))
-      }
-      return resolve(new SingleChannelBot(groupId, slackBot))
-    })
-  })
-}
-
 module.exports = {
-  makeBot
+  reportMatchOnSlack
 }

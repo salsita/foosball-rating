@@ -2,6 +2,8 @@ const storage = require("../storage/storage")
 const ratingCalculator = require("../rating/rating-calculator")
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
+const matchReporter = require("../bot/matchReporter")
+
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
 const updateRatingForTeam = async (team, difference, storageContext) => {
@@ -104,7 +106,7 @@ exports.recordMatch = async (matchDescription, bot) => {
 
     if (bot) {
         try {
-            await bot.reportMatchOnSlack(match, oldUsers, newUsers)
+            await matchReporter.reportMatchOnSlack(bot, match, oldUsers, newUsers)
         } catch (error) {
             console.log('Bot error', error)
         }
