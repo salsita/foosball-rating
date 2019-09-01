@@ -1,8 +1,8 @@
-const storage = require("../storage/storage")
-const ratingCalculator = require("../rating/rating-calculator")
+const storage = require('../storage/storage')
+const ratingCalculator = require('../rating/rating-calculator')
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
-const matchReporter = require("../bot/matchReporter")
+const matchReporter = require('../bot/matchReporter')
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
@@ -43,7 +43,7 @@ const getFilledTeam = async (playedIds) => {
         if (error instanceof NotFoundError) {
             throw new InputError(`Invalid players for the match (${error.message})`)
         }
-        throw new Error("Unable to fetch players for match.")
+        throw new Error('Unable to fetch players for match.')
     }
 }
 

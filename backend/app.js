@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const storage = require('./storage/storage')
 const matchRepository = require('./repositories/match-repository')
 const userRepository = require('./repositories/user-repository')
-const SingleChannelBot = require('./bot')
+const botFactory = require('./bot/factory')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -24,12 +24,13 @@ app.use(urlencodedParser)
 app.use(jsonParser)
 
 let bot 
-try {
-    bot = new SingleChannelBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
-    console.log('Slackbot initialized!')
-} catch (error) {
-    console.log('Bot initialization failed', error)
-}
+botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+    .then(resolvedBot => {
+        bot = resolvedBot
+        console.log('Slackbot initialized!')
+    })
+    .catch((error) => console.log('Bot initialization failed', error))
+
 
 
 const processError = (response, error) => {
