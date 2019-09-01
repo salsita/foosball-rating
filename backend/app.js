@@ -1,9 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const storage = require("./storage/storage")
-const matchRepository = require("./repositories/match-repository")
-const userRepository = require("./repositories/user-repository")
+const storage = require('./storage/storage')
+const matchRepository = require('./repositories/match-repository')
+const userRepository = require('./repositories/user-repository')
+const botFactory = require('./bot/factory')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -11,18 +12,26 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
 const app = express()
 const port = 3000
 
-require('./bot');
-
 const addCrossDomainHeaders = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', "*")
+    res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     res.header('Access-Control-Allow-Headers', 'Content-Type')
-    next();
+    next()
 }
 
 app.use(addCrossDomainHeaders)
 app.use(urlencodedParser)
 app.use(jsonParser)
+
+let bot 
+botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
+    .then(resolvedBot => {
+        bot = resolvedBot
+        console.log('Slackbot initialized!')
+    })
+    .catch((error) => console.log('Bot initialization failed', error))
+
+
 
 const processError = (response, error) => {
     console.error(error)
@@ -51,7 +60,7 @@ app.post('/users', (req, res) => {
 })
 
 app.post('/matches', (req, res) => {
-    matchRepository.recordMatch(req.body)
+    matchRepository.recordMatch(req.body, bot)
         .then(res.send.bind(res))
         .catch((error) => processError(res, error))
 })

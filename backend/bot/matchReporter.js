@@ -1,58 +1,29 @@
-const SlackBot = require('slackbots');
-
-class FoosBot extends SlackBot {
-  /**
-   * Sets the purpose for a private channel
-   * @param {string} id - channel ID
-   * @param {string} purpose
-   * @returns {vow.Promise}
-   */
-  setGroupPurpose(id, purpose) {
-    return this._api('groups.setPurpose', { channel: id, purpose });
-  }
-
-}
-
-const bot = new FoosBot({
-  token: process.env.FOOSBOT_TOKEN
-});
-
-let channel;
-
-bot.on('start', async () => {
-  console.log('Foosbot started');
-  channel = await bot.getGroup(process.env.FOOS_CHANNEL_NAME);
-  if (!channel) {
-    throw `Channel '${process.env.FOOS_CHANNEL_NAME}' not found!`
-  }
-});
-
-
-const ratingComparator = (a, b) => b.rating - a.rating
-
-const reportMatchOnSlack = async (match, oldUsers, newUsers) => {
-  await postMatchResult(match)
+const reportMatchOnSlack = async (bot, match, oldUsers, newUsers) => {
+  const matchResultMessage = createMatchResultMessage(match)
 
   const oldRankings = oldUsers.sort(ratingComparator)
   const newRankings = newUsers.sort(ratingComparator)
 
-  await postRankingChangeMessage(oldRankings, newRankings)
-
+  const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
+  await bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
   const leaderboardSize = 5
   const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
-
   if (shouldUpdatePurpose) {
-    await updatePurpose(newRankings.slice(0, leaderboardSize))
+    const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
+    await bot.setGroupPurpose(purposeMessage)
   }
 }
+  
+  
+const ratingComparator = (a, b) => b.rating - a.rating
 
-const postMatchResult = async (match) => {
-  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match;
-  let winningTeam, losingTeam;
+const createMatchResultMessage = (match) => {
+  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
+  let winningTeam, losingTeam
   if (team1Won) {
-    [winningTeam, losingTeam] = [team1, team2];
+    [winningTeam, losingTeam] = [team1, team2]
   } else {
-    [winningTeam, losingTeam] = [team2, team1];
+    [winningTeam, losingTeam] = [team2, team1]
   }
   const winningPlayers = winningTeam.map(player => `${player.name} (${player.rating})`)
   const losingPlayers = losingTeam.map(player => `${player.name} (${player.rating})`)
@@ -80,10 +51,11 @@ const postMatchResult = async (match) => {
     messageParts.push(':marioluigi:')
   }
 
-  await bot.postMessage(channel.id, messageParts.join(' '), { as_user: true });
+  return messageParts.join(' ')
 }
 
-const postRankingChangeMessage = async (oldRankings, newRankings) => {
+
+const createRankingChangeMessage = (oldRankings, newRankings) => {
   const rankingChanges = oldRankings
     .map((oldPlayer, index) => ({
       name: oldPlayer.name,
@@ -101,22 +73,22 @@ const postRankingChangeMessage = async (oldRankings, newRankings) => {
       `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
     )
     .join('\n')
-  await bot.postMessage(channel.id, messageText, { as_user: true });
+  return messageText
 }
 
 const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => (
   oldRankings.findIndex((oldPlayer, index) => oldPlayer.id !== newRankings[index].id) < leaderboardSize
 )
 
-const updatePurpose = async (rankings) => {
+const createPurposeMessage = async (rankings) => {
   const rankingsText = rankings
     .map((ranking, i) => `${i + 1}. ${ranking.name} (${ranking.rating})`)
     .join('\n')
   const purpose = 'TOP PLAYERS\n' + rankingsText
-  await bot.setGroupPurpose(channel.id, purpose)
+  return purpose
 }
 
 
 module.exports = {
   reportMatchOnSlack
-};
+}

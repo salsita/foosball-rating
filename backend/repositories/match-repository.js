@@ -1,8 +1,9 @@
-const storage = require("../storage/storage")
-const ratingCalculator = require("../rating/rating-calculator")
+const storage = require('../storage/storage')
+const ratingCalculator = require('../rating/rating-calculator')
 const { InputError } = require('../errors/input-error')
 const { NotFoundError } = require('../errors/not-found-error')
-const bot = require('../bot');
+const matchReporter = require('../bot/matchReporter')
+
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
 const updateRatingForTeam = async (team, difference, storageContext) => {
@@ -42,7 +43,7 @@ const getFilledTeam = async (playedIds) => {
         if (error instanceof NotFoundError) {
             throw new InputError(`Invalid players for the match (${error.message})`)
         }
-        throw new Error("Unable to fetch players for match.")
+        throw new Error('Unable to fetch players for match.')
     }
 }
 
@@ -90,8 +91,9 @@ const getElapsedSecondsSinceLatestMatch = async () => {
   * @param {Array<number>} matchDescription.team1 Array of 1 or 2 elements containing IDs of players from team1.
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
+  * @param {SingleChannelBot?} bot Optional, slackbot
   */
-exports.recordMatch = async (matchDescription) => {
+exports.recordMatch = async (matchDescription, bot) => {
     const elapsedTime = await getElapsedSecondsSinceLatestMatch()
     if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
         throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
@@ -101,6 +103,14 @@ exports.recordMatch = async (matchDescription) => {
     const match = await constructMatch(matchDescription)
     const result = await storeMatch(match)
     const newUsers = await storage.getAllUsers()
-    bot.reportMatchOnSlack(match, oldUsers, newUsers)
+
+    if (bot) {
+        try {
+            await matchReporter.reportMatchOnSlack(bot, match, oldUsers, newUsers)
+        } catch (error) {
+            console.log('Bot error', error)
+        }
+    }
+
     return result
 }
