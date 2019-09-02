@@ -17,9 +17,15 @@ export const generateMatchRatingChanges = (userId, userMatches) => userMatches.m
     }
 })
 
-export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRating) => userMatches
-  .reverse()
-  .map(
+export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRating) => {
+  const reversedUserMatches = userMatches.reverse()
+  const firstMatchDate = userMatches[0] ? userMatches[0].date : null
+  const graphStartDate = firstMatchDate ? new Date(firstMatchDate) : new Date()
+  if (firstMatchDate) {
+    graphStartDate.setDate(firstMatchDate.getDate() - 1)
+  }
+  return [{ x: graphStartDate, y: initialRating }]
+    .concat(reversedUserMatches.map(
       function(match) {
         const didWin = didUserWin(userId, match)
         const change = didWin ? match.winningTeamRatingChange : match.losingTeamRatingChange
@@ -30,9 +36,10 @@ export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRa
           y: this.rating,
           x: match.date
         }
-    },
-    { rating: initialRating }
-  )
+      },
+      { rating: initialRating }
+    ))
+}
 
 export const computeLongestWinStreak = (userId, userMatches) => {
     const initialState = {
