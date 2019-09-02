@@ -48,4 +48,14 @@ process.env.FOOS_CHANNEL_NAME
 ```
 - these variables are used by the slackbot to announce the results of the matches. You can obtain the bot Token on slack settings page and then select the channel you'd like to deploy the bot on. 
 
-
+```
+process.env.MATCH_RESULT_PREFIX_SUFFIX_CONFIG
+```
+- used to configure prefixes and suffixes of the matches results messages (see above) based on the players on the winning team.
+- the app expects quadruplets of player1, player2, prefix and suffix to be encoded in the environment variable.
+- use `,` to separate the values within a quadruplet (`player1,player2,prefix,suffix`) and `;` to separate the quadruplets (`quadruplet1;quadruplet2`). Note: the order of players in the quadruplet does not matter. 
+- e.g. if you want to prefix the message with "WE WON!" and suffix it with "We are so happy" whenever Peter and Thomas win, and prefix it with "J+R" and suffix it with "Forever in love" when John and Rebecca win, use the following configuration:  
+  ```
+  MATCH_RESULT_PREFIX_SUFFIX_CONFIG=Peter,Thomas,WE WON!,We are so happy;John,Rebecca,J+R,Forever in love
+  ```
+  

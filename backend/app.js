@@ -5,6 +5,7 @@ const storage = require('./storage/storage')
 const matchRepository = require('./repositories/match-repository')
 const userRepository = require('./repositories/user-repository')
 const botFactory = require('./bot/factory')
+const MatchReporter = require('./bot/MatchReporter')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -31,7 +32,7 @@ botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
     })
     .catch((error) => console.log('Bot initialization failed', error))
 
-
+const matchReporter = new MatchReporter(process.env.MATCH_RESULT_PREFIX_SUFFIX_CONFIG)
 
 const processError = (response, error) => {
     console.error(error)
@@ -59,10 +60,16 @@ app.post('/users', (req, res) => {
 
 })
 
-app.post('/matches', (req, res) => {
-    matchRepository.recordMatch(req.body, bot)
-        .then(res.send.bind(res))
-        .catch((error) => processError(res, error))
+app.post('/matches', async (req, res) => {
+    try {
+        const oldUsers = await storage.getAllUsers()
+        const match = await matchRepository.recordMatch(req.body)
+        const newUsers = await storage.getAllUsers()
+        await matchReporter.reportMatchOnSlack(bot, match, oldUsers, newUsers)
+        res.send()
+    } catch (error) {
+        processError(res, error)
+    }
 })
 
 app.listen(port, () => console.log(`Foosball backend running on ${port}!`))

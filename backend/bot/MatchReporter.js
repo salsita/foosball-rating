@@ -1,23 +1,34 @@
-const reportMatchOnSlack = async (bot, match, oldUsers, newUsers) => {
-  const matchResultMessage = createMatchResultMessage(match)
+const parseMatchResultPrefixSuffixConfig = require('./parseMatchResultPrefixSuffixConfig')
 
-  const oldRankings = oldUsers.sort(ratingComparator)
-  const newRankings = newUsers.sort(ratingComparator)
+class MatchReporter {
+  constructor(matchResultPrefixSuffixConfig) {
+    try {
+      this.prefixSuffixConfig = parseMatchResultPrefixSuffixConfig(matchResultPrefixSuffixConfig)
+    } catch (e) {
+      console.log(`Parsing matchResultPrefixSuffixConfig failed: ${e.message}`)
+    }
+  }
 
-  const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
-  await bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
-  const leaderboardSize = 5
-  const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
-  if (shouldUpdatePurpose) {
-    const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
-    await bot.setGroupPurpose(purposeMessage)
+  async reportMatchOnSlack(bot, match, oldUsers, newUsers) {
+    const matchResultMessage = createMatchResultMessage(match, this.prefixSuffixConfig)
+
+    const oldRankings = oldUsers.sort(ratingComparator)
+    const newRankings = newUsers.sort(ratingComparator)
+
+    const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
+    await bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
+    const leaderboardSize = 5
+    const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
+    if (shouldUpdatePurpose) {
+      const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
+      await bot.setGroupPurpose(purposeMessage)
+    }
   }
 }
-  
-  
+
 const ratingComparator = (a, b) => b.rating - a.rating
 
-const createMatchResultMessage = (match) => {
+const createMatchResultMessage = (match, prefixSuffixConfig) => {
   const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
   let winningTeam, losingTeam
   if (team1Won) {
@@ -28,12 +39,14 @@ const createMatchResultMessage = (match) => {
   const winningPlayers = winningTeam.map(player => `${player.name} (${player.rating})`)
   const losingPlayers = losingTeam.map(player => `${player.name} (${player.rating})`)
 
-  const isComedyDuo = winningPlayers.length == 2 && winningTeam.every(player => player.name === 'Pepa' || player.name === 'Tonda')
-
   const messageParts = []
 
-  if (isComedyDuo) {
-    messageParts.push(':tondab: :pepadab:')
+  const { prefix, suffix } = prefixSuffixConfig && winningTeam.length === 2
+    ? getMatchResultPrefixSuffix(prefixSuffixConfig, winningTeam)
+    : {}
+
+  if (prefix) {
+    messageParts.push(prefix)
   }
 
   if (winningTeam.length === losingTeam.length) {
@@ -47,13 +60,21 @@ const createMatchResultMessage = (match) => {
   messageParts.push(`${winningPlayers.join(', ')} just beat ${losingPlayers.join(', ')}.`)
   messageParts.push(`Each winner gets ${winningTeamRatingChange} points, each loser loses ${-losingTeamRatingChange} points.`)
 
-  if (isComedyDuo) {
-    messageParts.push(':marioluigi:')
+  if (suffix) {
+    messageParts.push(suffix)
   }
 
   return messageParts.join(' ')
 }
 
+const getMatchResultPrefixSuffix = (prefixSuffixConfig, winningTeam) => {
+  for (config of prefixSuffixConfig) {
+    if (winningTeam.every(player => player.name === config.player1 || player.name === config.player2)) {
+      return config
+    }
+  }
+  return {}
+}
 
 const createRankingChangeMessage = (oldRankings, newRankings) => {
   const rankingChanges = oldRankings
@@ -89,6 +110,4 @@ const createPurposeMessage = async (rankings) => {
 }
 
 
-module.exports = {
-  reportMatchOnSlack
-}
+module.exports = MatchReporter
