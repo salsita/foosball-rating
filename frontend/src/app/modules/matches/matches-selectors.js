@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import {
-  computeLongestWinStreak,
+  computeStreaks,
   computeWinRatio,
   generateMatchRatingChanges,
   generateRatingHistoryGraphForUser
@@ -39,7 +39,7 @@ const getLastMatchesForUser = createSelector(
 
 const generateStatisticsForUser = (userId, userMatches) => ({
     matchChanges: generateMatchRatingChanges(userId, userMatches),
-    longestStreak: computeLongestWinStreak(userId, userMatches),
+    streaks: computeStreaks(userId, userMatches),
     winRatio: computeWinRatio(userId, userMatches),
     totalMatches: userMatches.length
 })

@@ -34,27 +34,35 @@ export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRa
     { rating: initialRating }
   )
 
-export const computeLongestWinStreak = (userId, userMatches) => {
+export const computeStreaks = (userId, userMatches) => {
     const initialState = {
-        longest: 0,
-        current: 0
+        longestWinStreak: 0,
+        currentWinStreak: 0,
+        highestEloGainStreak: 0,
+        currentEloGainStreak: 0
     }
 
-    return userMatches.reduce((state, match) => {
+    return userMatches.reverse().reduce((state, match) => {
         if (didUserWin(userId, match)) {
-            const current = state.current + 1
-            const longest = Math.max(current, state.longest)
+            const currentWinStreak = state.currentWinStreak + 1
+            const longestWinStreak = Math.max(currentWinStreak, state.longestWinStreak)
+            const currentEloGainStreak = state.currentEloGainStreak + match.winningTeamRatingChange
+            const highestEloGainStreak = Math.max(currentEloGainStreak, state.highestEloGainStreak)
             return {
-                current,
-                longest
+                currentWinStreak,
+                longestWinStreak,
+                currentEloGainStreak,
+                highestEloGainStreak,
             }
         } else {
             return {
-                longest: state.longest,
-                current: 0
+                longestWinStreak: state.longestWinStreak,
+                currentWinStreak: 0,
+                highestEloGainStreak: state.highestEloGainStreak,
+                currentEloGainStreak: 0
             }
         }
-    }, initialState).longest
+    }, initialState)
 }
 
 export const computeWinRatio = (userId, userMatches) => {
