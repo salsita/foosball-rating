@@ -1,13 +1,15 @@
 const botFactory = require('./bot-factory');
 
-const parseMatchResultPrefixSuffixConfig = require('./parse-match-result-prefix-suffix-config')
+const DEFAULT_LEADERBOARD_SIZE = 5;
 
 class MatchReporter {
-  constructor(botToken, channelName, matchResultPrefixSuffixConfig) {
+  constructor(botToken, channelName, matchReportPrefixSuffixConfig, leaderboardSize = DEFAULT_LEADERBOARD_SIZE) {
+    this.leaderboardSize = leaderboardSize
+
     try {
-      this.prefixSuffixConfig = parseMatchResultPrefixSuffixConfig(matchResultPrefixSuffixConfig)
+      this.decorations = parseMatchReportDecorations(matchReportPrefixSuffixConfig)
     } catch (e) {
-      console.warn(`Parsing matchResultPrefixSuffixConfig failed: ${e.message}`)
+      console.warn(`Parsing matchReportPrefixSuffixConfig failed: ${e.message}`)
     }
 
     botFactory.makeBot(botToken, channelName)
@@ -23,17 +25,16 @@ class MatchReporter {
   }
 
   async reportMatchOnSlack(match, oldUsers, newUsers) {
-    const matchResultMessage = createMatchResultMessage(match, this.prefixSuffixConfig)
+    const matchResultMessage = createMatchResultMessage(match, this.decorations)
 
     const oldRankings = oldUsers.sort(ratingComparator)
     const newRankings = newUsers.sort(ratingComparator)
 
     const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
     await this.bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
-    const leaderboardSize = 5
-    const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
+    const shouldUpdatePurpose = hasLeaderboardChanged(this.leaderboardSize, oldRankings, newRankings)
     if (shouldUpdatePurpose) {
-      const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
+      const purposeMessage = await createPurposeMessage(newRankings.slice(0, this.leaderboardSize))
       await this.bot.setGroupPurpose(purposeMessage)
     }
   }
@@ -41,7 +42,22 @@ class MatchReporter {
 
 const ratingComparator = (a, b) => b.rating - a.rating
 
-const createMatchResultMessage = (match, prefixSuffixConfig) => {
+const parseMatchReportDecorations = config => config
+  ? config.split(';').map(configPart => {
+    const splitConfigPart = configPart.split(',')
+    if (splitConfigPart.length !== 4) {
+      throw Error(`Could not parse config part "${splitConfigPart}"`)
+    }
+    return ({
+      player1: splitConfigPart[0],
+      player2: splitConfigPart[1],
+      prefix: splitConfigPart[2],
+      suffix: splitConfigPart[3],
+    })
+  })
+  : []
+
+const createMatchResultMessage = (match, decorations) => {
   const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
   let winningTeam, losingTeam
   if (team1Won) {
@@ -54,8 +70,8 @@ const createMatchResultMessage = (match, prefixSuffixConfig) => {
 
   const messageParts = []
 
-  const { prefix, suffix } = prefixSuffixConfig && winningTeam.length === 2
-    ? getMatchResultPrefixSuffix(prefixSuffixConfig, winningTeam)
+  const { prefix, suffix } = decorations && winningTeam.length === 2
+    ? getDecorationsForTeam(winningTeam, decorations)
     : {}
 
   if (prefix) {
@@ -80,10 +96,10 @@ const createMatchResultMessage = (match, prefixSuffixConfig) => {
   return messageParts.join(' ')
 }
 
-const getMatchResultPrefixSuffix = (prefixSuffixConfig, winningTeam) => {
-  for (config of prefixSuffixConfig) {
-    if (winningTeam.every(player => player.name === config.player1 || player.name === config.player2)) {
-      return config
+const getDecorationsForTeam = (team, decorations) => {
+  for (let decoration of decorations) {
+    if (team.every(player => player.name === decoration.player1 || player.name === decoration.player2)) {
+      return decoration
     }
   }
   return {}

@@ -27,7 +27,7 @@ app.use(jsonParser)
 const matchReporter = new MatchReporter(
   process.env.FOOSBOT_TOKEN,
   process.env.FOOS_CHANNEL_NAME,
-  process.env.MATCH_RESULT_PREFIX_SUFFIX_CONFIG
+  process.env.MATCH_REPORT_PREFIX_SUFFIX_CONFIG
 )
 
 const processError = (response, error) => {
