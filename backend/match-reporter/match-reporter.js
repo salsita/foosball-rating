@@ -1,9 +1,8 @@
-const botFactory = require('./bot-factory');
-
 const DEFAULT_LEADERBOARD_SIZE = 5;
 
 class MatchReporter {
-  constructor(botToken, channelName, matchReportPrefixSuffixConfig, leaderboardSize = DEFAULT_LEADERBOARD_SIZE) {
+  constructor(bot, matchReportPrefixSuffixConfig, leaderboardSize = DEFAULT_LEADERBOARD_SIZE) {
+    this.bot = bot
     this.leaderboardSize = leaderboardSize
 
     try {
@@ -11,17 +10,6 @@ class MatchReporter {
     } catch (e) {
       console.warn(`Parsing matchReportPrefixSuffixConfig failed: ${e.message}`)
     }
-
-    botFactory.makeBot(botToken, channelName)
-      .then(bot => {
-        this.bot = bot
-        console.log('Slackbot initialized!')
-      })
-      .catch((error) => console.warn('Bot initialization failed:', error.message))
-  }
-
-  isInitialized() {
-    return !!this.bot
   }
 
   async reportMatchOnSlack(match, oldUsers, newUsers) {
