@@ -17,9 +17,9 @@ export const generateMatchRatingChanges = (userId, userMatches) => userMatches.m
     }
 })
 
-export const generateRatingHistoryGraphForUser = (userMatches, userId, initialRating) => {
+export const plotRatingHistory = (userMatches, userId, initialRating) => {
   const reversedUserMatches = userMatches.reverse()
-  const firstMatchDate = userMatches[0] ? userMatches[0].date : null
+  const firstMatchDate = userMatches[0] && userMatches[0].date
   const graphStartDate = firstMatchDate ? new Date(firstMatchDate) : new Date()
   if (firstMatchDate) {
     graphStartDate.setDate(firstMatchDate.getDate() - 1)
