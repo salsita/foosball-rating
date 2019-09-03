@@ -115,15 +115,14 @@ const createRankingChangeMessage = (oldRankings, newRankings) => {
     .filter(ranking => ranking.oldRanking != ranking.newRanking)
 
   if (rankingChanges.length === 0) {
-    return
+    return ''
   }
 
-  const messageText = rankingChanges
+  return rankingChanges
     .map((c) => (
       `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
     )
     .join('\n')
-  return messageText
 }
 
 const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => (
