@@ -4,8 +4,8 @@ const bodyParser = require('body-parser')
 const storage = require('./storage/storage')
 const matchRepository = require('./repositories/match-repository')
 const userRepository = require('./repositories/user-repository')
-const botFactory = require('./bot/factory')
-const MatchReporter = require('./bot/MatchReporter')
+
+const MatchReporter = require('./match-reporter/match-reporter')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -24,15 +24,11 @@ app.use(addCrossDomainHeaders)
 app.use(urlencodedParser)
 app.use(jsonParser)
 
-let bot 
-botFactory.makeBot(process.env.FOOSBOT_TOKEN, process.env.FOOS_CHANNEL_NAME)
-    .then(resolvedBot => {
-        bot = resolvedBot
-        console.log('Slackbot initialized!')
-    })
-    .catch((error) => console.log('Bot initialization failed', error))
-
-const matchReporter = new MatchReporter(process.env.MATCH_RESULT_PREFIX_SUFFIX_CONFIG)
+const matchReporter = new MatchReporter(
+  process.env.FOOSBOT_TOKEN,
+  process.env.FOOS_CHANNEL_NAME,
+  process.env.MATCH_RESULT_PREFIX_SUFFIX_CONFIG
+)
 
 const processError = (response, error) => {
     console.error(error)
@@ -65,7 +61,11 @@ app.post('/matches', async (req, res) => {
         const oldUsers = await storage.getAllUsers()
         const match = await matchRepository.recordMatch(req.body)
         const newUsers = await storage.getAllUsers()
-        await matchReporter.reportMatchOnSlack(bot, match, oldUsers, newUsers)
+        if (matchReporter.isInitialized()) {
+            await matchReporter.reportMatchOnSlack(match, oldUsers, newUsers)
+        } else {
+            console.warn('Could not report match, match reporter is not initialized')
+        }
         res.send()
     } catch (error) {
         processError(res, error)

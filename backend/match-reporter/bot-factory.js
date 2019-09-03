@@ -17,24 +17,27 @@ class SingleChannelBot {
 }
 
 const makeBot = (botToken, channelName) => {
-  if (!botToken || !channelName) {
-    throw Error('botToken or channelName missing')
-  }
-  const slackbot = new SlackBot({
-    token: botToken
-  })
-
   return new Promise((resolve, reject) => {
+    if (!botToken || !channelName) {
+      reject('botToken or channelName missing')
+    }
+
+    const slackbot = new SlackBot({
+      token: botToken
+    })
+
+    slackbot.on('error', (error) => reject(error.message))
+
     slackbot.on('start', async () => {
       let groupId 
       try {
         groupId = await slackbot.getGroupId(channelName)
       } catch (error) {
-        return reject(error)
+        reject(error.message)
       }
-      return resolve(new SingleChannelBot(slackbot, channelName, groupId))
+      resolve(new SingleChannelBot(slackbot, channelName, groupId))
     })
   })
 }
-module.exports = { makeBot }
 
+module.exports = { makeBot }

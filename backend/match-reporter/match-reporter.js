@@ -1,27 +1,40 @@
-const parseMatchResultPrefixSuffixConfig = require('./parseMatchResultPrefixSuffixConfig')
+const botFactory = require('./bot-factory');
+
+const parseMatchResultPrefixSuffixConfig = require('./parse-match-result-prefix-suffix-config')
 
 class MatchReporter {
-  constructor(matchResultPrefixSuffixConfig) {
+  constructor(botToken, channelName, matchResultPrefixSuffixConfig) {
     try {
       this.prefixSuffixConfig = parseMatchResultPrefixSuffixConfig(matchResultPrefixSuffixConfig)
     } catch (e) {
-      console.log(`Parsing matchResultPrefixSuffixConfig failed: ${e.message}`)
+      console.warn(`Parsing matchResultPrefixSuffixConfig failed: ${e.message}`)
     }
+
+    botFactory.makeBot(botToken, channelName)
+      .then(bot => {
+        this.bot = bot
+        console.log('Slackbot initialized!')
+      })
+      .catch((error) => console.warn('Bot initialization failed:', error))
   }
 
-  async reportMatchOnSlack(bot, match, oldUsers, newUsers) {
+  isInitialized() {
+    return !!this.bot
+  }
+
+  async reportMatchOnSlack(match, oldUsers, newUsers) {
     const matchResultMessage = createMatchResultMessage(match, this.prefixSuffixConfig)
 
     const oldRankings = oldUsers.sort(ratingComparator)
     const newRankings = newUsers.sort(ratingComparator)
 
     const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
-    await bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
+    await this.bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)
     const leaderboardSize = 5
     const shouldUpdatePurpose = hasLeaderboardChanged(leaderboardSize, oldRankings, newRankings)
     if (shouldUpdatePurpose) {
       const purposeMessage = await createPurposeMessage(newRankings.slice(0, leaderboardSize))
-      await bot.setGroupPurpose(purposeMessage)
+      await this.bot.setGroupPurpose(purposeMessage)
     }
   }
 }
