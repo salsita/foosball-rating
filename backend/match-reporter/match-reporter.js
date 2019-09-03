@@ -17,7 +17,7 @@ class MatchReporter {
         this.bot = bot
         console.log('Slackbot initialized!')
       })
-      .catch((error) => console.warn('Bot initialization failed:', error))
+      .catch((error) => console.warn('Bot initialization failed:', error.message))
   }
 
   isInitialized() {

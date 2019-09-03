@@ -19,23 +19,23 @@ class SingleChannelBot {
 const makeBot = (botToken, channelName) => {
   return new Promise((resolve, reject) => {
     if (!botToken || !channelName) {
-      reject('botToken or channelName missing')
+      return reject(Error('botToken or channelName missing'))
     }
 
     const slackbot = new SlackBot({
       token: botToken
     })
 
-    slackbot.on('error', (error) => reject(error.message))
+    slackbot.on('error', (error) => reject(error))
 
     slackbot.on('start', async () => {
       let groupId 
       try {
         groupId = await slackbot.getGroupId(channelName)
+        resolve(new SingleChannelBot(slackbot, channelName, groupId))
       } catch (error) {
-        reject(error.message)
+        reject(error)
       }
-      resolve(new SingleChannelBot(slackbot, channelName, groupId))
     })
   })
 }
