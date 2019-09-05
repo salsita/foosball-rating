@@ -6,6 +6,12 @@ export const plotLineStyle = {
   stroke: variables.TeamsColorWin,
 }
 
+export const plotMarkStyle = {
+  stroke: variables.TeamsColorWin,
+  strokeWidth: 2,
+  fill: variables.cBlack
+}
+
 export const plotAxisStyle = {
   fontSize: variables.fontSizeProfileDetails,
   fontWeight: '400',
