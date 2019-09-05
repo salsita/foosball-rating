@@ -6,12 +6,12 @@ import {
   YAxis,
   HorizontalGridLines,
   VerticalGridLines,
-  LineSeries,
+  LineMarkSeries,
 } from 'react-vis'
 
 import { getRatingHistoryGraphForUser } from '../../modules/matches/matches-selectors'
 import { Box, TextSpan } from '../../../styles/blocks'
-import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMainGridStyle } from '../../../styles/svg'
+import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMarkStyle, plotMainGridStyle } from '../../../styles/svg'
 
 const ProfileRatingGraph = props => (
   <Box Margin='0 5px 20px 5px'>
@@ -37,9 +37,10 @@ const ProfileRatingGraph = props => (
           tickLabelAngle={-45}
         />
         <YAxis style={plotAxisStyle} />
-        <LineSeries
+        <LineMarkSeries
           data={props.ratingHistoryGraph}
-          style={plotLineStyle}
+          lineStyle={plotLineStyle}
+          markStyle={plotMarkStyle}
         />
       </FlexibleWidthXYPlot>
     </div>
