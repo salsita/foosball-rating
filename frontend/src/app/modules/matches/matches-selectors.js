@@ -3,7 +3,7 @@ import {
   computeLongestWinStreak,
   computeWinRatio,
   generateMatchRatingChanges,
-  generateRatingHistoryGraphForUser
+  plotRatingHistory
 } from './matches-computations'
 import { getUser } from "../users/users-selectors"
 
@@ -53,5 +53,5 @@ export const getStatisticsForUser = createSelector(
 export const getRatingHistoryGraphForUser = createSelector(
   getLastMatchesForUser,
   getUser,
-  (userMatches, user) => generateRatingHistoryGraphForUser(userMatches, user.id, user.initialRating)
+  (userMatches, user) => plotRatingHistory(userMatches, user.id, user.initialRating)
 )
