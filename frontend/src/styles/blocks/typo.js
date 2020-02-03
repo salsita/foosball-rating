@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
 const Title = styled.h1`
   font-size: ${variables.fontSizeTitle};
@@ -19,9 +19,9 @@ const TextSpan = styled.span`
 `
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
-  color: ${({ winner }) => winner ? "#22925e" : "#f44336"};
+  color: ${({ winner }) => winner ? '#22925e' : '#f44336'};
   font-weight: 400;
-  order: ${({ winner }) => winner ? "1" : "3"};
+  order: ${({ winner }) => winner ? '1' : '3'};
 `
 
 const BattleLabel = styled.span`
@@ -38,4 +38,4 @@ const StyledHyperLink = styled.a`
   }
 `
 
-export {Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, StyledHyperLink};
+export { Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, StyledHyperLink }

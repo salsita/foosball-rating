@@ -1,26 +1,26 @@
 // Copied from https://github.com/mui-org/material-ui/blob/master/docs/src/pages/demos/snackbars/CustomizedSnackbars.js
 // (only the component name was changed)
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
-import green from '@material-ui/core/colors/green';
-import amber from '@material-ui/core/colors/amber';
-import IconButton from '@material-ui/core/IconButton';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ErrorIcon from '@material-ui/icons/Error'
+import InfoIcon from '@material-ui/icons/Info'
+import CloseIcon from '@material-ui/icons/Close'
+import green from '@material-ui/core/colors/green'
+import amber from '@material-ui/core/colors/amber'
+import IconButton from '@material-ui/core/IconButton'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
+import WarningIcon from '@material-ui/icons/Warning'
+import { withStyles } from '@material-ui/core/styles'
 
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
   error: ErrorIcon,
   info: InfoIcon,
-};
+}
 
 const styles = theme => ({
   success: {
@@ -46,12 +46,12 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-});
+})
 
-function SnackabarAlertContentComponent(props) {
-  const { classes, className, message, onClose, variant, ...other } = props;
+function SnackbarAlertContentComponent(props) {
+  const { classes, className, message, onClose, variant, ...other } = props
 
-  const Icon = variantIcon[variant];
+  const Icon = variantIcon[variant]
 
   return (
     <SnackbarContent
@@ -76,15 +76,15 @@ function SnackabarAlertContentComponent(props) {
       ]}
       {...other}
     />
-  );
+  )
 }
 
-SnackabarAlertContentComponent.propTypes = {
+SnackbarAlertContentComponent.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
-};
+}
 
-export const SnackabarAlertContent = withStyles(styles)(SnackabarAlertContentComponent);
+export const SnackbarAlertContent = withStyles(styles)(SnackbarAlertContentComponent)

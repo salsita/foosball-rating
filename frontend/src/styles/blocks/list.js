@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
 const ListCon = styled.ul`
   margin: 10px auto 1rem auto;
@@ -42,4 +42,4 @@ const ListItem = styled.li`
   }
 `
 
-export { ListCon, ListItem};
+export { ListCon, ListItem }

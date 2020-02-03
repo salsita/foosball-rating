@@ -1,19 +1,19 @@
-export default { 
-  // breakpoints 
+export default {
+  // breakpoints
   MaxWidth: '800px',
-  
+
   bpMedium: '600px',
 
-  // Grid Layout vars 
+  // Grid Layout vars
   GridGap: '1rem',
   DefaultGridTemplateColums: '1fr',
 
-  //typo 
+  //typo
   fontSizeTitle: '1.8rem',
   fontSizeSubtitle: '1.6rem',
   fontSizeProfileDetails: '.8rem',
-  
-  // colors 
+
+  // colors
   cRed: '#f44336',
   cBlack: '#262626',
   cWhite: '#ffffff',
@@ -35,8 +35,8 @@ export default {
   // spacings like margin, padding etc
   baseSpacing: '.8rem .4rem',
 
-  // teams colors 
+  // teams colors
   TeamsColorWin: 'green',
   TeamColorLosss: 'red',
 
-};
+}

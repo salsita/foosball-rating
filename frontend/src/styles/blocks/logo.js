@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
-const Logo = styled.a`
+const Logo = styled.span`
   position: absolute;
   left: 0;
 
@@ -19,4 +19,4 @@ const Logo = styled.a`
   }
 `
 
-export default Logo;
+export default Logo

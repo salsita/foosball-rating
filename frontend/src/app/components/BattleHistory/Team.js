@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React from 'react'
 import {
   WinnerSpan,
-  StyledLink
-} from '../../../styles/blocks';
-import { createProfilePath } from '../../const/routes';
+  StyledLink,
+} from '../../../styles/blocks'
+import { createProfilePath } from '../../const/routes'
 
-const createListFromTeam = (team) => team
-  .map((player, index) => [<StyledLink key={index} to={createProfilePath(player.id)}>{player.name} <span>({player.matchRating})</span></StyledLink>])
-  .reduce((prev, curr) => [...prev, "&", ...curr])
+const createListFromTeam = team => team
+  .map((player, index) => [<StyledLink key={index} to={createProfilePath(player.id)}>{player.name}
+    <span>({player.matchRating})</span></StyledLink>])
+  .reduce((prev, curr) => [...prev, '&', ...curr])
 
 const Team = ({ team, didWin }) => (
   <WinnerSpan winner={didWin}>
@@ -16,4 +16,4 @@ const Team = ({ team, didWin }) => (
   </WinnerSpan>
 )
 
-export default Team;
+export default Team

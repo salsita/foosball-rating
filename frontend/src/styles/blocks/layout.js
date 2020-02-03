@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
-const bgPat = require('./../../media/bgPat-1.png');
+const bgPat = require('./../../media/bgPat-1.png')
 
 const Nav = styled.nav`
   position: fixed;
@@ -61,4 +61,4 @@ const ProfileDetail = styled.div`
   }
 `
 
-export { Nav, Container, GridContainer, Box, ProfileDetail };
+export { Nav, Container, GridContainer, Box, ProfileDetail }

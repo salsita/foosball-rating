@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react'
 import { connect } from 'react-redux'
 import {
   FlexibleWidthXYPlot,
@@ -13,7 +13,7 @@ import { getRatingHistoryGraphForUser } from '../../modules/matches/matches-sele
 import { Box, TextSpan } from '../../../styles/blocks'
 import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMainGridStyle } from '../../../styles/svg'
 
-const ProfileRatingGraph = (props) => (
+const ProfileRatingGraph = props => (
   <Box Margin='0 5px 20px 5px'>
     <TextSpan>
       Rating history
@@ -36,7 +36,7 @@ const ProfileRatingGraph = (props) => (
           style={plotAxisStyle}
           tickLabelAngle={-45}
         />
-        <YAxis style={plotAxisStyle}/>
+        <YAxis style={plotAxisStyle} />
         <LineSeries
           data={props.ratingHistoryGraph}
           style={plotLineStyle}
@@ -48,7 +48,7 @@ const ProfileRatingGraph = (props) => (
 
 
 const mapStateToProps = (state, props) => ({
-  ratingHistoryGraph: getRatingHistoryGraphForUser(state, props.userId)
+  ratingHistoryGraph: getRatingHistoryGraphForUser(state, props.userId),
 })
 
 export default connect(mapStateToProps)(ProfileRatingGraph)

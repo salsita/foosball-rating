@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
 const Button = styled.button`
   background: ${variables.cYellow};
@@ -15,4 +15,4 @@ const Button = styled.button`
   }
 `
 
-export default Button;
+export default Button
