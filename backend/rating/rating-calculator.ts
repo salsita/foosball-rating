@@ -1,4 +1,7 @@
-const average = (array) => {
+import { Player } from '../types/Player';
+import { MatchRatingChanges } from '../types/Match';
+
+const average = (array: number[]) => {
 	const sum = array.reduce((a, b) => a + b)
 	return sum / array.length
 }
@@ -15,12 +18,12 @@ const average = (array) => {
  * @property {number} winningTeamRatingChange The rating change of the winning team.
  * @property {number} losingTeamRatingChange The rating change of the losing team.
   *
-  * @param {Array<User>} winningTeam Array of at least one element containing players of the winning team.
-  * @param {Array<User>} losingTeam Array of at least one element containing players of the losing team.
-  * 
-  * @returns {RatingChanges} The rating changes of the teams.
+  * @param {Array<Player>} winningTeam Array of at least one element containing players of the winning team.
+  * @param {Array<Player>} losingTeam Array of at least one element containing players of the losing team.
+  *
+  * @returns {MatchRatingChanges} The rating changes of the teams.
   */
-exports.computeRatingChanges = (winningTeam, losingTeam) => {
+export const computeRatingChanges = (winningTeam: Player[], losingTeam: Player[]): MatchRatingChanges => {
 	const winningAvg = average(winningTeam.map(player => player.rating))
 	const losingAvg = average(losingTeam.map(player => player.rating))
 
