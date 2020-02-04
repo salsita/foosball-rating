@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import {
-  Box, 
+  Box,
   Subtitle,
-  Button,
-  StyledLink
-} from './../../../styles/blocks';
-import { BattleHistory } from './../../components/BattleHistory/BattleHistory';
-import { TopRating } from '../../components/TopRatings/TopRating';
+  StyledLink,
+} from './../../../styles/blocks'
+import { BattleHistory } from './../../components/BattleHistory/BattleHistory'
+import { TopRating } from '../../components/TopRatings/TopRating'
 import { MATCH_LIST, USER_LIST } from '../../const/routes'
-import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert';
+import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
 
 class DashboardComponent extends Component {
-  
+
   render() {
-    return(
+    return (
       <Box Margin="10px" Padding="10px">
         <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
@@ -30,7 +29,7 @@ class DashboardComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  createMatchStatus: state.matchesStatus
+  createMatchStatus: state.matchesStatus,
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

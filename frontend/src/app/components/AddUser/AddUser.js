@@ -1,82 +1,83 @@
 import React, { Component } from 'react'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import { UsersActions } from '../../modules/users/users-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
-import { StatusType } from '../../modules/api/request-status';
-import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert';
-import { CircularProgress } from '@material-ui/core';
+import { StatusType } from '../../modules/api/request-status'
+import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert'
+import { CircularProgress } from '@material-ui/core'
 
 class AddUserComponent extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-        name: "",
-        initialRating: 1000
+      name: '',
+      initialRating: 1000,
     }
     this.nameChanged = this.nameChanged.bind(this)
     this.initialRatingChanged = this.initialRatingChanged.bind(this)
     this.submitForm = this.submitForm.bind(this)
   }
 
-  submitForm = () => this.props.addUser({ 
-    name: this.state.name, 
-    initialRating: this.state.initialRating 
+  submitForm = () => this.props.addUser({
+    name: this.state.name,
+    initialRating: this.state.initialRating,
   })
 
-  nameChanged = (event) => {
+  nameChanged = event => {
     const name = event.target.value
-    this.setState((state, props) => ({
+    this.setState(state => ({
       ...state,
-      name
+      name,
     }))
   }
 
-  initialRatingChanged = (event) => {
+  initialRatingChanged = event => {
     const initialRating = event.target.value
-    this.setState((state, props) => ({
+    this.setState(state => ({
       ...state,
-      initialRating
+      initialRating,
     }))
   }
 
   render = () => {
-    const canSubmit = this.props.status.type != StatusType.IN_PROGRESS
+    const canSubmit = this.props.status.type !== StatusType.IN_PROGRESS
 
-    const progress = this.props.status.type == StatusType.IN_PROGRESS 
-      ? <CircularProgress variant="indeterminate" /> 
+    const progress = this.props.status.type === StatusType.IN_PROGRESS
+      ? <CircularProgress variant='indeterminate' />
       : null
 
     return (
-    <>
-        <Box Margin="20px 10px" Display="inline-block">
-            <GridContainer Column="1fr 1fr" Padding="10px">
+      <>
+        <Box Margin='20px 10px' Display='inline-block'>
+          <GridContainer Column='1fr 1fr' Padding='10px'>
             <Label>
-                Name:
+              Name:
             </Label>
             <Input value={this.state.name} onChange={this.nameChanged} />
-            </GridContainer>
-            <GridContainer Column="1fr 1fr" Padding="10px">
+          </GridContainer>
+          <GridContainer Column='1fr 1fr' Padding='10px'>
             <Label>
-                Initial Rating:
+              Initial Rating:
             </Label>
-            <Input type="number" value={this.state.initialRating} onChange={this.initialRatingChanged} />
-            </GridContainer>
-            <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
+            <Input type='number' value={this.state.initialRating} onChange={this.initialRatingChanged} />
+          </GridContainer>
+          <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
         </Box>
         <SnackbarAlert />
         <div>
           {progress}
         </div>
-    </>
-  )}
-} 
+      </>
+    )
+  }
+}
 
-const mapStateToProps = (state) => ({
-    status: state.usersStatus
+const mapStateToProps = state => ({
+  status: state.usersStatus,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  addUser: user => dispatch(UsersActions.Creators.addUser(user))
+const mapDispatchToProps = dispatch => ({
+  addUser: user => dispatch(UsersActions.Creators.addUser(user)),
 })
 
 export const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent)

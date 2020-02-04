@@ -26,14 +26,14 @@
       ],
       "semi": [
         "error",
-        "always"
+        "never"
       ],
       "mocha/no-exclusive-tests": "error",
       "no-var": "error",
       "prefer-arrow-callback": "warn",
       "no-unused-vars": "warn",
       "no-warning-comments": "warn",
-      "no-console": "warn",
+      "no-console": 0,
       "indent": [
         "error",
         2,
@@ -92,7 +92,8 @@
         "as-needed"
       ],
       "consistent-return": "error",
-      "react/button-has-type": "warn"
+      "react/button-has-type": "warn",
+      "react/prop-types": 0 // will be changed to TS
     },
     "plugins": [
       "import",

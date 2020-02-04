@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import variables from './../variables';
+import styled from 'styled-components'
+import variables from './../variables'
 
 const SelectBox = styled.select`
   display: block;
@@ -34,4 +34,4 @@ const Input = styled.input`
   min-height: 20px;
 `
 
-export { SelectBox, Label, Input };
+export { SelectBox, Label, Input }

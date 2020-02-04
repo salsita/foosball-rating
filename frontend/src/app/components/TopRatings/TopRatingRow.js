@@ -1,13 +1,13 @@
-import React from 'react';
-import { withRouter, Link } from 'react-router-dom'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 import {
   TextSpan,
   ListItem,
   StyledLink,
-} from '../../../styles/blocks';
-import { createProfilePath } from '../../const/routes';
+} from '../../../styles/blocks'
+import { createProfilePath } from '../../const/routes'
 
-const TopRatingRowComponent = ({user}) => (
+const TopRatingRowComponent = ({ user }) => (
   <ListItem>
     <TextSpan textAlign="right">
       <StyledLink to={createProfilePath(user.id)}>{user.name} ({user.rating})</StyledLink>

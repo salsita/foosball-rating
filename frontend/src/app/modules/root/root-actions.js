@@ -1,8 +1,8 @@
 import { createActions } from 'reduxsauce'
 
 export const RootActions = createActions({
-    dismissAlert: [],
-    dismissRedirect: [],
+  dismissAlert: [],
+  dismissRedirect: [],
 }, {
-    prefix: "foosball-rating/root/"
-});
+  prefix: 'foosball-rating/root/',
+})

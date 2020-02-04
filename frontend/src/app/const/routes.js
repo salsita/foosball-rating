@@ -5,4 +5,4 @@ export const ADD_USER = '/add-user'
 export const USER_LIST = '/user-list'
 export const MATCH_LIST = '/match-list'
 
-export const createProfilePath = (userId) => `/profile/${userId}`
+export const createProfilePath = userId => `/profile/${userId}`

@@ -1,5 +1,5 @@
-import React from 'react';
-import { ListItem, WinnerSpan, TextSpan } from './../../../styles/blocks';
+import React from 'react'
+import { ListItem, WinnerSpan, TextSpan } from './../../../styles/blocks'
 
 export const ProfileBattleHistoryRow = ({ match }) => (
   <ListItem>
