@@ -49,7 +49,7 @@ const createRedirectForMatchesStatusUpdate = status => {
 const createAlertForUserStatusUpdate = status => {
   switch (status.type) {
     case StatusType.SUCCESS:
-      return new UserAlert('Succesfully added!', AlertType.SUCCESS)
+      return new UserAlert('Successfully added!', AlertType.SUCCESS)
     case StatusType.FAILURE:
       return new UserAlert(`Failed to add user :( - ${status.error}`, AlertType.ERROR)
   }

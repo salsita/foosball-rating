@@ -5,13 +5,25 @@ import { connect } from 'react-redux'
 import { RootActions } from '../../modules/root/root-actions'
 import { AlertType } from '../../modules/root/user-alert'
 
+const alertTypeToString = alertType => {
+  switch (alertType) {
+    case AlertType.INFO:
+      return 'info'
+    case AlertType.SUCCESS:
+      return 'success'
+    case AlertType.ERROR:
+      return 'error'
+  }
+  return 'info'
+}
+
 const SnackbarAlertComponent = ({ alert, onClose }) => {
-  const variant = alert ? alert.type : AlertType.INFO
+  const alertType = alert ? alert.type : AlertType.INFO
   const message = alert ? alert.text : ''
 
   const open = Boolean(alert && !alert.dismissed)
 
-  const autoHideDuration = variant === AlertType.ERROR ? null : 2000
+  const autoHideDuration = alertType === AlertType.ERROR ? null : 2000
 
   return <Snackbar
     open={open}
@@ -22,7 +34,7 @@ const SnackbarAlertComponent = ({ alert, onClose }) => {
     }}
     onClose={onClose}>
     <SnackbarAlertContent
-      variant={variant}
+      variant={alertTypeToString(alertType)}
       message={message}
       onClose={onClose} />
   </Snackbar>
