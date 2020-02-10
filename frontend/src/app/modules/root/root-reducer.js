@@ -18,7 +18,11 @@ const initialState = {
 
 const usersLoaded = (state, { users }) => ({
   ...state,
-  users,
+  users: users.map((user) => {
+    console.log(user);
+    user.id = Number(user.id)
+    return user
+  })
 })
 
 const updateUsersStatus = (state, { status }) => ({
