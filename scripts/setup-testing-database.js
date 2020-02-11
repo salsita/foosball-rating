@@ -2,6 +2,7 @@ const { Pool } = require('pg')
 const fs = require('fs');
 const path = require('path');
 
+console.log("evn!", process.env)
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, // "postgres://ttnovella:@localhost:5432/tnovella" //
 })
