@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/salsita/foosball-rating#readme",
   "dependencies": {
+    "pg": "^7.18.1",
     "serve": "^10.1.2"
   }
 }
