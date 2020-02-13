@@ -14,6 +14,8 @@ const initialState = {
   users: [],
   activeAlert: null,
   activeRedirect: null,
+  theme: window.localStorage.getItem("theme") || "dark",
+  themeTransition: 0,
 }
 
 const usersLoaded = (state, { users }) => ({
@@ -86,6 +88,26 @@ const dismissAlert = state => {
   }
 }
 
+const changeTheme = state => {
+  const theme = state.theme === "dark" ? "light" : "dark"
+  window.localStorage.setItem("theme", theme)
+
+  return {
+    ...state,
+    theme,
+    themeTransition: 1,
+  }
+}
+
+const stopThemeTransition = state => {
+  console.log("Calling second action")
+  
+  return {
+    ...state,
+    themeTransition: 0,
+  }
+}
+
 export const rootReducer = createReducer(initialState, {
   [UsersActions.Types.USERS_LOADED]: usersLoaded,
   [UsersActions.Types.UPDATE_STATUS]: updateUsersStatus,
@@ -93,4 +115,6 @@ export const rootReducer = createReducer(initialState, {
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
+  [RootActions.Types.CHANGE_THEME]: changeTheme,
+  [RootActions.Types.STOP_THEME_TRANSITION]: stopThemeTransition,
 })
