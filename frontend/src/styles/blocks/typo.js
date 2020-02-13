@@ -19,7 +19,7 @@ const TextSpan = styled.span`
 `
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
-  color: ${({ winner }) => winner ? '#22925e' : '#f44336'};
+  color: ${({ winner }) => winner ? "var(--TeamsColorWin)" : "var(--TeamColorLoss)"};
   font-weight: 400;
   order: ${({ winner }) => winner ? '1' : '3'};
 `
@@ -31,7 +31,7 @@ const BattleLabel = styled.span`
 const StyledHyperLink = styled.a`
   text-decoration: none;
   padding: 5px;
-  color: ${variables.cWhite};
+  color: var(--cFont);
 
   span {
     font-size: 10px;

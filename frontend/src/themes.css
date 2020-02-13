@@ -1,0 +1,56 @@
+.light {
+  --cRed: #f44336;
+  --cBlack: #262626;
+  --cWhite: #ffffff;
+  --cYellow: #ffdf50;
+
+  --cBorder: #cbcbcb;
+  --cTheme: #ebebeb;
+  --cFont: #000;
+
+  --bgColorList: #000;
+  --bgColorListSec: #fff;
+
+  --bgPat: url('./media/bgPat-2.png');
+
+  --cTopPlayerGold: #ffbf00;
+  --cTopPlayerSilver: #b4b4b4;
+  --cTopPlayerBronze: #cd7f32;
+
+  --TeamsColorWin: #03ac46;
+  --TeamColorLoss: #fa131b;
+}
+
+.dark {
+  --cRed: #f44336;
+  --cBlack: #262626;
+  --cWhite: #ffffff;
+  --cYellow: #F0C330;
+
+  --cBorder: #393939;
+  --cTheme: #262626;
+  --cFont: #E7E6E6;
+
+  --bgColorList: #fff;
+  --bgColorListSec: #303030;
+
+  --bgPat: url('./media/bgPat-1.png');
+
+  --cTopPlayerGold: #F0C330;
+  --cTopPlayerSilver: #95A5A6;
+  --cTopPlayerBronze: #E47C30;
+
+  --TeamsColorWin: #30AE63;
+  --TeamColorLoss: rgb(238, 95, 100);
+}
+
+.light,
+.dark {
+  background-color: var(--cTheme);
+}
+
+.theme-transition,
+.theme-transition * {
+  transition: all 500ms;
+  transition-delay: 0;
+}
