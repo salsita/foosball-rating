@@ -18,10 +18,7 @@ const initialState = {
 
 const usersLoaded = (state, { users }) => ({
   ...state,
-  users: users.map((user) => {
-    user.id = Number(user.id)
-    return user
-  })
+  users
 })
 
 const updateUsersStatus = (state, { status }) => ({

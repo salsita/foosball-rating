@@ -1,29 +1,41 @@
 exports.createUserFromDbRow = (userRow) => ({
-    id: userRow.Id,
+    id: Number(userRow.Id),
     name: userRow.Name,
-    rating: userRow.Rating,
-    active: userRow.Active,
-    initialRating: userRow.InitialRating
+    rating: Number(userRow.Rating),
+    active: Boolean(userRow.Active),
+    initialRating: Number(userRow.InitialRating)
 })
 
 exports.createMatchFromDbRow = (matchRow) => {
     const team1Player2Array = matchRow.Team1Player2Id ? [{
-        id: matchRow.Team1Player2Id,
-        matchRating: matchRow.Team1Player2Rating
+        id: Number(matchRow.Team1Player2Id),
+        matchRating: Number(matchRow.Team1Player2Rating)
     }] : []
 
     const team2Player2Array = matchRow.Team2Player2Id ? [{
-        id: matchRow.Team2Player2Id,
-        matchRating: matchRow.Team2Player2Rating
+        id: Number(matchRow.Team2Player2Id),
+        matchRating: Number(matchRow.Team2Player2Rating)
     }] : []
     
     return {
-        id: matchRow.Id,
-        team1: [ { id: matchRow.Team1Player1Id, matchRating: matchRow.Team1Player1Rating }, ...team1Player2Array],
-        team2: [ { id: matchRow.Team2Player1Id, matchRating: matchRow.Team2Player1Rating }, ...team2Player2Array],
+        id: Number(matchRow.Id),
+        team1: [ 
+            { 
+                id: Number(matchRow.Team1Player1Id), 
+                matchRating: Number(matchRow.Team1Player1Rating) 
+            }, 
+            ...team1Player2Array
+        ],
+        team2: [ 
+            { 
+                id: Number(matchRow.Team2Player1Id), 
+                matchRating: Number(matchRow.Team2Player1Rating) 
+            }, 
+            ...team2Player2Array
+        ],
         date: matchRow.Date,
-        winningTeamRatingChange: matchRow.WinningTeamRatingChange,
-        losingTeamRatingChange: matchRow.LosingTeamRatingChange,
-        team1Won: matchRow.Team1Won
+        winningTeamRatingChange: Number(matchRow.WinningTeamRatingChange),
+        losingTeamRatingChange: Number(matchRow.LosingTeamRatingChange),
+        team1Won: Boolean(matchRow.Team1Won)
     }
 }
