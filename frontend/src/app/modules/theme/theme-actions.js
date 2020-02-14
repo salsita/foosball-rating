@@ -1,7 +1,7 @@
 import { createActions } from 'reduxsauce'
 
 export const ThemeActions = createActions({
-  themeChanged: ['newTheme'],
+  themeChanged: ['theme'],
   changeTheme: ['theme'],
   stopThemeTransition: [],
 }, {

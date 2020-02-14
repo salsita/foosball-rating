@@ -7,6 +7,7 @@ import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
 import { DASHBOARD } from '../../const/routes'
 import { ThemeActions } from '../theme/theme-actions'
+import { ThemeTypes } from "../../const/theme-types";
 
 const initialState = {
   matchesStatus: ready,
@@ -15,8 +16,8 @@ const initialState = {
   users: [],
   activeAlert: null,
   activeRedirect: null,
-  theme: window.localStorage.getItem('theme') || 'dark',
-  themeTransition: 0,
+  theme: window.localStorage.getItem('theme') || ThemeTypes.Dark,
+  themeTransition: false,
 }
 
 const usersLoaded = (state, { users }) => ({
@@ -89,15 +90,15 @@ const dismissAlert = state => {
   }
 }
 
-const themeChanged = (state, { newTheme: { theme, themeTransition } }) => ({
+const themeChanged = (state, { theme }) => ({
   ...state,
   theme,
-  themeTransition,
+  themeTransition: true,
 })
 
 const stopThemeTransition = state => ({
   ...state,
-  themeTransition: 0,
+  themeTransition: false,
 })
 
 export const rootReducer = createReducer(initialState, {
