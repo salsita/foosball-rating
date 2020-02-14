@@ -7,7 +7,7 @@ const ListCon = styled.ul`
   text-align: center;
   box-shadow: 0 4px 18px 0 rgba(0,0,0,0.12),0 7px 10px -5px rgba(0,0,0,0.15);
   overflow: hidden;
-  background: ${variables.cBlack};
+  background: var(--cTheme);
   @media (min-width: ${variables.bpMedium}) {
     width: 450px;
   }
@@ -15,15 +15,15 @@ const ListCon = styled.ul`
   &.topPlayers {
     li:nth-child(1) {
       font-size: 28px;
-      color: ${variables.cTopPlayerGold}
+      color: var(--cTopPlayerGold)
     }
     li:nth-child(2) {
       font-size: 22px;
-      color: ${variables.cTopPlayerSilver}
+      color: var(--cTopPlayerSilver)
     }
     li:nth-child(3) {
       font-size: 18px;
-      color: ${variables.cTopPlayerBronze}
+      color: var(--cTopPlayerBronze)
     }
   }
 `
@@ -32,13 +32,13 @@ const ListItem = styled.li`
   padding: ${variables.baseSpacing};
   display: ${props => props.Display};
   grid-template-columns: ${props => props.Column};
-  color: ${variables.cGrey};
+  color: var(--cFont);
   list-style: none;
-  border: 1px solid ${variables.cDarkGray};
+  border: 1px solid var(--cBorder);
   align-items: center;
 
   &:nth-child(even) {
-    background: ${variables.bgColorListSec};
+    background: var(--bgColorListSec);
   }
 `
 
