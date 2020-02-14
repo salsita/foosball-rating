@@ -4,8 +4,8 @@ import { ThemeActions } from './theme-actions'
 
 function* changeThemeSaga(action) {
   try {
-    const theme = yield call(changeTheme, action.theme)
-    yield put(ThemeActions.Creators.themeChanged(theme))
+    const newTheme = yield call(changeTheme, action.currentTheme)
+    yield put(ThemeActions.Creators.themeChanged(newTheme))
 
     // Stop transition effect
     yield delay(320)

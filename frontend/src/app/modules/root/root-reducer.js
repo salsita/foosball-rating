@@ -7,7 +7,8 @@ import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
 import { DASHBOARD } from '../../const/routes'
 import { ThemeActions } from '../theme/theme-actions'
-import { ThemeTypes } from "../../const/theme-types";
+import { ThemeTypes } from '../../const/theme-types'
+import { StorageThemeKey } from '../../const/constants'
 
 const initialState = {
   matchesStatus: ready,
@@ -16,7 +17,7 @@ const initialState = {
   users: [],
   activeAlert: null,
   activeRedirect: null,
-  theme: window.localStorage.getItem('theme') || ThemeTypes.Dark,
+  theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
   themeTransition: false,
 }
 
@@ -90,9 +91,9 @@ const dismissAlert = state => {
   }
 }
 
-const themeChanged = (state, { theme }) => ({
+const themeChanged = (state, { newTheme }) => ({
   ...state,
-  theme,
+  theme: newTheme,
   themeTransition: true,
 })
 
