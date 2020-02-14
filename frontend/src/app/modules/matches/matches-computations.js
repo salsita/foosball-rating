@@ -49,7 +49,9 @@ export const computeStreaks = (userId, userMatches) => {
     currentEloGainStreak: 0,
   }
 
-  return userMatches.reverse().reduce((state, match) => {
+  const reversedMatches = [...userMatches].reverse()
+
+  return reversedMatches.reduce((state, match) => {
     if (didUserWin(userId, match)) {
       const currentWinStreak = state.currentWinStreak + 1
       const longestWinStreak = Math.max(currentWinStreak, state.longestWinStreak)
