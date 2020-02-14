@@ -10,7 +10,7 @@ export const plotAxisStyle = {
   fontSize: variables.fontSizeProfileDetails,
   fontWeight: '400',
   fill: 'var(--cFont)',
-  fontFamily: 'Barlow,sans-serif'
+  fontFamily: 'Barlow,sans-serif',
 }
 
 export const plotGridStyle = {
@@ -18,5 +18,5 @@ export const plotGridStyle = {
 }
 
 export const plotMainGridStyle = {
-  stroke: 'var(--cFont)'
+  stroke: 'var(--cFont)',
 }

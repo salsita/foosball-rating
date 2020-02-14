@@ -1,5 +1,5 @@
-export default { 
-  // breakpoints 
+export default {
+  // breakpoints
   MaxWidth: '800px',
 
   bpMedium: '600px',
@@ -15,4 +15,4 @@ export default {
 
   // spacings like margin, padding etc
   baseSpacing: '.8rem .4rem',
-};
+}

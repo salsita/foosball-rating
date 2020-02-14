@@ -19,7 +19,7 @@ const TextSpan = styled.span`
 `
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
-  color: ${({ winner }) => winner ? "var(--TeamsColorWin)" : "var(--TeamColorLoss)"};
+  color: ${({ winner }) => winner ? 'var(--TeamsColorWin)' : 'var(--TeamColorLoss)'};
   font-weight: 400;
   order: ${({ winner }) => winner ? '1' : '3'};
 `
