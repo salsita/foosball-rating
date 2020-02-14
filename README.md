@@ -1,4 +1,4 @@
-# foosball-rating
+# DELETEMEfoosball-rating
 
 Foosball Rating App
 
