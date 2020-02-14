@@ -6,6 +6,7 @@ import { ready, StatusType } from '../api/request-status'
 import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
 import { DASHBOARD } from '../../const/routes'
+import { ThemeActions } from '../theme/theme-actions'
 
 const initialState = {
   matchesStatus: ready,
@@ -14,13 +15,13 @@ const initialState = {
   users: [],
   activeAlert: null,
   activeRedirect: null,
-  theme: window.localStorage.getItem("theme") || "dark",
+  theme: window.localStorage.getItem('theme') || 'dark',
   themeTransition: 0,
 }
 
 const usersLoaded = (state, { users }) => ({
   ...state,
-  users
+  users,
 })
 
 const updateUsersStatus = (state, { status }) => ({
@@ -88,25 +89,16 @@ const dismissAlert = state => {
   }
 }
 
-const changeTheme = state => {
-  const theme = state.theme === "dark" ? "light" : "dark"
-  window.localStorage.setItem("theme", theme)
+const themeChanged = (state, { newTheme: { theme, themeTransition } }) => ({
+  ...state,
+  theme,
+  themeTransition,
+})
 
-  return {
-    ...state,
-    theme,
-    themeTransition: 1,
-  }
-}
-
-const stopThemeTransition = state => {
-  console.log("Calling second action")
-  
-  return {
-    ...state,
-    themeTransition: 0,
-  }
-}
+const stopThemeTransition = state => ({
+  ...state,
+  themeTransition: 0,
+})
 
 export const rootReducer = createReducer(initialState, {
   [UsersActions.Types.USERS_LOADED]: usersLoaded,
@@ -115,6 +107,6 @@ export const rootReducer = createReducer(initialState, {
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
-  [RootActions.Types.CHANGE_THEME]: changeTheme,
-  [RootActions.Types.STOP_THEME_TRANSITION]: stopThemeTransition,
+  [ThemeActions.Types.THEME_CHANGED]: themeChanged,
+  [ThemeActions.Types.STOP_THEME_TRANSITION]: stopThemeTransition,
 })
