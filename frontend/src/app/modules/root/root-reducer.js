@@ -18,7 +18,7 @@ const initialState = {
 
 const usersLoaded = (state, { users }) => ({
   ...state,
-  users
+  users,
 })
 
 const updateUsersStatus = (state, { status }) => ({

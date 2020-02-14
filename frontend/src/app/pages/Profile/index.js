@@ -26,8 +26,8 @@ class ProfileComponent extends Component {
           currentWinStreak,
           longestWinStreak,
           currentEloGainStreak,
-          highestEloGainStreak
-        }
+          highestEloGainStreak,
+        },
       },
     } = this.props
 
