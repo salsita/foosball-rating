@@ -16,3 +16,7 @@ body {
   height: 100vh;
   font-family: Barlow,sans-serif;
 }
+
+.active-filter {
+  color: var(--cActiveFilter);
+}
