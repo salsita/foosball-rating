@@ -7,8 +7,7 @@ import {
   Button,
   StyledLink,
 } from './../../styles/blocks/'
-import { CREATE_MATCH } from '../const/routes'
-import { DASHBOARD } from '../const/routes'
+import { CREATE_MATCH, LEADERBOARDS, DASHBOARD } from '../const/routes'
 import { withRouter } from 'react-router-dom'
 import { ThemeActions } from '../modules/theme/theme-actions'
 
@@ -19,11 +18,16 @@ const HeaderComponent = ({ theme, history, changeTheme }) => {
     history.push(CREATE_MATCH)
   }
 
+  const displayLeaderboards = () => {
+    history.push(LEADERBOARDS)
+  }
+
   return (
     <Nav>
       <Logo><StyledLink to={DASHBOARD}><img src={logo} alt="logo" /></StyledLink></Logo>
       <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
       <Button onClick={createMatch}>Add Match</Button>
+      <Button onClick={displayLeaderboards}>Leaderboards</Button>
     </Nav>
   )
 }

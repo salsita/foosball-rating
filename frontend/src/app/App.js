@@ -13,6 +13,7 @@ import Footer from './components/Footer/footer'
 import { Container } from '../styles/blocks/layout'
 // pages
 import { Dashboard } from './pages/Dashboard'
+import { LeaderboardsPage } from './pages/Leaderboards'
 import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
 import { AddUserPage } from './pages/AddUser'
@@ -38,6 +39,7 @@ class App extends Component {
               <Header />
               <Container>
                 <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+                <Route exact path={ROUTES.LEADERBOARDS} component={LeaderboardsPage} />
                 <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
                 <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
                 <Route exact path={ROUTES.USER_LIST} component={UserListPage} />
