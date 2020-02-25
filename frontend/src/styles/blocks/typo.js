@@ -26,6 +26,10 @@ const FiltersSpan = styled.span`
   padding: 0 5px;
   user-select: none;
 
+  &.active-filter {
+    color: var(--cActiveFilter);
+  }
+
   &:hover {
     cursor: pointer;
   }

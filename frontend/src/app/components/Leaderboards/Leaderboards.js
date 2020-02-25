@@ -30,9 +30,10 @@ const LeaderboardsComponent = (
       )}
     </FiltersBlock>
 
-    <ListCon className="topPlayers">
+    <ListCon className="topPlayers" ascending={filters.order === Filters.orderTypes.ASC}>
       {topUsers.slice(0, maxItems).map((user, index) =>
-        <LeaderboardsRow key={user.id} user={user} position={index}
+        <LeaderboardsRow key={user.id} user={user} 
+          position={filters.order === Filters.orderTypes.ASC ? topUsers.length - index : index + 1}
           points={getUserPoints(user, filters.criteria)} />,
       )}
     </ListCon>
