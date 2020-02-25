@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { createStore, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { Theme } from './components/theme'
 import { rootSaga } from './modules/root/root-saga'
@@ -38,13 +38,15 @@ class App extends Component {
             <>
               <Header />
               <Container>
-                <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
-                <Route exact path={ROUTES.LEADERBOARDS} component={LeaderboardsPage} />
-                <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
-                <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
-                <Route exact path={ROUTES.USER_LIST} component={UserListPage} />
-                <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
-                <Route exact path={ROUTES.PROFILE} component={Profile} />
+                <Switch>
+                  <Route exact path={ROUTES.LEADERBOARDS} component={LeaderboardsPage} />
+                  <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
+                  <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
+                  <Route exact path={ROUTES.USER_LIST} component={UserListPage} />
+                  <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
+                  <Route exact path={ROUTES.PROFILE} component={Profile} />
+                  <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+                </Switch>
               </Container>
               <Footer />
             </>
