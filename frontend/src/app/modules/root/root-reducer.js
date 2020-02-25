@@ -7,8 +7,10 @@ import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
 import { DASHBOARD } from '../../const/routes'
 import { ThemeActions } from '../theme/theme-actions'
+import { LeaderboardsActions } from '../leaderboards/leaderboards-actions'
 import { ThemeTypes } from '../../const/theme-types'
 import { StorageThemeKey } from '../../const/constants'
+import * as Filters from '../../const/leaderboards-filters'
 
 const initialState = {
   matchesStatus: ready,
@@ -19,6 +21,11 @@ const initialState = {
   activeRedirect: null,
   theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
   themeTransition: false,
+  filters: {
+    criteria: Filters.criteriaTypes.Elo,
+    order: Filters.orderTypes.DESC,
+    timespan: Filters.timespanTypes.AllTime,
+  },
 }
 
 const usersLoaded = (state, { users }) => ({
@@ -102,6 +109,30 @@ const stopThemeTransition = state => ({
   themeTransition: false,
 })
 
+const updateCriteria = (state, { criteria }) => ({
+  ...state,
+  filters: {
+    ...state.filters,
+    criteria,
+  },
+})
+
+const updateOrder = (state, { order }) => ({
+  ...state,
+  filters: {
+    ...state.filters,
+    order,
+  },
+})
+
+const updateTimespan = (state, { timespan }) => ({
+  ...state,
+  filters: {
+    ...state.filters,
+    timespan,
+  },
+})
+
 export const rootReducer = createReducer(initialState, {
   [UsersActions.Types.USERS_LOADED]: usersLoaded,
   [UsersActions.Types.UPDATE_STATUS]: updateUsersStatus,
@@ -111,4 +142,7 @@ export const rootReducer = createReducer(initialState, {
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
   [ThemeActions.Types.THEME_CHANGED]: themeChanged,
   [ThemeActions.Types.STOP_THEME_TRANSITION]: stopThemeTransition,
+  [LeaderboardsActions.Types.UPDATE_CRITERIA]: updateCriteria,
+  [LeaderboardsActions.Types.UPDATE_ORDER]: updateOrder,
+  [LeaderboardsActions.Types.UPDATE_TIMESPAN]: updateTimespan,
 })

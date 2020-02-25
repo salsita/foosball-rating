@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { ListCon } from '../../../styles/blocks'
 import { TopRatingRow } from './TopRatingRow'
 
-import { getTopUsers } from '../../modules/users/users-selectors'
+import { getTopRatedUsers } from '../../modules/users/users-selectors'
 
 class TopRatingComponent extends Component {
   render() {
@@ -20,7 +20,7 @@ class TopRatingComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  topUsers: getTopUsers(state),
+  topUsers: getTopRatedUsers(state),
 })
 
 export const TopRating = connect(mapStateToProps)(TopRatingComponent)

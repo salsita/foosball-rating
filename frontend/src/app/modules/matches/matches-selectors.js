@@ -21,7 +21,7 @@ const getMatches = state => state.matches.map(match => ({
   team2: fillUsers(match.team2, state),
 }))
 
-const didUserPlayMatch = (userId, match) => {
+export const didUserPlayMatch = (userId, match) => {
   const allPlayers = [...match.team1, ...match.team2]
   return allPlayers.find(player => player.id === userId)
 }
