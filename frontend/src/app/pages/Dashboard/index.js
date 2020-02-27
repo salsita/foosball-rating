@@ -7,8 +7,8 @@ import {
   StyledLink,
 } from './../../../styles/blocks'
 import { BattleHistory } from './../../components/BattleHistory/BattleHistory'
-import { TopRating } from '../../components/TopRatings/TopRating'
-import { MATCH_LIST, USER_LIST } from '../../const/routes'
+import { Leaderboards } from '../../components/Leaderboards/Leaderboards'
+import { MATCH_LIST, LEADERBOARDS } from '../../const/routes'
 import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
 
 class DashboardComponent extends Component {
@@ -21,8 +21,8 @@ class DashboardComponent extends Component {
         <BattleHistory maxItems={5} />
         <StyledLink to={MATCH_LIST}>Show all...</StyledLink>
         <Subtitle textAlign="center">Top Rating</Subtitle>
-        <TopRating maxItems={5} />
-        <StyledLink to={USER_LIST}>Show all...</StyledLink>
+        <Leaderboards maxItems={5} showFilters={false} />
+        <StyledLink to={LEADERBOARDS}>Show more...</StyledLink>
       </Box>
     )
   }

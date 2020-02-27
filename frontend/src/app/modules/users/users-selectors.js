@@ -54,15 +54,15 @@ const sortTopUsers = (users, matches, filters) => {
 
 const getUserStatistics = (user, matchesLast) => {
   const userId = Number(user.id)
-    const userMatches = matchesLast.filter(match => didUserPlayMatch(userId, match))
-    const winRatio = computeWinRatio(userId, userMatches)
-    return {
-      ...user,
-      stats: {
-        streak: computeLongestWinStreak(userId, userMatches),
-        winRatio,
-        matches: userMatches.length,
-        wins: Math.round(userMatches.length * winRatio),
-      }
-    }
+  const userMatches = matchesLast.filter(match => didUserPlayMatch(userId, match))
+  const winRatio = computeWinRatio(userId, userMatches)
+  return {
+    ...user,
+    stats: {
+      streak: computeLongestWinStreak(userId, userMatches),
+      winRatio,
+      matches: userMatches.length,
+      wins: Math.round(userMatches.length * winRatio),
+    },
+  }
 }
