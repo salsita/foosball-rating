@@ -4,7 +4,7 @@ import { Subtitle, Box } from './../../../styles/blocks'
 
 export const MatchListPage = () =>
   <>
-    <Box Padding="10px">
+    <Box Margin="10px" Padding="10px">
       <Subtitle textAlign="center">Last Battles</Subtitle>
       <BattleHistory maxItems={Number.MAX_SAFE_INTEGER} />
     </Box>
