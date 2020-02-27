@@ -45,7 +45,7 @@ class App extends Component {
                   <Route exact path={ROUTES.USER_LIST} component={UserListPage} />
                   <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
                   <Route exact path={ROUTES.PROFILE} component={Profile} />
-                  <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+                  <Route component={Dashboard} />
                 </Switch>
               </Container>
               <Footer />

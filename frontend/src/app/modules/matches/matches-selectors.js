@@ -23,12 +23,12 @@ const getMatches = state => state.matches.map(match => ({
 
 export const didUserPlayMatch = (userId, match) => {
   const allPlayers = [...match.team1, ...match.team2]
-  return allPlayers.find(player => player.id === userId)
+  return !!allPlayers.find(player => player.id === userId)
 }
 
 export const getLastMatches = createSelector(
   getMatches,
-  matches => [...matches].sort((match1, match2) => match2.date - match1.date),
+  matches => matches.sort((match1, match2) => match2.date - match1.date),
 )
 
 const getLastMatchesForUser = createSelector(

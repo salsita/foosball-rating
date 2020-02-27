@@ -43,13 +43,13 @@ const LeaderboardsComponent = (
 const getUserPoints = (user, criteria) => {
   switch (criteria) {
     case Filters.criteriaTypes.Wins:
-      return user.totalWins
+      return user.stats.wins
     case Filters.criteriaTypes.Ratio:
-      return (user.winRatio* 100).toFixed(2) + '%'
+      return (user.stats.winRatio* 100).toFixed(2) + '%'
     case Filters.criteriaTypes.Streak:
-      return user.longestStreak
+      return user.stats.streak
     case Filters.criteriaTypes.Matches:
-      return user.totalMatches
+      return user.stats.matches
     default:
       return user.rating
   }

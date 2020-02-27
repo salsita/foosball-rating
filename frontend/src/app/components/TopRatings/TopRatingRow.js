@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import {
   TextSpan,
   ListItem,
@@ -7,12 +6,10 @@ import {
 } from '../../../styles/blocks'
 import { createProfilePath } from '../../const/routes'
 
-const TopRatingRowComponent = ({ user }) => (
+export const TopRatingRow = ({ user }) => (
   <ListItem>
     <TextSpan textAlign="right">
       <StyledLink to={createProfilePath(user.id)}>{user.name} ({user.rating})</StyledLink>
     </TextSpan>
   </ListItem>
 )
-
-export const TopRatingRow = withRouter(TopRatingRowComponent)

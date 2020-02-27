@@ -19,14 +19,14 @@ export const getUser = createSelector(
 
 export const getTopRatedUsers = createSelector(
   getUsers,
-  users => [...users].sort((user1, user2) => user2.rating - user1.rating),
+  users => users.sort((user1, user2) => user2.rating - user1.rating),
 )
 
 export const getTopUsers = createSelector(
   getUsers,
   getMatches,
   getFilters,
-  (users, matches, filters) => sortTopUsers([...users], [...matches], filters),
+  (users, matches, filters) => sortTopUsers(users, matches, filters),
 )
 
 const sortTopUsers = (users, matches, filters) => {
@@ -37,29 +37,32 @@ const sortTopUsers = (users, matches, filters) => {
     .filter(match => filters.timespan === Filters.timespanTypes.AllTime || match.date > minDate)
     .sort((match1, match2) => match2.date - match1.date)
 
-  users = users.map(user => {
-    const userId = Number(user.id)
+  const usersWithStatistics  = users.map(user => getUserStatistics(user, matchesLast))
+  switch (filters.criteria) {
+    case Filters.criteriaTypes.Wins:
+      return usersWithStatistics.sort((u1, u2) => (u2.stats.wins - u1.stats.wins) * order)
+    case Filters.criteriaTypes.Ratio:
+      return usersWithStatistics.sort((u1, u2) => (u2.stats.winRatio - u1.stats.winRatio) * order)
+    case Filters.criteriaTypes.Streak:
+      return usersWithStatistics.sort((u1, u2) => (u2.stats.streak - u1.stats.streak) * order)
+    case Filters.criteriaTypes.Matches:
+      return usersWithStatistics.sort((u1, u2) => (u2.stats.matches - u1.stats.matches) * order)
+    default:
+      return usersWithStatistics.sort((u1, u2) => (u2.rating - u1.rating) * order)
+  }
+}
+
+const getUserStatistics = (user, matchesLast) => {
+  const userId = Number(user.id)
     const userMatches = matchesLast.filter(match => didUserPlayMatch(userId, match))
     const winRatio = computeWinRatio(userId, userMatches)
     return {
       ...user,
-      longestStreak: computeLongestWinStreak(userId, userMatches),
-      winRatio,
-      totalMatches: userMatches.length,
-      totalWins: Number(userMatches.length * winRatio),
+      stats: {
+        streak: computeLongestWinStreak(userId, userMatches),
+        winRatio,
+        matches: userMatches.length,
+        wins: Math.round(userMatches.length * winRatio),
+      }
     }
-  })
-
-  switch (filters.criteria) {
-    case Filters.criteriaTypes.Wins:
-      return users.sort((user1, user2) => (user2.totalWins - user1.totalWins) * order)
-    case Filters.criteriaTypes.Ratio:
-      return users.sort((user1, user2) => (user2.winRatio - user1.winRatio) * order)
-    case Filters.criteriaTypes.Streak:
-      return users.sort((user1, user2) => (user2.longestStreak - user1.longestStreak) * order)
-    case Filters.criteriaTypes.Matches:
-      return users.sort((user1, user2) => (user2.totalMatches - user1.totalMatches) * order)
-    default:
-      return users.sort((user1, user2) => (user2.rating - user1.rating) * order)
-  }
 }
