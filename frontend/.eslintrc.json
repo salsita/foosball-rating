@@ -96,7 +96,6 @@
       "react/prop-types": 0 // will be changed to TS
     },
     "plugins": [
-      "import",
       "mocha",
       "react",
       "babel"
