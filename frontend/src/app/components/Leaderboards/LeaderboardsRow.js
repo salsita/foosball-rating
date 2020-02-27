@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextSpan, ListItem, StyledLink } from '../../../styles/blocks'
+import { TextSpan, TextDiv, ListItem, StyledLink } from '../../../styles/blocks'
 import { createProfilePath } from '../../const/routes'
 
 const trophies = [
@@ -13,8 +13,8 @@ export const LeaderboardsRow = ({ user, position, points }) => (
     <TextSpan align="left">{
       position > 3 ? (position + '.') : <img src={trophies[position - 1]} />
     }</TextSpan>
-    <TextSpan textAlign="right">
+    <TextDiv>
       <StyledLink to={createProfilePath(user.id)}>{user.name} ({points})</StyledLink>
-    </TextSpan>
+    </TextDiv>
   </ListItem>
 )

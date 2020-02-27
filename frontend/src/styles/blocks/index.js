@@ -1,5 +1,5 @@
 import {
-  Title, Subtitle, TextSpan, WinnerSpan, BattleLabel,
+  Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
   FiltersBlock, FiltersSpan, StyledHyperLink,
 } from './typo'
 import { Nav, Container, GridContainer, Box, ProfileDetail } from './layout'
@@ -10,7 +10,8 @@ import { SelectBox, Label, Input } from './inputs'
 import Logo from './logo'
 
 export {
-  Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, FiltersBlock, FiltersSpan, StyledHyperLink,
+  Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
+  FiltersBlock, FiltersSpan, StyledHyperLink,
   Nav, Container, GridContainer, Box, ProfileDetail,
   ListCon, ListItem,
   StyledLink,
