@@ -10,4 +10,5 @@ USER foosball
 WORKDIR /srv
 ADD --chown=foosball:foosball . /srv/
 
+RUN cp frontend/.env.docker.example frontend/.env
 RUN npm install
