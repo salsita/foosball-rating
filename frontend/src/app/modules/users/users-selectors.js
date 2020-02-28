@@ -37,32 +37,28 @@ const sortTopUsers = (users, matches, filters) => {
     .filter(match => filters.timespan === Filters.timespanTypes.AllTime || match.date > minDate)
     .sort((match1, match2) => match2.date - match1.date)
 
-  const usersWithStatistics  = users.map(user => getUserStatistics(user, matchesLast))
-  switch (filters.criteria) {
-    case Filters.criteriaTypes.Wins:
-      return usersWithStatistics.sort((u1, u2) => (u2.stats.wins - u1.stats.wins) * order)
-    case Filters.criteriaTypes.Ratio:
-      return usersWithStatistics.sort((u1, u2) => (u2.stats.winRatio - u1.stats.winRatio) * order)
-    case Filters.criteriaTypes.Streak:
-      return usersWithStatistics.sort((u1, u2) => (u2.stats.streak - u1.stats.streak) * order)
-    case Filters.criteriaTypes.Matches:
-      return usersWithStatistics.sort((u1, u2) => (u2.stats.matches - u1.stats.matches) * order)
-    default:
-      return usersWithStatistics.sort((u1, u2) => (u2.rating - u1.rating) * order)
-  }
+  const usersWithStatistics  = users.map(user => ({
+    ...user,
+    criteriaPoints: getUserCriteriaPoints(user, matchesLast, filters.criteria),
+  }))
+
+  return usersWithStatistics.sort((u1, u2) => (u2.criteriaPoints - u1.criteriaPoints) * order)
 }
 
-const getUserStatistics = (user, matchesLast) => {
+const getUserCriteriaPoints = (user, matchesLast, criteria) => {
   const userId = Number(user.id)
   const userMatches = matchesLast.filter(match => didUserPlayMatch(userId, match))
   const winRatio = computeWinRatio(userId, userMatches)
-  return {
-    ...user,
-    stats: {
-      streak: computeLongestWinStreak(userId, userMatches),
-      winRatio,
-      matches: userMatches.length,
-      wins: Math.round(userMatches.length * winRatio),
-    },
+  switch (criteria) {
+    case Filters.criteriaTypes.Wins:
+      return Math.round(userMatches.length * winRatio)
+    case Filters.criteriaTypes.Ratio:
+      return (winRatio * 100).toFixed(2)
+    case Filters.criteriaTypes.Streak:
+      return computeLongestWinStreak(userId, userMatches)
+    case Filters.criteriaTypes.Matches:
+      return userMatches.length
+    default:
+      return user.rating
   }
 }
