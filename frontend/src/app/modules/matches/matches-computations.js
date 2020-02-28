@@ -147,3 +147,49 @@ const computePlayerStats = (playerId, playerMatches, playersProvider) => {
     ? Array.from(playersMap.values())
     : DEFAULT_PLAYERS_STATISTICS
 }
+
+export const computeKingStreakDuration = (userId, users, matches) => {
+  // todo: remove usersLast and matchesLast when it is not needed after merging leaderboards branch
+  const usersLast = users.sort((user1, user2) => user2.rating - user1.rating)
+  const matchesLast = matches.sort((match1, match2) => match2.date - match1.date)
+  if (!usersLast.length || !matchesLast.length || usersLast[0].id !== userId) {
+    return false
+  }
+
+  const usersMap = usersLast.reduce((map, user) => {
+    map[user.id] = user.rating
+    return map
+  })
+
+  let kingRating = usersLast[0].rating
+  for (let i = 0; i < matchesLast.length; ++i) {
+    const players = [...matchesLast[i].team1, ...matchesLast[i].team2]
+    
+    // #1 recomptute king's rating before in case he played the match
+    const kingPlayer = players.find(player => player.id === userId)
+    const kingWon = false;
+    if (kingPlayer) {
+      kingWon = kingRating > kingPlayer.matchRating
+      kingRating = kingPlayer.matchRating
+    }
+
+    // #2 check whether none of the other players beat the king
+    for (let player of players) {
+      usersMap[player.id] = player.matchRating
+      if (player.id !== userId && player.matchRating > kingRating) {
+        return matchesLast[i]
+      }
+    }
+
+    // todo: remove `key < 180` when it is not needed after merging leaderboards branch
+    // #3 check if king was first before winning
+    if (kingPlayer && kingWon) {
+      for (let key in usersMap) {
+        if (key < 180 && usersMap[key] > kingRating) {
+          return matchesLast[i]
+        }
+      }
+    }
+  }
+  return matchesLast[matchesLast.length - 1]
+}
