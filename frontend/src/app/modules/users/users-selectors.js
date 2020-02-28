@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-import * as Filters from '../../const/leaderboards-filters'
+import * as Filters from '../../const/leaderboard-filters'
 import { didUserPlayMatch } from '../matches/matches-selectors'
 import {
   computeLongestWinStreak,

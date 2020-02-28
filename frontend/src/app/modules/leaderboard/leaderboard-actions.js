@@ -1,9 +1,9 @@
 import { createActions } from 'reduxsauce'
 
-export const LeaderboardsActions = createActions({
+export const LeaderboardActions = createActions({
   updateCriteria: ['criteria'],
   updateOrder: ['order'],
   updateTimespan: ['timespan'],
 }, {
-  prefix: 'foosball-rating/leaderboards/',
+  prefix: 'foosball-rating/leaderboard/',
 })

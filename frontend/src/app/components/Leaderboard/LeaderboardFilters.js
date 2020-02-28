@@ -1,8 +1,8 @@
 import React from 'react'
 import { FiltersBlock, FiltersSpan } from '../../../styles/blocks'
-import * as Filters from '../../const/leaderboards-filters'
+import * as Filters from '../../const/leaderboard-filters'
 
-export const LeaderboardsFilters = ({ filters, updateCriteria, updateOrder, updateTimespan }) => (
+export const LeaderboardFilters = ({ filters, updateCriteria, updateOrder, updateTimespan }) => (
   <FiltersBlock>
     {Object.entries(Filters.criteriaTypes).map(([key, value]) =>
       <FiltersSpan key={key} className={value === filters.criteria ? 'active-filter' : ''}

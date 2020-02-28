@@ -2,25 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { ListCon } from '../../../styles/blocks'
-import { LeaderboardsRow } from './LeaderboardsRow'
-import { LeaderboardsFilters } from './LeaderboardsFilters'
+import { LeaderboardRow } from './LeaderboardRow'
+import { LeaderboardFilters } from './LeaderboardFilters'
 import { getTopUsers } from '../../modules/users/users-selectors'
-import { LeaderboardsActions } from '../../modules/leaderboards/leaderboards-actions'
-import * as Filters from '../../const/leaderboards-filters'
+import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-actions'
+import * as Filters from '../../const/leaderboard-filters'
 
-const LeaderboardsComponent = (
+const LeaderboardComponent = (
   { topUsers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan }
 ) =>
   (
   <>
     {showFilters
-      ? <LeaderboardsFilters filters={filters} updateCriteria={updateCriteria}
+      ? <LeaderboardFilters filters={filters} updateCriteria={updateCriteria}
         updateOrder={updateOrder} updateTimespan={updateTimespan}/>
       : ''}
 
     <ListCon className="topPlayers" ascending={filters.order === Filters.orderTypes.ASC}>
       {topUsers.slice(0, maxItems).map((user, index) =>
-        <LeaderboardsRow key={user.id} user={user}
+        <LeaderboardRow key={user.id} user={user}
           position={filters.order === Filters.orderTypes.ASC ? topUsers.length - index : index + 1}
           points={getUserPoints(user, filters.criteria)} />,
       )}
@@ -49,9 +49,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateCriteria: criteria => dispatch(LeaderboardsActions.Creators.updateCriteria(criteria)),
-  updateOrder: order => dispatch(LeaderboardsActions.Creators.updateOrder(order)),
-  updateTimespan: timespan => dispatch(LeaderboardsActions.Creators.updateTimespan(timespan)),
+  updateCriteria: criteria => dispatch(LeaderboardActions.Creators.updateCriteria(criteria)),
+  updateOrder: order => dispatch(LeaderboardActions.Creators.updateOrder(order)),
+  updateTimespan: timespan => dispatch(LeaderboardActions.Creators.updateTimespan(timespan)),
 })
 
-export const Leaderboards = connect(mapStateToProps, mapDispatchToProps)(LeaderboardsComponent)
+export const Leaderboard = connect(mapStateToProps, mapDispatchToProps)(LeaderboardComponent)

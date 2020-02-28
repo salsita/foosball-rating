@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Leaderboards } from '../../components/Leaderboards/Leaderboards'
+import { Leaderboard } from '../../components/Leaderboard/Leaderboard'
 import { Subtitle, Box } from './../../../styles/blocks'
 
-export const LeaderboardsPage = () =>
+export const LeaderboardPage = () =>
   <Box Margin="10px" Padding="10px">
     <Subtitle textAlign="center">Hall of Fame</Subtitle>
-    <Leaderboards maxItems={Number.MAX_SAFE_INTEGER} showFilters={true} />
+    <Leaderboard maxItems={Number.MAX_SAFE_INTEGER} showFilters={true} />
   </Box>

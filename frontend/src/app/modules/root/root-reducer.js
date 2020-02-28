@@ -7,10 +7,10 @@ import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
 import { DASHBOARD } from '../../const/routes'
 import { ThemeActions } from '../theme/theme-actions'
-import { LeaderboardsActions } from '../leaderboards/leaderboards-actions'
+import { LeaderboardActions } from '../leaderboard/leaderboard-actions'
 import { ThemeTypes } from '../../const/theme-types'
 import { StorageThemeKey } from '../../const/constants'
-import * as Filters from '../../const/leaderboards-filters'
+import * as Filters from '../../const/leaderboard-filters'
 
 const initialState = {
   matchesStatus: ready,
@@ -142,7 +142,7 @@ export const rootReducer = createReducer(initialState, {
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
   [ThemeActions.Types.THEME_CHANGED]: themeChanged,
   [ThemeActions.Types.STOP_THEME_TRANSITION]: stopThemeTransition,
-  [LeaderboardsActions.Types.UPDATE_CRITERIA]: updateCriteria,
-  [LeaderboardsActions.Types.UPDATE_ORDER]: updateOrder,
-  [LeaderboardsActions.Types.UPDATE_TIMESPAN]: updateTimespan,
+  [LeaderboardActions.Types.UPDATE_CRITERIA]: updateCriteria,
+  [LeaderboardActions.Types.UPDATE_ORDER]: updateOrder,
+  [LeaderboardActions.Types.UPDATE_TIMESPAN]: updateTimespan,
 })

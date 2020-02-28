@@ -8,7 +8,7 @@ const trophies = [
   require('../../../media/trophy-3.svg'),
 ]
 
-export const LeaderboardsRow = ({ user, position, points }) => (
+export const LeaderboardRow = ({ user, position, points }) => (
   <ListItem>
     <TextSpan align="left">{
       position > 3 ? (position + '.') : <img src={trophies[position - 1]} />
