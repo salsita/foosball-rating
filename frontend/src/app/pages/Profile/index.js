@@ -5,20 +5,21 @@ import {
   Subtitle,
   Box, ProfileDetail,
 } from './../../../styles/blocks'
-import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
-import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
+import ProfileBattleHistory from './../../components/ProfileBattleHistory'
+import ProfileRatingGraph from '../../components/ProfileRatingGraph'
+import ProfileStatistics from '../../components/ProfileStatistics'
 import { getPlayer } from '../../modules/players/players-selectors'
-import { getStatisticsForPlayer } from '../../modules/matches/matches-selectors'
+import { getStatisticsForPlayer, getRankingsForPlayer } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
   render() {
     if (!this.props.player) {
       return <div />
     }
-
     const {
       player: { name, rating, id },
-      statistics: { totalMatches, winRatio, longestStreak, matchChanges },
+      rankings,
+      statistics: { totalMatches, winRatio, longestStreak, matchChanges, moreStatistics },
     } = this.props
 
     return (
@@ -27,10 +28,12 @@ class ProfileComponent extends Component {
         <Subtitle>Elo rating: {rating}</Subtitle>
         <ProfileDetail>
           <Subtitle>Matches: {totalMatches}</Subtitle>
+          <Subtitle>Wins: {Math.round(totalMatches * winRatio)}</Subtitle>
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
         <ProfileRatingGraph playerId={id} />
+        <ProfileStatistics statistics={moreStatistics} rankings={rankings} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>
     )
@@ -40,6 +43,7 @@ class ProfileComponent extends Component {
 
 const mapStateToProps = (state, props) => ({
   player: getPlayer(state, Number(props.match.params.playerId)),
+  rankings: getRankingsForPlayer(state, Number(props.match.params.userId)),
   statistics: getStatisticsForPlayer(state, Number(props.match.params.playerId)),
 })
 

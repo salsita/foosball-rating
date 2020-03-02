@@ -77,4 +77,20 @@ const ProfileDetail = styled.div`
   }
 `
 
-export { Nav, Container, GridContainer, Box, ProfileDetail }
+const StatisticsTable = styled.table`
+  font-size: ${variables.fontSizeProfileDetails};
+  text-align: left;
+  margin: 0 0 20px 0;
+  width: 100%;
+
+  td:nth-child(1) {
+    padding-right: 10px;
+  }
+`
+
+const StatisticsValue = styled.span`
+  text-align: right;
+  float: right;
+`
+
+export { Nav, Container, GridContainer, Box, ProfileDetail, StatisticsTable, StatisticsValue }

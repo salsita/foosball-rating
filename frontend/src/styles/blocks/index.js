@@ -1,8 +1,12 @@
+
 import {
   Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
   FiltersBlock, FiltersSpan, StyledHyperLink,
 } from './typo'
-import { Nav, Container, GridContainer, Box, ProfileDetail } from './layout'
+import { 
+  Nav, Container, GridContainer, Box, ProfileDetail, 
+  StatisticsTable, StatisticsValue,
+} from './layout'
 import { ListCon, ListItem } from './list'
 import { StyledLink, SimpleLink } from './link'
 import { Button, SimpleButton } from './buttons'
@@ -11,7 +15,7 @@ import { Logo } from './logo'
 
 export {
   Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
-  FiltersBlock, FiltersSpan, StyledHyperLink,
+  FiltersBlock, FiltersSpan, StatisticsTable, StatisticsValue, StyledHyperLink,
   Nav, Container, GridContainer, Box, ProfileDetail,
   ListCon, ListItem,
   SimpleLink, StyledLink,
