@@ -3,6 +3,15 @@ const didPlayerWin = (playerId, match) => {
   return Boolean(winningTeam.find(player => player.id === playerId))
 }
 
+const getTeamMates = (userId, match) => {
+  const userTeam = match.team1.find(player => player.id === userId) ? match.team1 : match.team2
+  return userTeam.filter(player => player.id != userId)
+}
+
+const getOpponents = (userId, match) => {
+  return match.team1.find(player => player.id === userId) ? match.team2 : match.team1
+}
+
 export const generateMatchRatingChanges = (playerId, playerMatches) => playerMatches.map(match => {
   const didWin = didPlayerWin(playerId, match)
   const ratingChangeString = didWin
@@ -67,4 +76,103 @@ export const computeLongestWinStreak = (playerId, playerMatches) => {
 export const computeWinRatio = (playerId, playerMatches) => {
   const wonMatchesCount = playerMatches.filter(match => didPlayerWin(playerId, match)).length
   return (playerMatches.length > 0) ? (wonMatchesCount / playerMatches.length) : 0
+}
+
+export const computeDays = matchChanges => {
+  let worstDay = {}
+  let bestDay = {}
+  let daysMap = {}
+  for (let match of matchChanges) {
+    const key = match.date.toLocaleDateString()
+    const value = Number(match.ratingChangeString)
+    if (!daysMap.hasOwnProperty(key)) {
+      daysMap[key] = {
+        date: key,
+        value,
+      }
+    } else {
+      daysMap[key]['value'] += value
+    }
+
+    bestDay = updateMaxFromMap(bestDay, 'value', daysMap, key)
+    worstDay = updateMinFromMap(worstDay, 'value', daysMap, key)
+  }
+
+  return {
+    bestDay,
+    worstDay,
+  }
+}
+
+export const computeTeammates = (userId, userMatches) => {
+  const teammates = findSignificantUsers(userId, userMatches, getTeamMates)
+  return {
+    mostFrequentTeammate: teammates['mostFrequentUser'],
+    leastFrequentTeammate: teammates['leastFrequentUser'],
+    mostSuccessTeammate: teammates['mostSuccessUser'],
+    leastSuccessTeammate: teammates['leastSuccessUser'],
+  }
+}
+
+export const computeOpponents = (userId, userMatches) => {
+  const opponents = findSignificantUsers(userId, userMatches, getOpponents)
+  return {
+    mostFrequentOpponent: opponents['mostFrequentUser'],
+    leastFrequentOpponent: opponents['leastFrequentUser'],
+    mostSuccessOpponent: opponents['mostSuccessUser'],
+    leastSuccessOpponent: opponents['leastSuccessUser'],
+  }
+}
+
+const findSignificantUsers = (userId, userMatches, usersProvider) => {
+  let mostFrequentUser = {}
+  let leastFrequentUser = {}
+  let mostSuccessUser = {}
+  let leastSuccessUser = {}
+  let usersMap = {}
+  for (let match of userMatches) {
+    const users = usersProvider(userId, match)
+    for (let user of users) {
+      if (!usersMap.hasOwnProperty(user.id)) {
+        usersMap[user.id] = {
+          user: user,
+          matches: 1,
+          wins: Number(didUserWin(userId, match)),
+          winRatio: Number(didUserWin(userId, match)),
+        }
+      } else {
+        ++usersMap[user.id]['matches']
+        usersMap[user.id]['wins'] += Number(didUserWin(userId, match))
+        usersMap[user.id]['winRatio'] = usersMap[user.id]['wins']**2 / usersMap[user.id]['matches']
+      }
+
+      mostFrequentUser = updateMaxFromMap(mostFrequentUser, 'matches', usersMap[user.id])
+      leastFrequentUser = updateMinFromMap(leastFrequentUser, 'matches', usersMap[user.id])
+      mostSuccessUser = updateMaxFromMap(mostSuccessUser, 'winRatio', usersMap[user.id])
+      leastSuccessUser = updateMinFromMap(leastSuccessUser, 'winRatio', usersMap[user.id])
+    }
+  }
+
+  return {
+    mostFrequentUser,
+    leastFrequentUser,
+    mostSuccessUser,
+    leastSuccessUser,
+  }
+}
+
+const updateMinFromMap = (target, targetKey, source) => {
+  if (!target.hasOwnProperty(targetKey) 
+  || target[targetKey] >= source[targetKey]) {
+    return { ...source }
+  }
+  return target
+}
+
+const updateMaxFromMap = (target, targetKey, source) => {
+  if (!target.hasOwnProperty(targetKey) 
+  || target[targetKey] < source[targetKey]) {
+    return { ...source }
+  }
+  return target
 }

@@ -4,6 +4,9 @@ import {
   computeWinRatio,
   generateMatchRatingChanges,
   plotRatingHistory,
+  computeDays,
+  computeTeammates,
+  computeOpponents,
 } from './matches-computations'
 import { getPlayer } from '../players/players-selectors'
 
@@ -42,6 +45,13 @@ const generateStatisticsForPlayer = (playerId, playerMatches) => ({
   longestStreak: computeLongestWinStreak(playerId, playerMatches),
   winRatio: computeWinRatio(playerId, playerMatches),
   totalMatches: playerMatches.length,
+    moreStatistics: computeMoreStatistics(userId, matchChanges, userMatches),
+}}
+
+const computeMoreStatistics = (userId, matchChanges, userMatches) => ({
+  ...computeDays(matchChanges), 
+  ...computeTeammates(userId, userMatches),
+  ...computeOpponents(userId, userMatches),
 })
 
 export const getStatisticsForPlayer = createSelector(
