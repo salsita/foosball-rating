@@ -7,8 +7,7 @@ import {
   Button,
   StyledLink,
 } from './../../styles/blocks/'
-import { CREATE_MATCH } from '../const/routes'
-import { DASHBOARD } from '../const/routes'
+import { CREATE_MATCH, DASHBOARD } from '../const/routes'
 import { withRouter } from 'react-router-dom'
 import { ThemeActions } from '../modules/theme/theme-actions'
 

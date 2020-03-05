@@ -1,4 +1,5 @@
 export const DASHBOARD = '/'
+export const LEADERBOARD = '/leaderboard'
 export const CREATE_MATCH = '/create-match'
 export const PROFILE = '/profile/:userId'
 export const ADD_USER = '/add-user'

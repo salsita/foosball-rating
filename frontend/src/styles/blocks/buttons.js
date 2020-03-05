@@ -13,6 +13,10 @@ const Button = styled.button`
   @media (min-width: ${variables.bpMedium}) {
     width: 300px;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export default Button

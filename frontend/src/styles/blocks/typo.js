@@ -7,16 +7,42 @@ const Title = styled.h1`
   margin: ${props => props.Margin};
   font-weight: 400;
 `
+
 const Subtitle = styled.h2`
   font-size: ${variables.fontSizeSubtitle};
   text-align: ${props => props.textAlign};
   font-weight: 400;
 `
+
 const TextSpan = styled.span`
   text-align: ${props => props.textAlign};
+  float: ${props => props.align || 'none'};
   font-weight: 400;
   padding: 0 5px;
 `
+
+const TextDiv = styled.div`
+  text-align: ${props => props.textAlign};
+  float: ${props => props.align || 'none'};
+  font-weight: 400;
+  padding: 0 5px
+  width: calc(100% - 41px)
+`
+
+const FiltersSpan = styled.span`
+  font-weight: 400;
+  padding: 0 5px;
+  user-select: none;
+
+  &.active-filter {
+    color: var(--cActiveFilter);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
 const WinnerSpan = styled.span`
   text-align: ${props => props.textAlign};
   color: ${({ winner }) => winner ? 'var(--TeamsColorWin)' : 'var(--TeamColorLoss)'};
@@ -26,6 +52,12 @@ const WinnerSpan = styled.span`
 
 const BattleLabel = styled.span`
   order: 2;
+`
+
+const FiltersBlock = styled.div`
+  width: 100%;
+  font-size: 18px;
+  overflow-wrap: break-word;
 `
 
 const StyledHyperLink = styled.a`
@@ -38,4 +70,7 @@ const StyledHyperLink = styled.a`
   }
 `
 
-export { Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, StyledHyperLink }
+export {
+  Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
+  FiltersBlock, FiltersSpan, StyledHyperLink,
+}

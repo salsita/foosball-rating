@@ -19,6 +19,7 @@
 
   --TeamsColorWin: #03ac46;
   --TeamColorLoss: #fa131b;
+  --cActiveFilter: var(--cRed);
 }
 
 .dark {
@@ -42,6 +43,7 @@
 
   --TeamsColorWin: #30AE63;
   --TeamColorLoss: rgb(238, 95, 100);
+  --cActiveFilter: var(--cYellow);
 }
 
 .light,
