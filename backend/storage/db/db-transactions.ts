@@ -1,11 +1,11 @@
-const { Pool } = require('pg')
-const dbConfig = require('./db-config')
+import { Pool } from 'pg'
+import * as dbConfig from './db-config'
 
 const pool = new Pool(dbConfig.productionConfig)
 
-class Transaction {
-    constructor(client) {
-        this.client = client
+export class Transaction {
+    private active: boolean
+    constructor(private client) {
         this.active = true
     }
 
@@ -49,7 +49,7 @@ class Transaction {
     }
 }
 
-exports.beginTransaction = async () => {
+export const beginTransaction = async () => {
     const client = await pool.connect()
     try {
         await client.query('BEGIN')

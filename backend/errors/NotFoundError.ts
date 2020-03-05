@@ -1,8 +1,7 @@
-class NotFoundError extends Error {
+export class NotFoundError extends Error {
+    readonly httpStatusCode: number
     constructor(message) {
         super(message)
         this.httpStatusCode = 404 
     }
 }
-
-exports.NotFoundError = NotFoundError

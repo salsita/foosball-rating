@@ -1,14 +1,12 @@
-const dbTransformations = require('./db/db-transformations')
-const dbQueries = require('./db/db-queries')
-const dbErrors = require('./db/db-errors')
-const { ConflictError } = require('../errors/ConflictError')
-const { InputError } = require('../errors/InputError')
-const { NotFoundError } = require('../errors/NotFoundError')
+import * as dbTransformations from './db/db-transformations'
+import * as dbQueries from './db/db-queries'
+import * as dbErrors from './db/db-errors'
+import { ConflictError } from '../errors/ConflictError'
+import { InputError } from '../errors/InputError'
+import { NotFoundError } from '../errors/NotFoundError'
 
-class StorageContext {
-    constructor(transaction) {
-        this.transaction = transaction
-    }
+export class StorageContext {
+    constructor(private transaction) {}
 
     async getAllUsers() {
         let rows
@@ -142,5 +140,3 @@ class StorageContext {
         await this.transaction.rollback()
     }
 }
-
-exports.StorageContext = StorageContext

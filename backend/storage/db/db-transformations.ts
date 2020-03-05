@@ -1,4 +1,4 @@
-exports.createUserFromDbRow = (userRow) => ({
+export const createUserFromDbRow = (userRow) => ({
     id: Number(userRow.Id),
     name: userRow.Name,
     rating: Number(userRow.Rating),
@@ -6,7 +6,7 @@ exports.createUserFromDbRow = (userRow) => ({
     initialRating: Number(userRow.InitialRating)
 })
 
-exports.createMatchFromDbRow = (matchRow) => {
+export const createMatchFromDbRow = (matchRow) => {
     const team1Player2Array = matchRow.Team1Player2Id ? [{
         id: Number(matchRow.Team1Player2Id),
         matchRating: Number(matchRow.Team1Player2Rating)

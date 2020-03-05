@@ -1,4 +1,4 @@
-exports.testConfig = {
+export const testConfig = {
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
@@ -6,12 +6,13 @@ exports.testConfig = {
     port: 5432,
 }
 
+export let productionConfig
 if (process.env.DATABASE_URL) {
-    exports.productionConfig = {
+    productionConfig = {
         connectionString: process.env.DATABASE_URL,
     }
 } else {
-    exports.productionConfig = {
+    productionConfig = {
         user: 'rwarcmrtvowmie',
         host: 'ec2-54-75-232-114.eu-west-1.compute.amazonaws.com',
         database: 'd4fdcat6vlkd1k',
@@ -20,4 +21,3 @@ if (process.env.DATABASE_URL) {
         ssl: true,
     }
 }
-

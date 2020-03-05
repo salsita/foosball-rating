@@ -1,10 +1,12 @@
 const DEFAULT_LEADERBOARD_SIZE = 5;
 
-class MatchReporter {
-  constructor(bot, matchReportPrefixSuffixConfig, leaderboardSize = DEFAULT_LEADERBOARD_SIZE) {
-    this.bot = bot
-    this.leaderboardSize = leaderboardSize
-
+export default class MatchReporter {
+  readonly decorations
+  constructor(
+    readonly bot,
+    matchReportPrefixSuffixConfig,
+    readonly leaderboardSize = DEFAULT_LEADERBOARD_SIZE
+  ) {
     try {
       this.decorations = parseMatchReportDecorations(matchReportPrefixSuffixConfig)
     } catch (e) {
@@ -58,7 +60,7 @@ const createMatchResultMessage = (match, decorations) => {
 
   const messageParts = []
 
-  const { prefix, suffix } = decorations && winningTeam.length === 2
+  const { prefix = null, suffix = null } = decorations && winningTeam.length === 2
     ? getDecorationsForTeam(winningTeam, decorations)
     : {}
 
@@ -124,6 +126,3 @@ const createPurposeMessage = async (rankings) => {
   const purpose = 'TOP PLAYERS\n' + rankingsText
   return purpose
 }
-
-
-module.exports = MatchReporter
