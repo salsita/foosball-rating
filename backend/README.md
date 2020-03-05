@@ -13,7 +13,7 @@ psql -U username -d dbName -f ./db_migrations/02-create-matches.sql
 etc.
 ```
 
-To configure your database, either edit the `./storage/db/db-config.js` with your DB configuration, or configure it as an environment variable.
+To configure your database, either edit the `./storage/db/db-config.ts` with your DB configuration, or configure it as an environment variable.
 
 
 ## Running

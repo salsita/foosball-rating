@@ -1,7 +1,7 @@
-const storage = require('../storage/storage')
+const storage = require('../storage/Storage')
 const ratingCalculator = require('../rating/rating-calculator')
-const { InputError } = require('../errors/input-error')
-const { NotFoundError } = require('../errors/not-found-error')
+const { InputError } = require('../errors/InputError')
+const { NotFoundError } = require('../errors/NotFoundError')
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 

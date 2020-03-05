@@ -1,13 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const storage = require('./storage/storage')
-const matchRepository = require('./repositories/match-repository')
-const userRepository = require('./repositories/user-repository')
+const storage = require('./storage/Storage')
+const matchRepository = require('./repositories/MatchRepository')
+const userRepository = require('./repositories/UserRepository')
 
 const botFactory = require('./bot/bot-factory')
 
-const MatchReporter = require('./match-reporter/match-reporter')
+const MatchReporter = require('./match-reporter/MatchReporter')
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
