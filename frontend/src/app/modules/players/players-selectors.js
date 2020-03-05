@@ -66,7 +66,7 @@ const getPlayerCriteriaPoints = (player, matchesLast, criteria) => {
 export const getRankingsForUser = createSelector(
   getTopUsers,
   (state, userId) => userId,
-  (users, userId) => generateRatingStatisticsForUser(users, userId)
+  (users, userId) => generateRatingStatisticsForUser(users, userId),
 )
 
 const generateRatingStatisticsForUser = (users, userId) => {
@@ -74,6 +74,6 @@ const generateRatingStatisticsForUser = (users, userId) => {
   return {
     ranking: index + 1,
     toNextRank: index > 0 ? users[index - 1].rating - users[index].rating : 0,
-    toPrevRank: index < users.length - 1 ? users[index].rating - users[index + 1].rating : 0
+    toPrevRank: index < users.length - 1 ? users[index].rating - users[index + 1].rating : 0,
   }
 }

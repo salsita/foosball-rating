@@ -41,12 +41,15 @@ const getLastMatchesForPlayer = createSelector(
 )
 
 const generateStatisticsForPlayer = (playerId, playerMatches) => ({
-  matchChanges: generateMatchRatingChanges(playerId, playerMatches),
-  longestStreak: computeLongestWinStreak(playerId, playerMatches),
-  winRatio: computeWinRatio(playerId, playerMatches),
-  totalMatches: playerMatches.length,
-  moreStatistics: computeMoreStatistics(playerId, matchChanges, playerMatches),
-})
+  const matchChanges = generateMatchRatingChanges(userId, userMatches)
+  return {
+    matchChanges,
+    longestStreak: computeLongestWinStreak(userId, userMatches),
+    winRatio: computeWinRatio(userId, userMatches),
+    totalMatches: userMatches.length,
+    moreStatistics: computeMoreStatistics(userId, matchChanges, userMatches),
+  }
+}
 
 const computeMoreStatistics = (playerId, matchChanges, playerMatches) => ({
   ...computeDays(matchChanges), 

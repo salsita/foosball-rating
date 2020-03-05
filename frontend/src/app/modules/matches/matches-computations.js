@@ -81,8 +81,8 @@ export const computeWinRatio = (playerId, playerMatches) => {
 export const computeDays = matchChanges => {
   let worstDayKey = ''
   let bestDayKey = ''
-  let daysMap = {}
-  for (let match of matchChanges) {
+  const daysMap = {}
+  for (const match of matchChanges) {
     const key = match.date.toLocaleDateString()
     const value = Number(match.ratingChangeString)
     if (!daysMap.hasOwnProperty(key)) {
@@ -129,10 +129,10 @@ const findSignificantUsers = (userId, userMatches, usersProvider) => {
   let leastFrequentUser = {}
   let mostSuccessUser = {}
   let leastSuccessUser = {}
-  let usersMap = {}
-  for (let match of userMatches) {
+  const usersMap = {}
+  for (const match of userMatches) {
     const users = usersProvider(userId, match)
-    for (let user of users) {
+    for (const user of users) {
       if (!usersMap.hasOwnProperty(user.id)) {
         usersMap[user.id] = {
           user: user,
@@ -162,16 +162,18 @@ const findSignificantUsers = (userId, userMatches, usersProvider) => {
 }
 
 const updateMinFromMap = (target, targetKey, source) => {
-  if (!target.hasOwnProperty(targetKey) 
-  || target[targetKey] >= source[targetKey]) {
+  if (!target.hasOwnProperty(targetKey) ||
+    target[targetKey] >= source[targetKey]
+  ) {
     return { ...source }
   }
   return target
 }
 
 const updateMaxFromMap = (target, targetKey, source) => {
-  if (!target.hasOwnProperty(targetKey) 
-  || target[targetKey] < source[targetKey]) {
+  if (!target.hasOwnProperty(targetKey) ||
+    target[targetKey] < source[targetKey]
+  ) {
     return { ...source }
   }
   return target

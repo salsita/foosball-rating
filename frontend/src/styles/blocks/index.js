@@ -1,4 +1,3 @@
-
 import {
   Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
   FiltersBlock, FiltersSpan, StyledHyperLink,
@@ -17,6 +16,8 @@ export {
   Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
   FiltersBlock, FiltersSpan, StatisticsTable, StatisticsValue, StyledHyperLink,
   Nav, Container, GridContainer, Box, ProfileDetail,
+  Title, Subtitle, TextSpan, WinnerSpan, BattleLabel, StyledHyperLink,
+  Nav, Container, GridContainer, Box, ProfileDetail, StatisticsTable, StatisticsValue,
   ListCon, ListItem,
   SimpleLink, StyledLink,
   Button, SimpleButton,
