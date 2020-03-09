@@ -1,7 +1,6 @@
 {
     "env": {
       "es6": true,
-      "node": true,
       "mocha": true,
       "browser": true
     },
@@ -29,11 +28,6 @@
         "never"
       ],
       "mocha/no-exclusive-tests": "error",
-      "no-var": "error",
-      "prefer-arrow-callback": "warn",
-      "no-unused-vars": "warn",
-      "no-warning-comments": "warn",
-      "no-console": 0,
       "indent": [
         "error",
         2,
@@ -41,34 +35,6 @@
           "SwitchCase": 1
         }
       ],
-      "max-len": [
-        "warn",
-        {
-          "code": 100,
-          "ignoreComments": true,
-          "ignoreUrls": true,
-          "ignoreStrings": true,
-          "ignoreTemplateLiterals": true,
-          "ignoreRegExpLiterals": true
-        }
-      ],
-      "comma-dangle": [
-        "error",
-        "always-multiline"
-      ],
-      "eol-last": [
-        "error",
-        "always"
-      ],
-      "keyword-spacing": [
-        "error"
-      ],
-      "object-curly-spacing": [
-        "error",
-        "always"
-      ],
-      "no-trailing-spaces": "error",
-      "prefer-const": "warn",
       "react/self-closing-comp": [
         "error",
         {
@@ -76,22 +42,6 @@
           "html": true
         }
       ],
-      "operator-linebreak": [
-        "error",
-        "after",
-        {
-          "overrides": {
-            "?": "before",
-            ":": "before",
-            "===": "ignore"
-          }
-        }
-      ],
-      "arrow-parens": [
-        "warn",
-        "as-needed"
-      ],
-      "consistent-return": "error",
       "react/button-has-type": "warn",
       "react/prop-types": 0 // will be changed to TS
     },
