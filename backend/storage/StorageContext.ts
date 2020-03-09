@@ -1,9 +1,9 @@
 const dbTransformations = require('./db/db-transformations')
 const dbQueries = require('./db/db-queries')
 const dbErrors = require('./db/db-errors')
-const { ConflictError } = require('../errors/conflict-error')
-const { InputError } = require('../errors/input-error')
-const { NotFoundError } = require('../errors/not-found-error')
+const { ConflictError } = require('../errors/ConflictError')
+const { InputError } = require('../errors/InputError')
+const { NotFoundError } = require('../errors/NotFoundError')
 
 class StorageContext {
     constructor(transaction) {

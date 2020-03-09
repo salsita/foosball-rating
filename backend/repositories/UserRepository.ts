@@ -1,5 +1,5 @@
-const storage = require("../storage/storage")
-const { InputError } = require('../errors/input-error')
+const storage = require("../storage/Storage")
+const { InputError } = require('../errors/InputError')
 
 const isValidName = (name) => {
     if (name.length === 0) {
