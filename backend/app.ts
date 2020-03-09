@@ -1,13 +1,13 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
 
-const storage = require('./storage/Storage')
-const matchRepository = require('./repositories/MatchRepository')
-const userRepository = require('./repositories/UserRepository')
+import * as storage from './storage/Storage'
+import * as matchRepository from './repositories/MatchRepository'
+import * as userRepository from './repositories/UserRepository'
 
-const botFactory = require('./bot/bot-factory')
+import * as botFactory from './bot/bot-factory'
 
-const MatchReporter = require('./match-reporter/MatchReporter')
+import MatchReporter from './match-reporter/MatchReporter'
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })

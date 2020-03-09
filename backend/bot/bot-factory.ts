@@ -1,11 +1,11 @@
-const SlackBot = require('slackbots')
+import SlackBot from 'slackbots'
 
 class SingleChannelBot {
-  constructor(slackbot, channelName, channelId) {
-    this.slackbot = slackbot
-    this.channelName = channelName
-    this.channelId = channelId
-  }
+  constructor(
+    private readonly slackbot,
+    private readonly channelName,
+    private readonly channelId
+  ) {}
 
   setGroupPurpose(purpose) {
     return this.slackbot._api('groups.setPurpose', { channel: this.channelId, purpose })
@@ -16,7 +16,7 @@ class SingleChannelBot {
   }
 }
 
-const makeBot = (botToken, channelName) => {
+export const makeBot = (botToken, channelName) => {
   return new Promise((resolve, reject) => {
     if (!botToken || !channelName) {
       return reject(Error('botToken or channelName missing'))
@@ -39,5 +39,3 @@ const makeBot = (botToken, channelName) => {
     })
   })
 }
-
-module.exports = { makeBot }

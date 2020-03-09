@@ -1,13 +1,13 @@
-const dbTransactions = require('./db/db-transactions')
-const { StorageContext } = require('./StorageContext')
+import * as dbTransactions from './db/db-transactions'
+import { StorageContext } from './StorageContext'
 
-exports.makeStorageContext = async () => {
+export const makeStorageContext = async () => {
     const transaction = await dbTransactions.beginTransaction()
     return new StorageContext(transaction)
 }
 
 const executeAndCommit = async (operation) => {
-    const context = await exports.makeStorageContext()
+    const context = await makeStorageContext()
     try {
         const result = await operation(context)
         await context.commit()
@@ -18,17 +18,17 @@ const executeAndCommit = async (operation) => {
     }
 }
 
-exports.getAllUsers = async () => executeAndCommit((context) => context.getAllUsers())
+export const getAllUsers = async () => executeAndCommit((context) => context.getAllUsers())
 
-exports.getUser = async (userId) => executeAndCommit((context) => context.getUser(userId))
+export const getUser = async (userId) => executeAndCommit((context) => context.getUser(userId))
 
-exports.updateRatingForUser = async (userId, newRating) => 
+export const updateRatingForUser = async (userId, newRating) => 
     executeAndCommit((context) => context.updateRatingForUser(userId, newRating))
 
-exports.insertUser = async (user) => executeAndCommit((context) => context.insertUser(user))
+export const insertUser = async (user) => executeAndCommit((context) => context.insertUser(user))
 
-exports.insertMatch = async (match) => executeAndCommit((context) => context.insertMatch(match))
+export const insertMatch = async (match) => executeAndCommit((context) => context.insertMatch(match))
 
-exports.getAllMatches = async () => executeAndCommit((context) => context.getAllMatches())
+export const getAllMatches = async () => executeAndCommit((context) => context.getAllMatches())
 
-exports.getLatestMatch = async () => executeAndCommit((context) => context.getLatestMatch())
+export const getLatestMatch = async () => executeAndCommit((context) => context.getLatestMatch())

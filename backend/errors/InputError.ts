@@ -1,8 +1,7 @@
-class InputError extends Error {
+export class InputError extends Error {
+    readonly httpStatusCode: number
     constructor(message) {
         super(message)
         this.httpStatusCode = 422 
     }
 }
-
-exports.InputError = InputError

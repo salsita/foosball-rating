@@ -20,7 +20,7 @@ const average = (array) => {
   * 
   * @returns {RatingChanges} The rating changes of the teams.
   */
-exports.computeRatingChanges = (winningTeam, losingTeam) => {
+export const computeRatingChanges = (winningTeam, losingTeam) => {
 	const winningAvg = average(winningTeam.map(player => player.rating))
 	const losingAvg = average(losingTeam.map(player => player.rating))
 

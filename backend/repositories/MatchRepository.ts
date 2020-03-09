@@ -1,7 +1,7 @@
-const storage = require('../storage/Storage')
-const ratingCalculator = require('../rating/rating-calculator')
-const { InputError } = require('../errors/InputError')
-const { NotFoundError } = require('../errors/NotFoundError')
+import * as storage from '../storage/Storage'
+import * as ratingCalculator from '../rating/rating-calculator'
+import { InputError } from '../errors/InputError'
+import { NotFoundError } from '../errors/NotFoundError'
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
@@ -54,13 +54,17 @@ const getRatingChanges = ({team1, team2}, team1Won) => {
 }
 
 class Match {
-    constructor({team1, team2}, team1Won, date, winningTeamRatingChange, losingTeamRatingChange) {
+    readonly team1
+    readonly team2
+    constructor(
+        {team1, team2},
+        readonly team1Won,
+        readonly date,
+        readonly winningTeamRatingChange,
+        readonly losingTeamRatingChange
+    ) {
         this.team1 = team1
         this.team2 = team2
-        this.team1Won = team1Won
-        this.date = date
-        this.winningTeamRatingChange = winningTeamRatingChange
-        this.losingTeamRatingChange = losingTeamRatingChange
     }
 }
 
@@ -91,7 +95,7 @@ const getElapsedSecondsSinceLatestMatch = async () => {
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
   */
-exports.recordMatch = async (matchDescription) => {
+export const recordMatch = async (matchDescription) => {
     const elapsedTime = await getElapsedSecondsSinceLatestMatch()
     if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
         throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)

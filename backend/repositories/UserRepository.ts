@@ -1,5 +1,5 @@
-const storage = require("../storage/Storage")
-const { InputError } = require('../errors/InputError')
+import * as storage from "../storage/Storage"
+import { InputError } from '../errors/InputError'
 
 const isValidName = (name) => {
     if (name.length === 0) {
@@ -13,7 +13,7 @@ const isValidName = (name) => {
     return true
 }
 
-exports.addUser = async (user) => {
+export const addUser = async (user) => {
     if (!isValidName(user.name)) {
         throw new InputError("The name is not valid")
     }
