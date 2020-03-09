@@ -1,4 +1,7 @@
-export const createUserFromDbRow = userRow => ({
+import { User } from '../../types/User'
+import { MatchWithId } from '../../types/Match'
+
+export const createUserFromDbRow = (userRow): User => ({
   id: Number(userRow.Id),
   name: userRow.Name,
   rating: Number(userRow.Rating),
@@ -6,7 +9,7 @@ export const createUserFromDbRow = userRow => ({
   initialRating: Number(userRow.InitialRating),
 })
 
-export const createMatchFromDbRow = matchRow => {
+export const createMatchFromDbRow = (matchRow): MatchWithId => {
   const team1Player2Array = matchRow.Team1Player2Id ? [{
     id: Number(matchRow.Team1Player2Id),
     matchRating: Number(matchRow.Team1Player2Rating),

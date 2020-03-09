@@ -1,4 +1,6 @@
-const average = array => {
+import { RatingChanges } from '../types/RatingChanges'
+
+const average = (array): number => {
   const sum = array.reduce((a, b) => a + b)
   return sum / array.length
 }
@@ -20,7 +22,7 @@ const average = array => {
   *
   * @returns {RatingChanges} The rating changes of the teams.
   */
-export const computeRatingChanges = (winningTeam, losingTeam) => {
+export const computeRatingChanges = (winningTeam, losingTeam): RatingChanges => {
   const winningAvg = average(winningTeam.map(player => player.rating))
   const losingAvg = average(losingTeam.map(player => player.rating))
 
