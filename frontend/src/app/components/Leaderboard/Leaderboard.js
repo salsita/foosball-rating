@@ -9,7 +9,7 @@ import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-action
 import * as Filters from '../../const/leaderboard-filters'
 
 const LeaderboardComponent = (
-  { topUsers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan }
+  { topUsers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
 ) => (
   <>
     {showFilters
