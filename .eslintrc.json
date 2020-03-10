@@ -1,0 +1,59 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "no-var": "error",
+    "prefer-arrow-callback": "warn",
+    "no-unused-vars": [
+      "warn"
+    ],
+    "no-warning-comments": "warn",
+    "no-console": 0,
+    "max-len": [
+      "warn",
+      {
+        "code": 100,
+        "ignoreComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "keyword-spacing": [
+      "error"
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "no-trailing-spaces": "error",
+    "prefer-const": "warn",
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before",
+          "===": "ignore"
+        }
+      }
+    ],
+    "arrow-parens": [
+      "warn",
+      "as-needed"
+    ],
+    "consistent-return": "error"
+  }
+}

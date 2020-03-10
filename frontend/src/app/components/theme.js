@@ -6,7 +6,7 @@ const ThemeComponent = ({ theme, themeTransition, children }) => {
   const themeClass = classNames(
     theme, {
       'theme-transition': themeTransition,
-    }
+    },
   )
 
   return (

@@ -1,4 +1,4 @@
-const DEFAULT_LEADERBOARD_SIZE = 5;
+const DEFAULT_LEADERBOARD_SIZE = 5
 
 export default class MatchReporter {
   readonly decorations
@@ -87,7 +87,7 @@ const createMatchResultMessage = (match, decorations) => {
 }
 
 const getDecorationsForTeam = (team, decorations) => {
-  for (let decoration of decorations) {
+  for (const decoration of decorations) {
     if (team.every(player => player.name === decoration.player1 || player.name === decoration.player2)) {
       return decoration
     }
@@ -100,7 +100,7 @@ const createRankingChangeMessage = (oldRankings, newRankings) => {
     .map((oldPlayer, index) => ({
       name: oldPlayer.name,
       oldRanking: index + 1,
-      newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1
+      newRanking: newRankings.findIndex(p => p.id === oldPlayer.id) + 1,
     }))
     .filter(ranking => ranking.oldRanking != ranking.newRanking)
 
@@ -109,7 +109,7 @@ const createRankingChangeMessage = (oldRankings, newRankings) => {
   }
 
   return rankingChanges
-    .map((c) => (
+    .map(c => (
       `${c.name} ${c.oldRanking}. ⟶ ${c.newRanking}.`)
     )
     .join('\n')
@@ -119,7 +119,7 @@ const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings) => (
   oldRankings.findIndex((oldPlayer, index) => oldPlayer.id !== newRankings[index].id) < leaderboardSize
 )
 
-const createPurposeMessage = async (rankings) => {
+const createPurposeMessage = async rankings => {
   const rankingsText = rankings
     .map((ranking, i) => `${i + 1}. ${ranking.name} (${ranking.rating})`)
     .join('\n')

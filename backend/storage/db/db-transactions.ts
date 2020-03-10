@@ -4,59 +4,59 @@ import * as dbConfig from './db-config'
 const pool = new Pool(dbConfig.productionConfig)
 
 export class Transaction {
-    private active: boolean
-    constructor(private client) {
-        this.active = true
+  private active: boolean
+  constructor(private client) {
+    this.active = true
+  }
+
+  async executeQuery(query, values) {
+    if (!this.active) {
+      throw new Error('Attempting to execute query on an inactive transaction')
     }
 
-    async executeQuery(query, values) {
-        if (!this.active) {
-            throw new Error("Attempting to execute query on an inactive transaction")
-        }
+    const res = await this.client.query(query, values)
 
-        const res = await this.client.query(query, values)
-        
-        return res.rows
+    return res.rows
+  }
+
+  async executeSingleResultQuery(query, values) {
+    const rows = await this.executeQuery(query, values)
+    if (rows.length == 0) {
+      return null
     }
 
-    async executeSingleResultQuery(query, values) {
-        const rows = await this.executeQuery(query, values)
-        if (rows.length == 0) {
-            return null
-        }
-    
-        return rows[0]
-    }
+    return rows[0]
+  }
 
-    async commit() {
-        this.active = false
-        try {
-            await this.client.query('COMMIT')
-        } finally {
-            this.client.release()
-        }
+  async commit() {
+    this.active = false
+    try {
+      await this.client.query('COMMIT')
+    } finally {
+      this.client.release()
     }
+  }
 
-    async rollback() {
-        this.active = false
-        try {
-            await this.client.query('ROLLBACK')
-        } catch (error) {
-            console.error(error)
-        } finally {
-            this.client.release()
-        }
+  async rollback() {
+    this.active = false
+    try {
+      await this.client.query('ROLLBACK')
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.client.release()
     }
+  }
 }
 
 export const beginTransaction = async () => {
-    const client = await pool.connect()
-    try {
-        await client.query('BEGIN')
-    } catch (error) {
-        client.release()
-        return null
-    }
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+  } catch (error) {
+    client.release()
+    return null
+  }
 
-    return new Transaction(client)
+  return new Transaction(client)
 }

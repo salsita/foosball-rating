@@ -23,13 +23,13 @@ export const makeBot = (botToken, channelName) => {
     }
 
     const slackbot = new SlackBot({
-      token: botToken
+      token: botToken,
     })
 
-    slackbot.on('error', (error) => reject(error))
+    slackbot.on('error', error => reject(error))
 
     slackbot.on('start', async () => {
-      let groupId 
+      let groupId
       try {
         groupId = await slackbot.getGroupId(channelName)
         resolve(new SingleChannelBot(slackbot, channelName, groupId))
