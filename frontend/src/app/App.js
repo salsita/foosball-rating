@@ -9,7 +9,7 @@ import { rootSaga } from './modules/root/root-saga'
 import { rootReducer } from './modules/root/root-reducer'
 import * as ROUTES from './const/routes'
 import { Header } from './components/header'
-import Footer from './components/Footer/footer'
+import { Footer } from './components/Footer/footer'
 import { Container } from '../styles/blocks/layout'
 // pages
 import { Dashboard } from './pages/Dashboard'
@@ -28,7 +28,7 @@ const store = createStore(rootReducer,
 
 sagaMiddleware.run(rootSaga)
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -54,5 +54,3 @@ class App extends Component {
     )
   }
 }
-
-export default App

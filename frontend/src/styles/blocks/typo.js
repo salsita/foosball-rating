@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import variables from './../variables'
+import { variables } from './../variables'
 
 const Title = styled.h1`
   font-size: ${variables.fontSizeTitle};

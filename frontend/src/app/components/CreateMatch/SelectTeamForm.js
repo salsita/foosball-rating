@@ -3,7 +3,7 @@ import {
   Subtitle,
   Button,
 } from './../../../styles/blocks'
-import SelectInput from '../SelectInput/index'
+import { SelectInput } from '../SelectInput/index'
 
 const INVALID_PLAYER_ID = -1
 

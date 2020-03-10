@@ -13,7 +13,7 @@ import { getRatingHistoryGraphForUser } from '../../modules/matches/matches-sele
 import { Box, TextSpan } from '../../../styles/blocks'
 import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMainGridStyle } from '../../../styles/svg'
 
-const ProfileRatingGraph = props => (
+const SimpleProfileRatingGraph = props => (
   <Box Margin='0 5px 20px 5px'>
     <TextSpan>
       Rating history
@@ -51,5 +51,4 @@ const mapStateToProps = (state, props) => ({
   ratingHistoryGraph: getRatingHistoryGraphForUser(state, props.userId),
 })
 
-export default connect(mapStateToProps)(ProfileRatingGraph)
-
+export const ProfileRatingGraph = connect(mapStateToProps)(SimpleProfileRatingGraph)

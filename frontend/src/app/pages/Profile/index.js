@@ -5,8 +5,8 @@ import {
   Subtitle,
   Box, ProfileDetail,
 } from './../../../styles/blocks'
-import ProfileBattleHistory from './../../components/ProfileBattleHistory'
-import ProfileRatingGraph from '../../components/ProfileRatingGraph'
+import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
+import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
 import { getUser } from '../../modules/users/users-selectors'
 import { getStatisticsForUser } from '../../modules/matches/matches-selectors'
 

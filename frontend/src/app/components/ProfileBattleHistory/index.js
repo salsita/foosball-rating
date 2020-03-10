@@ -3,7 +3,7 @@ import { ListCon } from './../../../styles/blocks'
 import { ProfileBattleHistoryRow } from './ProfileBattleHistoryRow'
 import { TextSpan } from '../../../styles/blocks/typo'
 
-const ProfileBattleHistory = props => (
+export const ProfileBattleHistory = props => (
   <>
     <TextSpan>
       Match history
@@ -15,5 +15,3 @@ const ProfileBattleHistory = props => (
     </ListCon>
   </>
 )
-
-export default ProfileBattleHistory

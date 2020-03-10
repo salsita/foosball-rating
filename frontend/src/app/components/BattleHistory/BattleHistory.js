@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   ListCon,
 } from '../../../styles/blocks'
-import BattleHistoryRow from './BattleHistoryRow'
+import { BattleHistoryRow } from './BattleHistoryRow'
 
 import { getLastMatches } from '../../modules/matches/matches-selectors'
 
