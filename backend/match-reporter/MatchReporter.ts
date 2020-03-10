@@ -104,7 +104,7 @@ const createPurposeMessage = async (rankings): Promise<string> => {
   return purpose
 }
 
-export default class MatchReporter {
+export class MatchReporter {
   readonly decorations: MatchReportDecoration[]
   constructor(
     readonly bot: SingleChannelBot,
