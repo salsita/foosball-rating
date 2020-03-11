@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./start.sh",
-    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd ..",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd .. && npm run lint",
     "lint": "eslint './backend/**/*.ts' './frontend/src/**/*.js' --ignore-pattern '/backend/node_modules/*' --ignore-pattern '/frontend/node_modules/*'"
   },
   "repository": {
