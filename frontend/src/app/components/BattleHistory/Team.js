@@ -10,10 +10,8 @@ const createListFromTeam = team => team
     <span>({player.matchRating})</span></StyledLink>])
   .reduce((prev, curr) => [...prev, '&', ...curr])
 
-const Team = ({ team, didWin }) => (
+export const Team = ({ team, didWin }) => (
   <WinnerSpan winner={didWin}>
     {createListFromTeam(team)}
   </WinnerSpan>
 )
-
-export default Team

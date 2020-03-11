@@ -1,4 +1,4 @@
-export default {
+export const variables = {
   // breakpoints
   MaxWidth: '800px',
 

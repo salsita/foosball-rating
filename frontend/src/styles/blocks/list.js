@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import variables from './../variables'
+import { variables } from './../variables'
 
 const ListCon = styled.ul`
   margin: 10px auto 1rem auto;
@@ -18,7 +18,7 @@ const ListCon = styled.ul`
     {
       font-size: 28px;
       color: var(--cTopPlayerGold);
-      
+
       img {
         height: 26px;
       }

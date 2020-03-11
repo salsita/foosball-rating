@@ -20,5 +20,8 @@
   "dependencies": {
     "pg": "^7.18.1",
     "serve": "^10.1.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.20.1"
   }
 }

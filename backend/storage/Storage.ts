@@ -1,12 +1,17 @@
 import * as dbTransactions from './db/db-transactions'
 import { StorageContext } from './StorageContext'
+import { User } from '../types/User'
+import { MatchWithId } from '../types/Match'
 
-export const makeStorageContext = async () => {
+export const makeStorageContext = async (): Promise<StorageContext> => {
   const transaction = await dbTransactions.beginTransaction()
   return new StorageContext(transaction)
 }
 
-const executeAndCommit = async operation => {
+interface Operation<T> {
+  (context: StorageContext): Promise<T>;
+}
+const executeAndCommit = async <TResult>(operation: Operation<TResult>): Promise<TResult> => {
   const context = await makeStorageContext()
   try {
     const result = await operation(context)
@@ -18,17 +23,30 @@ const executeAndCommit = async operation => {
   }
 }
 
-export const getAllUsers = async () => executeAndCommit(context => context.getAllUsers())
+export const getAllUsers = async (): Promise<Array<User>> => {
+  return executeAndCommit(context => context.getAllUsers())
+}
 
-export const getUser = async userId => executeAndCommit(context => context.getUser(userId))
+export const getUser = async (userId): Promise<User> => {
+  return executeAndCommit(context => context.getUser(userId))
+}
 
-export const updateRatingForUser = async (userId, newRating) =>
-  executeAndCommit(context => context.updateRatingForUser(userId, newRating))
+export const updateRatingForUser = async (userId, newRating): Promise<User> => {
+  return executeAndCommit(context => context.updateRatingForUser(userId, newRating))
+}
 
-export const insertUser = async user => executeAndCommit(context => context.insertUser(user))
+export const insertUser = async (user): Promise<User> => {
+  return executeAndCommit(context => context.insertUser(user))
+}
 
-export const insertMatch = async match => executeAndCommit(context => context.insertMatch(match))
+export const insertMatch = async (match): Promise<MatchWithId> => {
+  return executeAndCommit(context => context.insertMatch(match))
+}
 
-export const getAllMatches = async () => executeAndCommit(context => context.getAllMatches())
+export const getAllMatches = async (): Promise<Array<MatchWithId>> => {
+  return executeAndCommit(context => context.getAllMatches())
+}
 
-export const getLatestMatch = async () => executeAndCommit(context => context.getLatestMatch())
+export const getLatestMatch = async (): Promise<MatchWithId> => {
+  return executeAndCommit(context => context.getLatestMatch())
+}

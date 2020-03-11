@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, QueryResultRow } from 'pg'
 import * as dbConfig from './db-config'
 
 const pool = new Pool(dbConfig.productionConfig)
@@ -9,7 +9,7 @@ export class Transaction {
     this.active = true
   }
 
-  async executeQuery(query, values) {
+  async executeQuery(query, values): Promise<Array<QueryResultRow>> {
     if (!this.active) {
       throw new Error('Attempting to execute query on an inactive transaction')
     }
@@ -19,7 +19,7 @@ export class Transaction {
     return res.rows
   }
 
-  async executeSingleResultQuery(query, values) {
+  async executeSingleResultQuery(query, values): Promise<QueryResultRow> {
     const rows = await this.executeQuery(query, values)
     if (rows.length == 0) {
       return null
@@ -28,7 +28,7 @@ export class Transaction {
     return rows[0]
   }
 
-  async commit() {
+  async commit(): Promise<void> {
     this.active = false
     try {
       await this.client.query('COMMIT')
@@ -37,7 +37,7 @@ export class Transaction {
     }
   }
 
-  async rollback() {
+  async rollback(): Promise<void> {
     this.active = false
     try {
       await this.client.query('ROLLBACK')
@@ -49,7 +49,7 @@ export class Transaction {
   }
 }
 
-export const beginTransaction = async () => {
+export const beginTransaction = async (): Promise<Transaction> => {
   const client = await pool.connect()
   try {
     await client.query('BEGIN')

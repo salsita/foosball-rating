@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import variables from './../variables'
+import { variables } from './../variables'
 
 const Nav = styled.nav`
   position: fixed;
@@ -32,7 +32,7 @@ const Container = styled.div`
   background: #333 var(--bgPat) 0 0 repeat scroll;
   color: var(--cFont);
   padding: ${variables.baseSpacing};
-  padding-top: 50px; 
+  padding-top: 50px;
 `
 
 const GridContainer = styled.div`

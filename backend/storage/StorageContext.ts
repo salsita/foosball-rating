@@ -4,11 +4,13 @@ import * as dbErrors from './db/db-errors'
 import { ConflictError } from '../errors/ConflictError'
 import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
+import { User } from '../types/User'
+import { MatchWithId } from '../types/Match'
 
 export class StorageContext {
   constructor(private transaction) {}
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<Array<User>> {
     let rows
     try {
       rows = await this.transaction.executeQuery(dbQueries.selectAllusers, [])
@@ -20,7 +22,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createUserFromDbRow)
   }
 
-  async getUser(userId) {
+  async getUser(userId): Promise<User> {
     const query = dbQueries.selectUser
     const values = [userId]
 
@@ -39,7 +41,7 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async updateRatingForUser(userId, newRating) {
+  async updateRatingForUser(userId, newRating): Promise<User> {
     const query = dbQueries.updateRatingForUser
     const values = [newRating, userId]
 
@@ -58,7 +60,7 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async insertUser(user) {
+  async insertUser(user): Promise<User> {
     const query = dbQueries.insertUser
     const values = [user.name, user.initialRating, true, user.initialRating]
 
@@ -76,8 +78,8 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async insertMatch(match) {
-    const isTeamSizeSupported = team => team.length >= 1 && team.length <= 2
+  async insertMatch(match): Promise<MatchWithId> {
+    const isTeamSizeSupported = (team): boolean => team.length >= 1 && team.length <= 2
     if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
       throw new InputError('Inserting teams with unsupported number of players')
     }
@@ -103,7 +105,7 @@ export class StorageContext {
     return dbTransformations.createMatchFromDbRow(row)
   }
 
-  async getAllMatches() {
+  async getAllMatches(): Promise<Array<MatchWithId>> {
     let rows
     try {
       rows = await this.transaction.executeQuery(dbQueries.selectAllMatches, [])
@@ -115,7 +117,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getLatestMatch() {
+  async getLatestMatch(): Promise<MatchWithId> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.selectLatestMatch, [])
@@ -127,7 +129,7 @@ export class StorageContext {
     return row != null ? dbTransformations.createMatchFromDbRow(row) : null
   }
 
-  async commit() {
+  async commit(): Promise<void> {
     try {
       await this.transaction.commit()
     } catch (error) {
@@ -136,7 +138,7 @@ export class StorageContext {
     }
   }
 
-  async rollback() {
+  async rollback(): Promise<void> {
     await this.transaction.rollback()
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Box, TextSpan, StyledHyperLink } from './../../../styles/blocks'
 
-class Footer extends Component {
+export class Footer extends Component {
   render() {
     return (
       <Box>
@@ -12,5 +12,3 @@ class Footer extends Component {
     )
   }
 }
-
-export default Footer
