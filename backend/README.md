@@ -6,9 +6,9 @@ Foosball rating app backend.
 
 The backend uses a PostgreSQL database for data storage purposes.
 
-To setup the DB schema, run `npm run migrate` with DATABASE_URL variable set. For example:
+To setup the DB schema, run `npm run create-schema` with DATABASE_URL variable set. For example:
 ```
-DATABASE_URL=postgres://postgres:XXXX@localhost:5432/postgres npm run migrate
+DATABASE_URL=postgres://postgres:XXXX@localhost:5432/postgres npm run create-schema
 ```
 
 To populate created schema with test data use `npm run create-test-db`.
