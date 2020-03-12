@@ -1,9 +1,11 @@
 import * as express from 'express'
+import { Response, Request } from 'express'
 import * as bodyParser from 'body-parser'
 
 import * as storage from './storage/Storage'
 import * as matchRepository from './repositories/MatchRepository'
 import * as userRepository from './repositories/UserRepository'
+import { addGame } from './repositories/GameRepository'
 
 import { makeBot, SingleChannelBot } from './bot/bot-factory'
 
@@ -53,6 +55,12 @@ app.get('/matches', (req, res) => {
 
 })
 
+app.get('/games', (req: Request, res: Response) => {
+  storage.getAllGames()
+    .then(res.send.bind(res))
+    .catch(error => processError(res, error))
+})
+
 app.post('/users', (req, res) => {
   userRepository.addUser(req.body)
     .then(res.send.bind(res))
@@ -74,6 +82,12 @@ app.post('/matches', async (req, res) => {
   } catch (error) {
     processError(res, error)
   }
+})
+
+app.post('/games', (req: Request, res: Response) => {
+  addGame(req.body)
+    .then(res.send.bind(res))
+    .catch(error => processError(res, error))
 })
 
 app.listen(port, () => console.log(`Foosball backend running on ${port}!`))
