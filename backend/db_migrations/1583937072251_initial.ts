@@ -15,6 +15,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
     Active: { type: 'boolean', notNull: true },
     InitialRating: { type: 'integer', notNull: true },
   })
+
   pgm.createTable('Matches', {
     Id: { type: 'BIGSERIAL', notNull: true, primaryKey: true },
     Team1Player1Id: { type: 'integer', notNull: true, references: 'Users', onDelete: 'RESTRICT' },
