@@ -15,7 +15,7 @@ const updateRatingForTeam = async (team, difference, storageContext): Promise<vo
   }))
 }
 
-const storeMatch = async (match): Promise<MatchWithId> => {
+const storeMatch = async (match: Match): Promise<MatchWithId> => {
   const winningTeam = match.team1Won ? match.team1 : match.team2
   const losingTeam = match.team1Won ? match.team2 : match.team1
 
@@ -56,7 +56,8 @@ const getRatingChanges = ({ team1, team2 }, team1Won): RatingChanges => {
   return ratingCalculator.computeRatingChanges(winningTeam, losingTeam)
 }
 
-const constructMatch = async (matchDescription): Promise<Match> => {
+const constructMatch = async (gameName: string, matchDescription): Promise<Match> => {
+  const game = await storage.getGameByName(gameName)
   const teams = {
     team1: await getFilledTeam(matchDescription.team1),
     team2: await getFilledTeam(matchDescription.team2),
@@ -71,7 +72,8 @@ const constructMatch = async (matchDescription): Promise<Match> => {
     matchDescription.team1Won,
     date,
     winningTeamRatingChange,
-    losingTeamRatingChange
+    losingTeamRatingChange,
+    game.id
   )
 }
 
@@ -92,13 +94,13 @@ const getElapsedSecondsSinceLatestMatch = async (): Promise<number> => {
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
   * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
   */
-export const recordMatch = async (matchDescription): Promise<Match> => {
+export const recordMatch = async (gameName: string, matchDescription): Promise<Match> => {
   const elapsedTime = await getElapsedSecondsSinceLatestMatch()
   if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
     throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
   }
 
-  const match = await constructMatch(matchDescription)
+  const match = await constructMatch(gameName, matchDescription)
   await storeMatch(match)
 
   return match
