@@ -10,8 +10,9 @@ import {
   computeDays,
   computeTeammateStats,
   computeOpponentsStats,
+  computeKingStreakDuration,
 } from './matches-computations'
-import { getPlayer } from '../players/players-selectors'
+import { getPlayer, getTopRatedPlayers } from '../players/players-selectors'
 
 const fillPlayers = (team, state) => team.map(emptyPlayer => {
   const player = state.players.find(player => player.id === emptyPlayer.id)
@@ -69,6 +70,12 @@ const generateStatisticsForPlayer = (playerId, playerMatches) => {
     leastSuccessOpponent: findMax(opponentStats, opponent => opponent.losses),
   }
 }
+
+export const getKing = createSelector(
+  getLastMatches,
+  getTopRatedPlayers,
+  (userMatches, users) => computeKingStreakDuration(userMatches, users)
+)
 
 export const getStatisticsForPlayer = createSelector(
   getLastMatchesForPlayer,

@@ -148,46 +148,46 @@ const computePlayerStats = (playerId, playerMatches, playersProvider) => {
     : DEFAULT_PLAYERS_STATISTICS
 }
 
-export const computeKingStreakDuration = (userId, users, matches) => {
-  // todo: remove usersLast and matchesLast when it is not needed after merging leaderboards branch
-  const usersLast = users.sort((user1, user2) => user2.rating - user1.rating)
-  const matchesLast = matches.sort((match1, match2) => match2.date - match1.date)
-  if (!usersLast.length || !matchesLast.length || usersLast[0].id !== userId) {
-    return false
+export const computeKingStreakDuration = (matchesLast, usersLast) => {
+  if (usersLast.length < 1) {
+    return null
   }
 
   const usersMap = usersLast.reduce((map, user) => {
     map[user.id] = user.rating
     return map
-  })
+  }, new Map())
 
-  let kingRating = usersLast[0].rating
-  for (let i = 0; i < matchesLast.length; ++i) {
-    const players = [...matchesLast[i].team1, ...matchesLast[i].team2]
+  const kingId = usersLast[0].id
+  let matchFound = false;
+  for (let match of matchesLast) {
+    const players = [...match.team1, ...match.team2]
     
     // #1 recomptute king's rating before in case he played the match
-    const kingPlayer = players.find(player => player.id === userId)
+    const kingPlayer = players.find(player => player.id === kingId)
     const kingWon = false;
     if (kingPlayer) {
-      kingWon = kingRating > kingPlayer.matchRating
-      kingRating = kingPlayer.matchRating
+      kingWon = usersMap[kingId] > kingPlayer.matchRating
+      usersMap[kingId] = kingPlayer.matchRating
     }
 
     // #2 check whether none of the other players beat the king
     for (let player of players) {
       usersMap[player.id] = player.matchRating
-      if (player.id !== userId && player.matchRating > kingRating) {
-        return matchesLast[i]
+      matchFound |= (player.id !== kingId && player.matchRating > usersMap[kingId])
+    }
+
+    // #3 check if king was first before winning
+    if (kingPlayer && kingWon && !matchFound) {
+      for (let key in usersMap) {
+        matchFound |= (usersMap[key] > usersMap[kingId])
       }
     }
 
-    // todo: remove `key < 180` when it is not needed after merging leaderboards branch
-    // #3 check if king was first before winning
-    if (kingPlayer && kingWon) {
-      for (let key in usersMap) {
-        if (key < 180 && usersMap[key] > kingRating) {
-          return matchesLast[i]
-        }
+    if (matchFound) {
+      return {
+        id: kingId,
+        since: match.date,
       }
     }
   }
