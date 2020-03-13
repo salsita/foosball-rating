@@ -1,5 +1,5 @@
-import { StorageContext } from './StorageContext'
-import { FOOSBALL_DATA, FOOSBALL_ROW, FOOSBALL_GAME } from '../tests/TestData'
+import { StorageContext } from '../storage/StorageContext'
+import { FOOSBALL_DATA, FOOSBALL_ROW, FOOSBALL_GAME, FOOSBALL_MATCH_ROW, FOOSBALL_MATCH } from '../tests/TestData'
 import { Game } from '../types/Game'
 import { insertGame } from './db/db-queries'
 import { ConflictError } from '../errors/ConflictError'
@@ -91,6 +91,27 @@ describe('StorageContext', () => {
       })
       it('rejects with Error', async () => {
         await expect(context.getGameByName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
+      })
+    })
+  })
+
+  describe('getMatchesByGameName', () => {
+    describe('when queries resolve with data', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
+        TRANSACTION_MOCK.executeQuery.mockResolvedValue([ FOOSBALL_MATCH_ROW ])
+      })
+      it('resolves with the matches', async () => {
+        const matches = await context.getMatchesByGameName(FOOSBALL_GAME.name)
+        expect(matches).toEqual([ FOOSBALL_MATCH ])
+      })
+    })
+    describe('when there is no such game', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
+      })
+      it('rejects with Error', async () => {
+        await expect(context.getMatchesByGameName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
       })
     })
   })

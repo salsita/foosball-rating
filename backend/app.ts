@@ -61,6 +61,24 @@ app.get('/games', (req: Request, res: Response) => {
     .catch(error => processError(res, error))
 })
 
+app.get('/games/:name', async (req: Request, res: Response) => {
+  try {
+    const game = await storage.getGameByName(req.params.name)
+    res.send(game)
+  } catch (error) {
+    processError(res, error)
+  }
+})
+
+app.get('/games/:name/matches', async (req: Request, res: Response) => {
+  try {
+    const matches = await storage.getMatchesByGameName(req.params.name)
+    res.send(matches)
+  } catch (error) {
+    processError(res, error)
+  }
+})
+
 app.post('/users', (req, res) => {
   userRepository.addUser(req.body)
     .then(res.send.bind(res))

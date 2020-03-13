@@ -11,6 +11,8 @@ export const insertMatch = 'INSERT INTO "Matches"("Team1Player1Id", "Team1Player
 
 export const selectAllMatches = 'SELECT * FROM "Matches"'
 
+export const selectMatchesByGameId = 'SELECT * FROM "Matches" WHERE "GameId" = $1'
+
 export const selectLatestMatch = 'SELECT * FROM "Matches" ORDER BY "Date" DESC LIMIT 1'
 
 export const selectAllusers = 'SELECT * FROM "Users"'

@@ -40,10 +40,6 @@ export const insertUser = async (user): Promise<User> => {
   return executeAndCommit(context => context.insertUser(user))
 }
 
-export const insertMatch = async (match): Promise<MatchWithId> => {
-  return executeAndCommit(context => context.insertMatch(match))
-}
-
 export const getAllMatches = async (): Promise<Array<MatchWithId>> => {
   return executeAndCommit(context => context.getAllMatches())
 }
@@ -62,4 +58,8 @@ export const getGameByName = async (name: string): Promise<Game> => {
 
 export const insertGame = async (game): Promise<Game> => {
   return executeAndCommit(context => context.insertGame(game))
+}
+
+export const getMatchesByGameName = async (name: string): Promise<Array<MatchWithId>> => {
+  return executeAndCommit(context => context.getMatchesByGameName(name))
 }
