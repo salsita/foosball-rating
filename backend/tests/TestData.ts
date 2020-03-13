@@ -1,3 +1,6 @@
+import { FullGame } from '../types/Game'
+import { MatchWithId } from '../types/Match'
+
 export const FOOSBALL_DATA = {
   name: 'foosball',
   description: 'what a game',
@@ -12,4 +15,36 @@ export const FOOSBALL_ROW = {
 export const FOOSBALL_GAME = {
   id: 1,
   ...FOOSBALL_DATA,
+}
+
+export const FOOSBALL_MATCH_ROW = {
+  Id: '2',
+  Team1Player1Id: '1',
+  Team1Player1Rating: '1001',
+  Team1Player2Id: '2',
+  Team1Player2Rating: '1002',
+  Team2Player1Id: '3',
+  Team2Player1Rating: '1003',
+  Team2Player2Id: '4',
+  Team2Player2Rating: '1004',
+  Date: new Date('2019-09-02 10:29:50.486'),
+  WinningTeamRatingChange: '16',
+  LosingTeamRatingChange: '-16',
+  Team1Won: 'true',
+  GameId: '1',
+}
+
+export const FOOSBALL_MATCH: MatchWithId = {
+  id: 2,
+  team1:[ { id: 1, matchRating: 1001 }, { id: 2, matchRating: 1002 }],
+  team2:[ { id: 3, matchRating: 1003 }, { id: 4, matchRating: 1004 }],
+  team1Won: true,
+  date: FOOSBALL_MATCH_ROW.Date,
+  winningTeamRatingChange: 16,
+  losingTeamRatingChange: -16,
+}
+
+export const FULL_FOOSBALL_GAME: FullGame = {
+  ...FOOSBALL_GAME,
+  matches: [ FOOSBALL_MATCH ],
 }

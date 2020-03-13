@@ -1,3 +1,4 @@
+import { MatchWithId } from './Match'
 export class Game {
   constructor(
     readonly id: number,
@@ -11,4 +12,15 @@ export class GameData {
     readonly name: string,
     readonly description: string
   ) {}
+}
+
+export class FullGame extends Game {
+  constructor(
+    id: number,
+    name: string,
+    description: string,
+    readonly matches: Array<MatchWithId>
+  ) {
+    super(id, name, description)
+  }
 }
