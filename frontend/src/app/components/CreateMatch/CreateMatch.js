@@ -68,6 +68,7 @@ class CreateMatchComponent extends Component {
       team1: this.state.team1,
       team2: this.state.team2,
       team1Won,
+      gameId: this.props.game.id,
     })
   }
 
@@ -122,6 +123,7 @@ const mapStateToProps = state => ({
   users: getUsers(state),
   status: state.matchesStatus,
   activeRedirect: state.activeRedirect,
+  game: state.selectedGame,
 })
 
 const mapDispatchToProps = dispatch => ({

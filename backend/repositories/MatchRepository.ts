@@ -15,7 +15,7 @@ const updateRatingForTeam = async (team, difference, storageContext): Promise<vo
   }))
 }
 
-const storeMatch = async (match): Promise<MatchWithId> => {
+const storeMatch = async (match: Match): Promise<MatchWithId> => {
   const winningTeam = match.team1Won ? match.team1 : match.team2
   const losingTeam = match.team1Won ? match.team2 : match.team1
 
@@ -71,7 +71,8 @@ const constructMatch = async (matchDescription): Promise<Match> => {
     matchDescription.team1Won,
     date,
     winningTeamRatingChange,
-    losingTeamRatingChange
+    losingTeamRatingChange,
+    matchDescription.gameId
   )
 }
 

@@ -1,8 +1,9 @@
-import { put, takeEvery, fork, call } from 'redux-saga/effects'
+import { put, takeEvery, call, take } from 'redux-saga/effects'
 import { getMatches, addMatch } from './matches-effects'
 import { getUsersSaga } from '../users/users-saga'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
+import { GamesActions } from '../games/games-actions'
 
 const convertDateInMatch = match => ({
   ...match,
@@ -35,6 +36,7 @@ function* addMatchSaga(action) {
 }
 
 export function* matchesSaga() {
-  yield fork(getMatchesSaga)
+  const action = yield take(GamesActions.Types.SELECT_GAME)
+  yield call(getMatchesSaga, action)
   yield takeEvery(MatchesActions.Types.ADD_MATCH, addMatchSaga)
 }

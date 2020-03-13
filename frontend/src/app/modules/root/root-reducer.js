@@ -11,12 +11,15 @@ import { LeaderboardActions } from '../leaderboard/leaderboard-actions'
 import { ThemeTypes } from '../../const/theme-types'
 import { StorageThemeKey } from '../../const/constants'
 import * as Filters from '../../const/leaderboard-filters'
+import { GamesActions } from '../games/games-actions'
 
 const initialState = {
   matchesStatus: ready,
   matches: [],
   usersStatus: ready,
   users: [],
+  games: [],
+  selectedGame: null,
   activeAlert: null,
   activeRedirect: null,
   theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
@@ -49,6 +52,16 @@ const updateMatchesStatus = (state, { status }) => ({
   matchesStatus: status,
   activeAlert: createAlertForMatchesStatusUpdate(status) || state.activeAlert,
   activeRedirect: createRedirectForMatchesStatusUpdate(status) || state.activeRedirect,
+})
+
+const gamesLoaded = (state, { games }) => ({
+  ...state,
+  games,
+})
+
+const selectGame = (state, { selectedGame }) => ({
+  ...state,
+  selectedGame,
 })
 
 const createRedirectForMatchesStatusUpdate = status => {
@@ -138,6 +151,8 @@ export const rootReducer = createReducer(initialState, {
   [UsersActions.Types.UPDATE_STATUS]: updateUsersStatus,
   [MatchesActions.Types.MATCHES_LOADED]: matchesLoaded,
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
+  [GamesActions.Types.GAMES_LOADED]: gamesLoaded,
+  [GamesActions.Types.SELECT_GAME]: selectGame,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
   [ThemeActions.Types.THEME_CHANGED]: themeChanged,
