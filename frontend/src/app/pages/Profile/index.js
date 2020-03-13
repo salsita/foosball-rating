@@ -18,7 +18,17 @@ class ProfileComponent extends Component {
 
     const {
       user: { name, rating, id },
-      statistics: { totalMatches, winRatio, longestStreak, matchChanges },
+      statistics: {
+        totalMatches,
+        winRatio,
+        matchChanges,
+        streaks: {
+          currentWinStreak,
+          longestWinStreak,
+          currentEloGainStreak,
+          highestEloGainStreak,
+        },
+      },
     } = this.props
 
     return (
@@ -28,7 +38,10 @@ class ProfileComponent extends Component {
         <ProfileDetail>
           <Subtitle>Matches: {totalMatches}</Subtitle>
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
-          <Subtitle>Win Streak: {longestStreak}</Subtitle>
+          <Subtitle>Longest Win Streak: {longestWinStreak}</Subtitle>
+          <Subtitle>Current Win Streak: {currentWinStreak}</Subtitle>
+          <Subtitle>Highest Elo Gain Streak: {highestEloGainStreak}</Subtitle>
+          <Subtitle>Current Elo Gain Streak: {currentEloGainStreak}</Subtitle>
         </ProfileDetail>
         <ProfileRatingGraph userId={id} />
         <ProfileBattleHistory matches={matchChanges} />
