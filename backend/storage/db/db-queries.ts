@@ -14,3 +14,7 @@ export const selectAllMatches = 'SELECT * FROM "Matches"'
 export const selectLatestMatch = 'SELECT * FROM "Matches" ORDER BY "Date" DESC LIMIT 1'
 
 export const selectAllusers = 'SELECT * FROM "Users"'
+
+export const insertGame = 'INSERT INTO "Games"("Name", "Description") VALUES($1, $2) RETURNING *'
+
+export const selectAllGames = 'SELECT * FROM "Games"'
