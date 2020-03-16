@@ -6,7 +6,7 @@ import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
-import { Game, GameData, FullGame } from '../types/Game'
+import { Game, GameData } from '../types/Game'
 
 export class StorageContext {
   constructor(private transaction) {}
@@ -171,27 +171,24 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getGameById(id: number): Promise<Game> {
+  async getGameByName(name: string): Promise<Game> {
     let row
     try {
-      row = await this.transaction.executeSingleResultQuery(dbQueries.selectGameById, [id])
+      row = await this.transaction.executeSingleResultQuery(dbQueries.selectGameByName, [name])
     } catch (error) {
       console.error(error)
-      throw new Error('Unable to retrieve game type by id')
+      throw new Error('Unable to retrieve game by name')
     }
     return row ? dbTransformations.createGameFromDbRow(row) : null
   }
 
-  async getFullGameById(id: number): Promise<FullGame> {
-    const game: Game = await this.getGameById(id)
+  async getMatchesByGameName(gameName: string): Promise<Array<MatchWithId>> {
+    const game: Game = await this.getGameByName(gameName)
     if (!game) {
-      throw new Error(`Game type with id '${id}' doesn't exist`)
+      throw new Error(`Game type with name '${gameName}' doesn't exist`)
     }
-    const matches: Array<MatchWithId> = await this.getMatchesByGameId(id)
-    return {
-      ...game,
-      matches,
-    }
+    const matches: Array<MatchWithId> = await this.getMatchesByGameId(game.id)
+    return matches
   }
 
   async commit(): Promise<void> {

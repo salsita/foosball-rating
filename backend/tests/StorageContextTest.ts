@@ -1,9 +1,10 @@
 import { StorageContext } from '../storage/StorageContext'
-import { FOOSBALL_DATA, FOOSBALL_ROW, FOOSBALL_GAME, FOOSBALL_MATCH_ROW, FULL_FOOSBALL_GAME } from './TestData'
-import { Game, FullGame } from '../types/Game'
+import { FOOSBALL_DATA, FOOSBALL_ROW, FOOSBALL_GAME, FOOSBALL_MATCH_ROW, FOOSBALL_MATCH } from './TestData'
+import { Game } from '../types/Game'
 import { insertGame } from '../storage/db/db-queries'
 import { ConflictError } from '../errors/ConflictError'
 import { UNIQUE_VIOLATION_CODE } from '../storage/db/db-errors'
+import { MatchWithId } from '../types/Match'
 
 const TRANSACTION_MOCK = {
   executeSingleResultQuery: jest.fn(),
@@ -67,23 +68,43 @@ describe('StorageContext', () => {
     })
   })
 
-  describe('getFullGameById', () => {
+  describe('getGameByName', () => {
+    describe('when single result query resolves with data', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
+      })
+      it('resolves with the game', async () => {
+        const game: Game = await context.getGameByName(FOOSBALL_GAME.name)
+        expect(game).toEqual(FOOSBALL_GAME)
+      })
+    })
+    describe('when single result query throws', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockRejectedValueOnce(null)
+      })
+      it('rejects with Error', async () => {
+        await expect(context.getGameByName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
+      })
+    })
+  })
+
+  describe('getMatchesByGameName', () => {
     describe('when queries resolve with data', () => {
       beforeEach(() => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
         TRANSACTION_MOCK.executeQuery.mockResolvedValue([ FOOSBALL_MATCH_ROW ])
       })
-      it('resolves with game with matches', async () => {
-        const game: FullGame = await context.getFullGameById(1)
-        expect(game).toEqual(FULL_FOOSBALL_GAME)
+      it('resolves with the matches', async () => {
+        const matches: Array<MatchWithId> = await context.getMatchesByGameName(FOOSBALL_GAME.name)
+        expect(matches).toEqual([ FOOSBALL_MATCH ])
       })
     })
-    describe('when there is no game type with such id', () => {
+    describe('when there is no such game', () => {
       beforeEach(() => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
       })
       it('rejects with Error', async () => {
-        await expect(context.getFullGameById(1)).rejects.toThrowError(Error)
+        await expect(context.getMatchesByGameName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
       })
     })
   })

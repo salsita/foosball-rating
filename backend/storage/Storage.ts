@@ -2,7 +2,7 @@ import * as dbTransactions from './db/db-transactions'
 import { StorageContext } from './StorageContext'
 import { User } from '../types/User'
 import { MatchWithId } from '../types/Match'
-import { Game, FullGame } from '../types/Game'
+import { Game } from '../types/Game'
 
 export const makeStorageContext = async (): Promise<StorageContext> => {
   const transaction = await dbTransactions.beginTransaction()
@@ -56,6 +56,10 @@ export const insertGame = async (game): Promise<Game> => {
   return executeAndCommit(context => context.insertGame(game))
 }
 
-export const getGameById = async (id: number): Promise<FullGame> => {
-  return executeAndCommit(context => context.getFullGameById(id))
+export const getGameByName = async (name: string): Promise<Game> => {
+  return executeAndCommit(context => context.getGameByName(name))
+}
+
+export const getMatchesByGameName = async (name: string): Promise<Array<MatchWithId>> => {
+  return executeAndCommit(context => context.getMatchesByGameName(name))
 }

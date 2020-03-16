@@ -1,4 +1,3 @@
-import { FullGame } from '../types/Game'
 import { MatchWithId } from '../types/Match'
 
 export const FOOSBALL_DATA = {
@@ -42,9 +41,4 @@ export const FOOSBALL_MATCH: MatchWithId = {
   date: FOOSBALL_MATCH_ROW.Date,
   winningTeamRatingChange: 16,
   losingTeamRatingChange: -16,
-}
-
-export const FULL_FOOSBALL_GAME: FullGame = {
-  ...FOOSBALL_GAME,
-  matches: [ FOOSBALL_MATCH ],
 }

@@ -1,31 +1,30 @@
-import { put, takeEvery, call, take } from 'redux-saga/effects'
+import { put, takeEvery, call } from 'redux-saga/effects'
 import { addMatch } from './matches-effects'
 import { getUsersSaga } from '../users/users-saga'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
 import { GamesActions } from '../games/games-actions'
-import { getGameById } from '../games/games-effects'
+import { getMatchesByGameName } from '../games/games-effects'
 
 const convertDateInMatch = match => ({
   ...match,
   date: new Date(match.date),
 })
 
-function* getMatchesByGameIdSaga(gameId) {
+function* getMatchesByGameNameSaga(action) {
   try {
-    const response = yield call(getGameById, gameId)
-    const matches = response.data.matches.map(convertDateInMatch)
-    yield put(MatchesActions.Creators.matchesLoaded(matches))
+    const response = yield call(getMatchesByGameName, action.selectedGame.name)
+    yield put(MatchesActions.Creators.matchesLoaded(response.data.map(convertDateInMatch)))
   } catch (error) {
     console.error(error)
   }
 }
 
-function* addMatchSaga(action) {
+export function* addMatchSaga(action) {
   try {
     yield put(MatchesActions.Creators.updateStatus(inProgress))
     yield call(addMatch, action.match)
-    yield call(getMatchesByGameIdSaga, action.match.gameId)
+    yield put(MatchesActions.Creators.matchAdded(action.match))
     // Need to reload users because ratings have changed
     yield call(getUsersSaga)
     yield put(MatchesActions.Creators.updateStatus(success))
@@ -37,7 +36,6 @@ function* addMatchSaga(action) {
 }
 
 export function* matchesSaga() {
-  const action = yield take(GamesActions.Types.SELECT_GAME)
-  yield call(getMatchesByGameIdSaga, action.selectedGame.id)
+  yield takeEvery(GamesActions.Types.SELECT_GAME, getMatchesByGameNameSaga)
   yield takeEvery(MatchesActions.Types.ADD_MATCH, addMatchSaga)
 }

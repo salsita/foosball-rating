@@ -10,7 +10,8 @@ import { addGame } from './repositories/GameRepository'
 import { makeBot, SingleChannelBot } from './bot/bot-factory'
 
 import { MatchReporter } from './match-reporter/MatchReporter'
-import { FullGame } from './types/Game'
+import { Game } from './types/Game'
+import { MatchWithId } from './types/Match'
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -62,10 +63,19 @@ app.get('/games', (req: Request, res: Response) => {
     .catch(error => processError(res, error))
 })
 
-app.get('/game/:id', async (req: Request, res: Response) => {
+app.get('/game/:name', async (req: Request, res: Response) => {
   try {
-    const game: FullGame = await storage.getGameById(Number(req.params.id))
+    const game: Game = await storage.getGameByName(req.params.name)
     res.send.bind(res)(game)
+  } catch (error) {
+    processError(res, error)
+  }
+})
+
+app.get('/game/:name/matches', async (req: Request, res: Response) => {
+  try {
+    const matches: Array<MatchWithId> = await storage.getMatchesByGameName(req.params.name)
+    res.send.bind(res)(matches)
   } catch (error) {
     processError(res, error)
   }

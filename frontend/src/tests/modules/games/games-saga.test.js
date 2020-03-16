@@ -2,7 +2,6 @@ import { getGames } from '../../../app/modules/games/games-effects'
 import { getGamesSaga } from '../../../app/modules/games/games-saga'
 import { call, put } from 'redux-saga/effects'
 import { GamesActions } from '../../../app/modules/games/games-actions'
-jest.mock('../../../app/modules/games/games-effects')
 
 const RESPONSE = {
   data: {},
@@ -12,7 +11,6 @@ describe('gameSaga', () => {
   describe('getGamesSaga', () => {
     let gen
     beforeEach(() => {
-      getGames.mockResolvedValue(true)
       gen = getGamesSaga()
     })
     it('yields to getGames', () => {

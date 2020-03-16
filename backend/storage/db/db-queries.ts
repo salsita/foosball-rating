@@ -21,4 +21,4 @@ export const insertGame = 'INSERT INTO "Games"("Name", "Description") VALUES($1,
 
 export const selectAllGames = 'SELECT * FROM "Games"'
 
-export const selectGameById = 'SELECT * FROM "Games" WHERE "Id" = $1'
+export const selectGameByName = 'SELECT * FROM "Games" WHERE "Name" = $1'
