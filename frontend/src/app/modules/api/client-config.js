@@ -1,4 +1,4 @@
-const envPort = process.env.REACT_APP_POST_URL_PORT || '';
+const envPort = process.env.REACT_APP_POST_URL_PORT || ''
 const postUrlPort = envPort ? `:${envPort}`: ''
 
 export const config = {
