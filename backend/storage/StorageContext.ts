@@ -99,7 +99,7 @@ export class StorageContext {
       row = await this.transaction.executeSingleResultQuery(query, values)
     } catch (error) {
       console.error(error)
-      throw new Error('Unable to create match')
+      throw new Error(error)
     }
 
     return dbTransformations.createMatchFromDbRow(row)
