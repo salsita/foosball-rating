@@ -1,4 +1,5 @@
 import { MatchWithId } from '../types/Match'
+import { Player } from '../types/Player'
 
 export const FOOSBALL_DATA = {
   name: 'foosball',
@@ -41,4 +42,32 @@ export const FOOSBALL_MATCH: MatchWithId = {
   date: FOOSBALL_MATCH_ROW.Date,
   winningTeamRatingChange: 16,
   losingTeamRatingChange: -16,
+}
+
+export const TONDA_PLAYER_ROW = {
+  Id: '3',
+  Name: 'Tonda',
+  Rating: '1200',
+  Active: 'true',
+  InitialRating: '1000',
+}
+
+export const TONDA_PLAYER: Player = {
+  id: 3,
+  name: 'Tonda',
+  rating: 1200,
+  active: true,
+  initialRating: 1000,
+}
+
+export const TONDA_USER_ROW = {
+  Id: '4',
+  Name: 'Tonda',
+  Active: 'true',
+}
+
+export const TONDA_USER = {
+  id: 4,
+  name: 'Tonda',
+  active: true,
 }

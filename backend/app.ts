@@ -10,6 +10,7 @@ import { addGame } from './repositories/GameRepository'
 import { makeBot, SingleChannelBot } from './bot/bot-factory'
 
 import { MatchReporter } from './match-reporter/MatchReporter'
+import { MatchDescription } from './types/MatchDescription'
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -43,7 +44,7 @@ const processError = (response, error): void => {
 }
 
 app.get('/users', (req, res) => {
-  storage.getAllUsers()
+  storage.getPlayersByGame('foosball')
     .then(res.send.bind(res))
     .catch(error => processError(res, error))
 })
@@ -79,18 +80,22 @@ app.get('/games/:name/matches', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/users', (req, res) => {
-  userRepository.addUser(req.body)
-    .then(res.send.bind(res))
-    .catch(error => processError(res, error))
-
+app.post('/users', async (req: Request, res: Response) => {
+  try {
+    await userRepository.addUserToGame('foosball', req.body)
+    res.send()
+  } catch (error) {
+    processError(res, error)
+  }
 })
 
-app.post('/games/:name/matches', async (req, res) => {
+app.post('/games/:name/matches', async (req: Request, res: Response) => {
   try {
-    const oldUsers = await storage.getAllUsers()
-    const match = await matchRepository.recordMatch(req.params.name, req.body)
-    const newUsers = await storage.getAllUsers()
+    const matchDescription: MatchDescription = req.body
+    const gameName: string = req.params.name
+    const oldUsers = await storage.getPlayersByGame(gameName)
+    const match = await matchRepository.recordMatch(req.params.name, matchDescription)
+    const newUsers = await storage.getPlayersByGame(gameName)
     if (matchReporter) {
       await matchReporter.reportMatchOnSlack(match, oldUsers, newUsers)
     } else {

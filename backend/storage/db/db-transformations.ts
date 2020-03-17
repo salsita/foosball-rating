@@ -1,13 +1,20 @@
 import { User } from '../../types/User'
 import { MatchWithId } from '../../types/Match'
 import { Game } from '../../types/Game'
+import { Player } from '../../types/Player'
 
 export const createUserFromDbRow = (userRow): User => ({
   id: Number(userRow.Id),
   name: userRow.Name,
-  rating: Number(userRow.Rating),
   active: Boolean(userRow.Active),
-  initialRating: Number(userRow.InitialRating),
+})
+
+export const createPlayerFromDbRow = (player): Player => ({
+  id: Number(player.Id),
+  name: player.Name,
+  rating: Number(player.Rating),
+  active: Boolean(player.Active),
+  initialRating: Number(player.InitialRating),
 })
 
 export const createMatchFromDbRow = (matchRow): MatchWithId => {

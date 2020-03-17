@@ -4,9 +4,10 @@ import * as dbErrors from './db/db-errors'
 import { ConflictError } from '../errors/ConflictError'
 import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
-import { User } from '../types/User'
+import { User, UserData } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
+import { Player } from '../types/Player'
 
 export class StorageContext {
   constructor(private transaction) {}
@@ -21,6 +22,42 @@ export class StorageContext {
     }
 
     return rows.map(dbTransformations.createUserFromDbRow)
+  }
+
+  async getPlayersByGame(gameName: string): Promise<Array<Player>> {
+    const game = await this.getGameByName(gameName)
+    if (!game) {
+      throw new Error(`Game type with name '${gameName}' doesn't exist`)
+    }
+    return await this.getPlayersByGameId(game.id)
+  }
+
+  async getPlayersByGameId(gameId: number): Promise<Array<Player>> {
+    let rows
+    try {
+      rows = await this.transaction.executeQuery(dbQueries.selectPlayersByGameIdJoinUsers, [gameId])
+    } catch (error) {
+      console.error(error)
+      throw new Error('Unable to get players by game id')
+    }
+    return rows.map(dbTransformations.createPlayerFromDbRow)
+  }
+
+  async getPlayerById(id: number): Promise<Player> {
+    const query = dbQueries.selectPlayerByIdJoinUser
+    let row
+    try {
+      row = await this.transaction.executeSingleResultQuery(query, [id])
+    } catch (error) {
+      console.error(error)
+      throw new Error('Unable to fetch player')
+    }
+
+    if (!row) {
+      throw new NotFoundError(`Player id '${id}' doesn't exist`)
+    }
+
+    return dbTransformations.createPlayerFromDbRow(row)
   }
 
   async getUser(userId): Promise<User> {
@@ -42,28 +79,53 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async updateRatingForUser(userId, newRating): Promise<User> {
-    const query = dbQueries.updateRatingForUser
-    const values = [newRating, userId]
+  async updateRatingForPlayer(playerId: number, newRating: number): Promise<void> {
+    const query = dbQueries.updateRatingForPlayer
+    const values = [newRating, playerId]
 
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(query, values)
     } catch (error) {
       console.error(error)
-      throw new Error('Unable to update rating for user')
+      throw new Error('Unable to update rating for player')
     }
 
     if (!row) {
-      throw new NotFoundError(`User ${userId} doesn't exist`)
+      throw new NotFoundError(`Player id '${playerId}' doesn't exist`)
     }
-
-    return dbTransformations.createUserFromDbRow(row)
   }
 
-  async insertUser(user): Promise<User> {
+  async insertPlayer({ initialRating, userId, gameId }): Promise<void> {
+    try {
+      await this.transaction.executeSingleResultQuery(dbQueries.insertPlayer, [
+        userId, initialRating, initialRating, gameId,
+      ])
+    } catch (error) {
+      console.error(error)
+      if (dbErrors.isUniqueViolation(error)) {
+        throw new ConflictError('A player with same user and game ids already exists')
+      }
+      throw new Error('Unable to insert player')
+    }
+  }
+
+  async addUserToGame(gameName: string, { name, initialRating }: UserData): Promise<void> {
+    const game = await this.getGameByName(gameName)
+    if (!game) {
+      throw new Error(`Unable to find game '${game.name}'`)
+    }
+    const user = await this.insertUser(name)
+    await this.insertPlayer({
+      initialRating,
+      userId: user.id,
+      gameId: game.id,
+    })
+  }
+
+  async insertUser(name: string): Promise<User> {
     const query = dbQueries.insertUser
-    const values = [user.name, user.initialRating, true, user.initialRating]
+    const values = [name, true]
 
     let row
     try {
@@ -71,7 +133,7 @@ export class StorageContext {
     } catch (error) {
       console.error(error)
       if (dbErrors.isUniqueViolation(error)) {
-        throw new ConflictError(`User ${user.name} already exists`)
+        throw new ConflictError(`User ${name} already exists`)
       }
       throw new Error('Unable to add user')
     }
