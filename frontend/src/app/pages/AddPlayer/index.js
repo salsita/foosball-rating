@@ -1,4 +1,4 @@
 import React from 'react'
-import { AddUser } from '../../components/AddPlayer/AddPlayer'
+import { AddPlayer } from '../../components/AddPlayer/AddPlayer'
 
-export const AddUserPage = () => <AddUser />
+export const AddPlayerPage = () => <AddPlayer />

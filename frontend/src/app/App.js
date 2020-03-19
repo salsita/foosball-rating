@@ -16,7 +16,7 @@ import { Dashboard } from './pages/Dashboard'
 import { LeaderboardPage } from './pages/Leaderboard'
 import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
-import { AddUserPage } from './pages/AddPlayer'
+import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -40,7 +40,7 @@ export class App extends Component {
                 <Switch>
                   <Route exact path={ROUTES.LEADERBOARD} component={LeaderboardPage} />
                   <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
-                  <Route exact path={ROUTES.ADD_USER} component={AddUserPage} />
+                  <Route exact path={ROUTES.ADD_PLAYER} component={AddPlayerPage} />
                   <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
                   <Route exact path={ROUTES.PROFILE} component={Profile} />
                   <Route component={Dashboard} />

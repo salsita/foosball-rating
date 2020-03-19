@@ -1,10 +1,10 @@
-const didUserWin = (userId, match) => {
+const didPlayerWin = (playerId, match) => {
   const winningTeam = match.team1Won ? match.team1 : match.team2
-  return Boolean(winningTeam.find(player => player.id === userId))
+  return Boolean(winningTeam.find(player => player.id === playerId))
 }
 
-export const generateMatchRatingChanges = (userId, userMatches) => userMatches.map(match => {
-  const didWin = didUserWin(userId, match)
+export const generateMatchRatingChanges = (playerId, playerMatches) => playerMatches.map(match => {
+  const didWin = didPlayerWin(playerId, match)
   const ratingChangeString = didWin
     ? `+${match.winningTeamRatingChange}`
     : `${match.losingTeamRatingChange}`
@@ -17,17 +17,17 @@ export const generateMatchRatingChanges = (userId, userMatches) => userMatches.m
   }
 })
 
-export const plotRatingHistory = (userMatches, userId, initialRating) => {
-  const reversedUserMatches = userMatches.reverse()
-  const firstMatchDate = userMatches[0] && userMatches[0].date
+export const plotRatingHistory = (playerMatches, playerId, initialRating) => {
+  const reversedPlayerMatches = playerMatches.reverse()
+  const firstMatchDate = playerMatches[0] && playerMatches[0].date
   const graphStartDate = firstMatchDate ? new Date(firstMatchDate) : new Date()
   if (firstMatchDate) {
     graphStartDate.setDate(firstMatchDate.getDate() - 1)
   }
   return [{ x: graphStartDate, y: initialRating }]
-    .concat(reversedUserMatches.map(
+    .concat(reversedPlayerMatches.map(
       function (match) {
-        const didWin = didUserWin(userId, match)
+        const didWin = didPlayerWin(playerId, match)
         const change = didWin ? match.winningTeamRatingChange : match.losingTeamRatingChange
 
         this.rating += change
@@ -41,14 +41,14 @@ export const plotRatingHistory = (userMatches, userId, initialRating) => {
     ))
 }
 
-export const computeLongestWinStreak = (userId, userMatches) => {
+export const computeLongestWinStreak = (playerId, playerMatches) => {
   const initialState = {
     longest: 0,
     current: 0,
   }
 
-  return userMatches.reduce((state, match) => {
-    if (didUserWin(userId, match)) {
+  return playerMatches.reduce((state, match) => {
+    if (didPlayerWin(playerId, match)) {
       const current = state.current + 1
       const longest = Math.max(current, state.longest)
       return {
@@ -64,7 +64,7 @@ export const computeLongestWinStreak = (userId, userMatches) => {
   }, initialState).longest
 }
 
-export const computeWinRatio = (userId, userMatches) => {
-  const wonMatchesCount = userMatches.filter(match => didUserWin(userId, match)).length
-  return (userMatches.length > 0) ? (wonMatchesCount / userMatches.length) : 0
+export const computeWinRatio = (playerId, playerMatches) => {
+  const wonMatchesCount = playerMatches.filter(match => didPlayerWin(playerId, match)).length
+  return (playerMatches.length > 0) ? (wonMatchesCount / playerMatches.length) : 0
 }

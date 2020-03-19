@@ -1,9 +1,9 @@
 import { createActions } from 'reduxsauce'
 
-export const UsersActions = createActions({
+export const PlayersActions = createActions({
   updateStatus: ['status'],
-  addUser: ['user'],
-  usersLoaded: ['users'],
+  addPlayer: ['player'],
+  playersLoaded: ['players'],
 }, {
   prefix: 'foosball-rating/players/',
 })

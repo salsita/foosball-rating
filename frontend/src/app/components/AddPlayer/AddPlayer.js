@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { UsersActions } from '../../modules/players/players-actions'
+import { PlayersActions } from '../../modules/players/players-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
 import { StatusType } from '../../modules/api/request-status'
 import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert'
 import { CircularProgress } from '@material-ui/core'
 
-class AddUserComponent extends Component {
+class AddPlayerComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,7 +18,7 @@ class AddUserComponent extends Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  submitForm = () => this.props.addUser({
+  submitForm = () => this.props.addPlayer({
     name: this.state.name,
     initialRating: this.state.initialRating,
   })
@@ -73,11 +73,11 @@ class AddUserComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  status: state.usersStatus,
+  status: state.playersStatus,
 })
 
 const mapDispatchToProps = dispatch => ({
-  addUser: user => dispatch(UsersActions.Creators.addUser(user)),
+  addPlayer: player => dispatch(PlayersActions.Creators.addPlayer(player)),
 })
 
-export const AddUser = connect(mapStateToProps, mapDispatchToProps)(AddUserComponent)
+export const AddPlayer = connect(mapStateToProps, mapDispatchToProps)(AddPlayerComponent)

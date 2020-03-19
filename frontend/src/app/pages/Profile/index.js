@@ -7,17 +7,17 @@ import {
 } from './../../../styles/blocks'
 import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
 import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
-import { getUser } from '../../modules/players/players-selectors'
-import { getStatisticsForUser } from '../../modules/matches/matches-selectors'
+import { getPlayer } from '../../modules/players/players-selectors'
+import { getStatisticsForPlayer } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
   render() {
-    if (!this.props.user) {
+    if (!this.props.player) {
       return <div />
     }
 
     const {
-      user: { name, rating, id },
+      player: { name, rating, id },
       statistics: { totalMatches, winRatio, longestStreak, matchChanges },
     } = this.props
 
@@ -30,7 +30,7 @@ class ProfileComponent extends Component {
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
-        <ProfileRatingGraph userId={id} />
+        <ProfileRatingGraph playerId={id} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>
     )
@@ -39,8 +39,8 @@ class ProfileComponent extends Component {
 
 
 const mapStateToProps = (state, props) => ({
-  user: getUser(state, Number(props.match.params.userId)),
-  statistics: getStatisticsForUser(state, Number(props.match.params.userId)),
+  player: getPlayer(state, Number(props.match.params.playerId)),
+  statistics: getStatisticsForPlayer(state, Number(props.match.params.playerId)),
 })
 
 export const Profile = connect(mapStateToProps)(ProfileComponent)

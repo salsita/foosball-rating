@@ -5,25 +5,25 @@ import {
   generateMatchRatingChanges,
   plotRatingHistory,
 } from './matches-computations'
-import { getUser } from '../players/players-selectors'
+import { getPlayer } from '../players/players-selectors'
 
-const fillUsers = (team, state) => team.map(player => {
-  const user = state.users.find(user => user.id === player.id)
+const fillPlayers = (team, state) => team.map(emptyPlayer => {
+  const player = state.players.find(player => player.id === emptyPlayer.id)
   return {
-    ...user,
-    matchRating: player.matchRating,
+    ...player,
+    matchRating: emptyPlayer.matchRating,
   }
 })
 
 const getMatches = state => state.matches.map(match => ({
   ...match,
-  team1: fillUsers(match.team1, state),
-  team2: fillUsers(match.team2, state),
+  team1: fillPlayers(match.team1, state),
+  team2: fillPlayers(match.team2, state),
 }))
 
-export const didUserPlayMatch = (userId, match) => {
+export const didPlayerPlayMatch = (playerId, match) => {
   const allPlayers = [...match.team1, ...match.team2]
-  return !!allPlayers.find(player => player.id === userId)
+  return !!allPlayers.find(player => player.id === playerId)
 }
 
 export const getLastMatches = createSelector(
@@ -31,27 +31,27 @@ export const getLastMatches = createSelector(
   matches => matches.sort((match1, match2) => match2.date - match1.date),
 )
 
-const getLastMatchesForUser = createSelector(
+const getLastMatchesForPlayer = createSelector(
   getLastMatches,
-  (state, userId) => userId,
-  (matches, userId) => matches.filter(match => didUserPlayMatch(userId, match)),
+  (state, playerId) => playerId,
+  (matches, playerId) => matches.filter(match => didPlayerPlayMatch(playerId, match)),
 )
 
-const generateStatisticsForUser = (userId, userMatches) => ({
-  matchChanges: generateMatchRatingChanges(userId, userMatches),
-  longestStreak: computeLongestWinStreak(userId, userMatches),
-  winRatio: computeWinRatio(userId, userMatches),
-  totalMatches: userMatches.length,
+const generateStatisticsForPlayer = (playerId, playerMatches) => ({
+  matchChanges: generateMatchRatingChanges(playerId, playerMatches),
+  longestStreak: computeLongestWinStreak(playerId, playerMatches),
+  winRatio: computeWinRatio(playerId, playerMatches),
+  totalMatches: playerMatches.length,
 })
 
-export const getStatisticsForUser = createSelector(
-  getLastMatchesForUser,
-  (state, userId) => userId,
-  (userMatches, userId) => generateStatisticsForUser(userId, userMatches),
+export const getStatisticsForPlayer = createSelector(
+  getLastMatchesForPlayer,
+  (state, playerId) => playerId,
+  (playerMatches, playerId) => generateStatisticsForPlayer(playerId, playerMatches),
 )
 
-export const getRatingHistoryGraphForUser = createSelector(
-  getLastMatchesForUser,
-  getUser,
-  (userMatches, user) => plotRatingHistory(userMatches, user.id, user.initialRating),
+export const getRatingHistoryGraphForPlayer = createSelector(
+  getLastMatchesForPlayer,
+  getPlayer,
+  (playerMatches, player) => plotRatingHistory(playerMatches, player.id, player.initialRating),
 )

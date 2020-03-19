@@ -6,7 +6,7 @@ import {
 } from '../../../styles/blocks'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUsers } from '../../modules/players/players-selectors'
+import { getPlayers } from '../../modules/players/players-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
 import { StatusType } from '../../modules/api/request-status'
@@ -95,7 +95,7 @@ class CreateMatchComponent extends Component {
             <SelectTeamForm
               maxPlayerNumber={this.props.maxPlayerNumber}
               teamName="Team 1"
-              users={this.props.users}
+              players={this.props.players}
               teamChanged={this.team1Changed}
               teamSubmitted={() => this.submit(true)}
               canSubmit={canSubmit} />
@@ -104,7 +104,7 @@ class CreateMatchComponent extends Component {
             <SelectTeamForm
               maxPlayerNumber={this.props.maxPlayerNumber}
               teamName="Team 2"
-              users={this.props.users}
+              players={this.props.players}
               teamChanged={this.team2Changed}
               teamSubmitted={() => this.submit(false)}
               canSubmit={canSubmit} />
@@ -119,7 +119,7 @@ class CreateMatchComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  users: getUsers(state),
+  players: getPlayers(state),
   status: state.matchesStatus,
   activeRedirect: state.activeRedirect,
 })
