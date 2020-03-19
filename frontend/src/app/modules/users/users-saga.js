@@ -1,11 +1,12 @@
-import { put, takeEvery, fork, call } from 'redux-saga/effects'
+import { put, takeEvery, call, select } from 'redux-saga/effects'
 import { getUsers, addUser } from './users-effects'
 import { UsersActions } from './users-actions'
 import { inProgress, success, failure } from '../api/request-status'
+import { GamesActions } from '../games/games-actions'
 
-export function* getUsersSaga() {
+export function* getUsersSaga(action) {
   try {
-    const response = yield call(getUsers)
+    const response = yield call(getUsers, action.selectedGame.name)
     yield put(UsersActions.Creators.usersLoaded(response.data))
   } catch (error) {
     console.error(error)
@@ -14,8 +15,9 @@ export function* getUsersSaga() {
 
 function* addUserSaga(action) {
   try {
+    const state = yield select()
     yield put(UsersActions.Creators.updateStatus(inProgress))
-    yield call(addUser, action.user)
+    yield call(addUser, state.selectedGame.name, action.user)
     yield call(getUsersSaga)
     yield put(UsersActions.Creators.updateStatus(success))
   } catch (error) {
@@ -26,6 +28,6 @@ function* addUserSaga(action) {
 }
 
 export function* usersSaga() {
-  yield fork(getUsersSaga)
+  yield takeEvery(GamesActions.Types.SELECT_GAME, getUsersSaga)
   yield takeEvery(UsersActions.Types.ADD_USER, addUserSaga)
 }

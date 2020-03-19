@@ -13,9 +13,9 @@ import { client } from '../api/api-client'
 /**
  * @returns {Array<User>} The list of users
  */
-export const getUsers = () => client.get('/users')
+export const getUsers = gameName => client.get(`games/${gameName}/players`)
 
 /**
  * @param {User} user The user to be created
  */
-export const addUser = user => client.post('/users', user)
+export const addUser = (gameName, user) => client.post(`games/${gameName}/players`, user)
