@@ -3,7 +3,7 @@ import { addMatchSaga } from './matches-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
-import { getUsersSaga } from '../users/users-saga'
+import { getUsersSaga } from '../players/players-saga'
 import { getSelectedGame } from '../games/games-selectors'
 
 const MATCH = {}

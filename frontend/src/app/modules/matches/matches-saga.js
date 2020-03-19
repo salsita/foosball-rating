@@ -1,6 +1,6 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects'
 import { getMatchesByGameName, addMatch } from './matches-effects'
-import { getUsersSaga } from '../users/users-saga'
+import { getUsersSaga } from '../players/players-saga'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
 import { GamesActions } from '../games/games-actions'

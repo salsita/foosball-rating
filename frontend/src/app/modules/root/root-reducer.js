@@ -1,7 +1,7 @@
 import { createReducer } from 'reduxsauce'
 
 import { MatchesActions } from '../matches/matches-actions'
-import { UsersActions } from '../users/users-actions'
+import { UsersActions } from '../players/players-actions'
 import { ready, StatusType } from '../api/request-status'
 import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'

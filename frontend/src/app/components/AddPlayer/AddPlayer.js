@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { UsersActions } from '../../modules/users/users-actions'
+import { UsersActions } from '../../modules/players/players-actions'
 import { Box, GridContainer, Input, Label, Button } from './../../../styles/blocks'
 import { StatusType } from '../../modules/api/request-status'
 import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert'

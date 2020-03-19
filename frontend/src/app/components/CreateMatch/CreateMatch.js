@@ -6,7 +6,7 @@ import {
 } from '../../../styles/blocks'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUsers } from '../../modules/users/users-selectors'
+import { getUsers } from '../../modules/players/players-selectors'
 import { SelectTeamForm } from './SelectTeamForm'
 import { MatchesActions } from '../../modules/matches/matches-actions'
 import { StatusType } from '../../modules/api/request-status'

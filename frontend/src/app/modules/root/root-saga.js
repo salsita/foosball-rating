@@ -1,5 +1,5 @@
 import { fork } from 'redux-saga/effects'
-import { usersSaga } from '../users/users-saga'
+import { usersSaga } from '../players/players-saga'
 import { matchesSaga } from '../matches/matches-saga'
 import { themeSaga } from '../theme/theme-saga'
 import { gamesSaga } from '../games/games-saga'

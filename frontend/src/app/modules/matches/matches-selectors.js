@@ -5,7 +5,7 @@ import {
   generateMatchRatingChanges,
   plotRatingHistory,
 } from './matches-computations'
-import { getUser } from '../users/users-selectors'
+import { getUser } from '../players/players-selectors'
 
 const fillUsers = (team, state) => team.map(player => {
   const user = state.users.find(user => user.id === player.id)

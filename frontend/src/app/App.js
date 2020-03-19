@@ -16,7 +16,7 @@ import { Dashboard } from './pages/Dashboard'
 import { LeaderboardPage } from './pages/Leaderboard'
 import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
-import { AddUserPage } from './pages/AddUser'
+import { AddUserPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
 
 const sagaMiddleware = createSagaMiddleware()
