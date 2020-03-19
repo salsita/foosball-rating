@@ -159,27 +159,27 @@ export const computeKingStreakDuration = (matchesLast, usersLast) => {
   }, new Map())
 
   const kingId = usersLast[0].id
-  let matchFound = false;
-  for (let match of matchesLast) {
+  let matchFound = false
+  for (const match of matchesLast) {
     const players = [...match.team1, ...match.team2]
-    
+
     // #1 recomptute king's rating before in case he played the match
     const kingPlayer = players.find(player => player.id === kingId)
-    const kingWon = false;
+    let kingWon = false
     if (kingPlayer) {
       kingWon = usersMap[kingId] > kingPlayer.matchRating
       usersMap[kingId] = kingPlayer.matchRating
     }
 
     // #2 check whether none of the other players beat the king
-    for (let player of players) {
+    for (const player of players) {
       usersMap[player.id] = player.matchRating
       matchFound |= (player.id !== kingId && player.matchRating > usersMap[kingId])
     }
 
     // #3 check if king was first before winning
     if (kingPlayer && kingWon && !matchFound) {
-      for (let key in usersMap) {
+      for (const key in usersMap) {
         matchFound |= (usersMap[key] > usersMap[kingId])
       }
     }

@@ -54,6 +54,7 @@ const ListItem = styled.li`
   list-style: none;
   border: 1px solid var(--cBorder);
   align-items: center;
+  position: relative;
 
   &:nth-child(even) {
     background: var(--bgColorListSec);

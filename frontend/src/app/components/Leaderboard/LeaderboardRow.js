@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextSpan, KingSpan, TextDiv, ListItem, StyledLink } from '../../../styles/blocks'
+import { PositionDiv, KingDiv, TextSpan, ListItem, StyledLink } from '../../../styles/blocks'
 import { createProfilePath } from '../../const/routes'
 
 const trophies = [
@@ -14,7 +14,7 @@ export const LeaderboardRow = ({ player, king, position, points }) => (
       position > 3 ? (position + '.') : <img src={trophies[position - 1]} alt={`cup${position}`} />
     }</TextSpan>
     {king && king.id === player.id
-      ? <KingSpan>King of The Hill<br/>since {king.since.toLocaleDateString()}</KingSpan>
+      ? <KingDiv>King of The Hill<br/>since {king.since.toLocaleDateString()}</KingDiv>
       : ''}
     <TextDiv>
       <StyledLink to={player.link}>{player.name} ({points})</StyledLink>
