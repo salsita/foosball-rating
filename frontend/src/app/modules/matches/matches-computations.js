@@ -5,7 +5,7 @@ const didPlayerWin = (playerId, match) => {
 
 const getTeamMates = (userId, match) => {
   const userTeam = match.team1.find(player => player.id === userId) ? match.team1 : match.team2
-  return userTeam.filter(player => player.id != userId)
+  return userTeam.filter(player => player.id !== userId)
 }
 
 const getOpponents = (userId, match) => {
@@ -85,7 +85,7 @@ export const computeDays = matchChanges => {
   for (const match of matchChanges) {
     const key = match.date.toLocaleDateString()
     const value = Number(match.ratingChangeString)
-    if (!daysMap.hasOwnProperty(key)) {
+    if (!Object.hasOwnProperty.call(daysMap, key)) {
       daysMap[key] = {
         date: key,
         value,
@@ -133,7 +133,7 @@ const findSignificantUsers = (userId, userMatches, usersProvider) => {
   for (const match of userMatches) {
     const users = usersProvider(userId, match)
     for (const user of users) {
-      if (!usersMap.hasOwnProperty(user.id)) {
+      if (!Object.hasOwnProperty.call(usersMap, user.id)) {
         usersMap[user.id] = {
           user: user,
           matches: 1,
@@ -162,7 +162,7 @@ const findSignificantUsers = (userId, userMatches, usersProvider) => {
 }
 
 const updateMinFromMap = (target, targetKey, source) => {
-  if (!target.hasOwnProperty(targetKey) ||
+  if (!Object.hasOwnProperty.call(target, targetKey) ||
     target[targetKey] >= source[targetKey]
   ) {
     return { ...source }
@@ -171,7 +171,7 @@ const updateMinFromMap = (target, targetKey, source) => {
 }
 
 const updateMaxFromMap = (target, targetKey, source) => {
-  if (!target.hasOwnProperty(targetKey) ||
+  if (!Object.hasOwnProperty.call(target, targetKey) ||
     target[targetKey] < source[targetKey]
   ) {
     return { ...source }

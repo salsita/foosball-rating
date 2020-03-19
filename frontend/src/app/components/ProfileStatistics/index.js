@@ -3,7 +3,7 @@ import React from 'react'
 import { TextSpan, StatisticsTable, StatisticsValue, StyledLink, WinnerSpan } from '../../../styles/blocks'
 import { createProfilePath } from '../../const/routes'
 
-const ProfileStatistics = props => {
+export const ProfileStatistics = props => {
   const {
     rankings: { ranking, toNextRank, toPrevRank },
     statistics: {
@@ -74,5 +74,3 @@ const getPlayerLink = player => (
   <StyledLink key={player?.id} to={createProfilePath(player?.id)}>{player?.name}
    &nbsp;<span>({player?.matchRating})</span></StyledLink>
 )
-
-export default ProfileStatistics

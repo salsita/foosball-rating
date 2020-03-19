@@ -80,7 +80,7 @@ const ProfileDetail = styled.div`
 const StatisticsTable = styled.table`
   font-size: ${variables.fontSizeProfileDetails};
   text-align: left;
-  margin: 0 0 20px 0;
+  margin: 10px 0 20px 0;
   width: 100%;
 
   td:nth-child(1) {

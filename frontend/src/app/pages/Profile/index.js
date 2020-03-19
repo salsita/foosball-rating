@@ -5,11 +5,11 @@ import {
   Subtitle,
   Box, ProfileDetail,
 } from './../../../styles/blocks'
-import ProfileBattleHistory from './../../components/ProfileBattleHistory'
-import ProfileRatingGraph from '../../components/ProfileRatingGraph'
-import ProfileStatistics from '../../components/ProfileStatistics'
-import { getPlayer } from '../../modules/players/players-selectors'
-import { getStatisticsForPlayer, getRankingsForPlayer } from '../../modules/matches/matches-selectors'
+import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
+import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
+import { ProfileStatistics } from '../../components/ProfileStatistics'
+import { getUser, getRankingsForUser } from '../../modules/users/users-selectors'
+import { getStatisticsForUser } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
   render() {
