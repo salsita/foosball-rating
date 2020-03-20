@@ -14,6 +14,8 @@ describe('GameRepository', () => {
   })
   describe('addGame', () => {
     it.each([
+      ['has not a game data', undefined, undefined],
+      ['has nulls', null, null],
       ['has empty data', '', ''],
       ['has no description', FOOSBALL_DATA.name, ''],
       ['has no name', '', FOOSBALL_DATA.description],

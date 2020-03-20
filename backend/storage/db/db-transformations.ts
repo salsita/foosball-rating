@@ -44,8 +44,8 @@ export const createMatchFromDbRow = (matchRow): MatchWithId => {
   }
 }
 
-export const createGameFromDbRow = (gameRow): Game => new Game(
-  Number(gameRow.Id),
-  gameRow.Name,
-  gameRow.Description
-)
+export const createGameFromDbRow = (gameRow): Game => ({
+  id: Number(gameRow.Id),
+  name: gameRow.Name,
+  description: gameRow.Description,
+})
