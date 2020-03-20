@@ -12,6 +12,7 @@ import { ThemeTypes } from '../../const/theme-types'
 import { StorageThemeKey } from '../../const/constants'
 import * as Filters from '../../const/leaderboard-filters'
 import { GamesActions } from '../games/games-actions'
+import { getSelectedGamePath } from '../games/games-selectors'
 
 const initialState = {
   matchesStatus: ready,
@@ -20,6 +21,7 @@ const initialState = {
   players: [],
   games: [],
   selectedGame: null,
+  gameNotFound: false,
   activeAlert: null,
   activeRedirect: null,
   theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
@@ -51,7 +53,8 @@ const updateMatchesStatus = (state, { status }) => ({
   ...state,
   matchesStatus: status,
   activeAlert: createAlertForMatchesStatusUpdate(status) || state.activeAlert,
-  activeRedirect: createRedirectForMatchesStatusUpdate(status) || state.activeRedirect,
+  activeRedirect: createRedirectForMatchesStatusUpdate(getSelectedGamePath(state), status) ||
+    state.activeRedirect,
 })
 
 const gamesLoaded = (state, { games }) => ({
@@ -62,11 +65,23 @@ const gamesLoaded = (state, { games }) => ({
 const selectGame = (state, { selectedGame }) => ({
   ...state,
   selectedGame,
+  gameNotFound: false,
 })
 
-const createRedirectForMatchesStatusUpdate = status => {
+const deselectGame = state => ({
+  ...state,
+  selectedGame: null,
+  gameNotFound: false,
+})
+
+const setGameNotFound = state => ({
+  ...state,
+  gameNotFound: true,
+})
+
+const createRedirectForMatchesStatusUpdate = (parentPath, status) => {
   if (status.type === StatusType.SUCCESS) {
-    return DASHBOARD
+    return `${parentPath}${DASHBOARD}`
   }
   return null
 }
@@ -153,6 +168,8 @@ export const rootReducer = createReducer(initialState, {
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [GamesActions.Types.GAMES_LOADED]: gamesLoaded,
   [GamesActions.Types.SELECT_GAME]: selectGame,
+  [GamesActions.Types.DESELECT_GAME]: deselectGame,
+  [GamesActions.Types.NOT_FOUND_GAME]: setGameNotFound,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
   [ThemeActions.Types.THEME_CHANGED]: themeChanged,

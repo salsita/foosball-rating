@@ -10,6 +10,7 @@ import { BattleHistory } from './../../components/BattleHistory/BattleHistory'
 import { Leaderboard } from '../../components/Leaderboard/Leaderboard'
 import { MATCH_LIST, LEADERBOARD } from '../../const/routes'
 import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
+import { getSelectedGamePath } from '../../modules/games/games-selectors'
 
 class DashboardComponent extends Component {
 
@@ -19,10 +20,10 @@ class DashboardComponent extends Component {
         <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
         <BattleHistory maxItems={5} />
-        <StyledLink to={MATCH_LIST}>Show all...</StyledLink>
+        <StyledLink to={`${this.props.parentPath}${MATCH_LIST}`}>Show all...</StyledLink>
         <Subtitle textAlign="center">Top Rating</Subtitle>
         <Leaderboard maxItems={5} showFilters={false} />
-        <StyledLink to={LEADERBOARD}>Show more...</StyledLink>
+        <StyledLink to={`${this.props.parentPath}${LEADERBOARD}`}>Show more...</StyledLink>
       </Box>
     )
   }
@@ -30,6 +31,7 @@ class DashboardComponent extends Component {
 
 const mapStateToProps = state => ({
   createMatchStatus: state.matchesStatus,
+  parentPath: getSelectedGamePath(state),
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

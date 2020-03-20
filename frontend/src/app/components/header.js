@@ -7,28 +7,33 @@ import {
   Button,
   StyledLink,
 } from './../../styles/blocks/'
-import { CREATE_MATCH, DASHBOARD } from '../const/routes'
+import { CREATE_MATCH } from '../const/routes'
 import { withRouter } from 'react-router-dom'
 import { ThemeActions } from '../modules/theme/theme-actions'
+import { ShowIfGameIsSelected } from './ShowIfGameSelected'
 
 const logo = require('./../../media/logo.png')
 
-const HeaderComponent = ({ theme, history, changeTheme }) => {
+const HeaderComponent = ({ theme, history, changeTheme, selectedGame }) => {
   const createMatch = () => {
-    history.push(CREATE_MATCH)
+    history.push(`/${selectedGame.name}${CREATE_MATCH}`)
   }
 
   return (
     <Nav>
-      <Logo><StyledLink to={DASHBOARD}><img src={logo} alt="logo" /></StyledLink></Logo>
+      <Logo><StyledLink to={'/'}><img src={logo} alt="logo" /></StyledLink></Logo>
       <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
-      <Button onClick={createMatch}>Add Match</Button>
+      <ShowIfGameIsSelected>
+        <Button onClick={createMatch}>Add Match</Button>
+        <></>
+      </ShowIfGameIsSelected>
     </Nav>
   )
 }
 
 const mapStateToProps = state => ({
   theme: state.theme,
+  selectedGame: state.selectedGame,
 })
 
 const mapDispatchToProps = dispatch => ({
