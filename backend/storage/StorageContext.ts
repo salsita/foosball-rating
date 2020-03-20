@@ -6,6 +6,7 @@ import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User } from '../types/User'
 import { MatchWithId } from '../types/Match'
+import { Game, GameData } from '../types/Game'
 
 export class StorageContext {
   constructor(private transaction) {}
@@ -127,6 +128,34 @@ export class StorageContext {
     }
 
     return row != null ? dbTransformations.createMatchFromDbRow(row) : null
+  }
+
+  async getAllGames(): Promise<Array<Game>> {
+    let rows
+    try {
+      rows = await this.transaction.executeQuery(dbQueries.selectAllGames, [])
+    } catch (error) {
+      console.error(error)
+      throw new Error('Unable to retrieve games')
+    }
+    return rows.map(dbTransformations.createGameFromDbRow)
+  }
+
+  async insertGame(game: GameData): Promise<Game> {
+    let row
+    try {
+      row = await this.transaction.executeSingleResultQuery(dbQueries.insertGame, [
+        game.name,
+        game.description,
+      ])
+    } catch (error) {
+      console.error(error)
+      if (dbErrors.isUniqueViolation(error)) {
+        throw new ConflictError('Game already exists')
+      }
+      throw new Error('Unable to insert new game')
+    }
+    return row && dbTransformations.createGameFromDbRow(row)
   }
 
   async commit(): Promise<void> {
