@@ -159,32 +159,64 @@ describe('StorageContext', () => {
   })
 
   describe('addUserToGame', () => {
-    describe('when player Tonda is successfully added to foosball game', () => {
-      beforeEach(async () => {
+    describe('when foosball game exists', () => {
+      beforeEach(() => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
-        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_USER_ROW)
-        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(undefined)
-        await context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER)
       })
-      it('searches game by name', () => {
-        expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
-          dbQueries.selectGameByName, [FOOSBALL_GAME.name]
-        )
+      describe('when a new user Tonda is successfully added to foosball game', () => {
+        beforeEach(async () => {
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_USER_ROW)
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(undefined)
+          await context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER)
+        })
+        it('searches game by name', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
+            dbQueries.selectGameByName, [FOOSBALL_GAME.name]
+          )
+        })
+        it('searches Tonda as a user', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
+            dbQueries.selectUserByName, [TONDA_USER.name]
+          )
+        })
+        it('inserts Tonda as a user', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
+            dbQueries.insertUser, [TONDA_PLAYER.name, TONDA_PLAYER.active]
+          )
+        })
+        it('inserts Tonda as a player', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
+            dbQueries.insertPlayer, [
+              TONDA_USER.id,
+              TONDA_PLAYER.initialRating,
+              TONDA_PLAYER.initialRating,
+              FOOSBALL_GAME.id,
+            ]
+          )
+        })
       })
-      it('inserts Tonda as a user', () => {
-        expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
-          dbQueries.insertUser, [TONDA_PLAYER.name, TONDA_PLAYER.active]
-        )
-      })
-      it('inserts Tonda as a player', () => {
-        expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
-          dbQueries.insertPlayer, [
-            TONDA_USER.id,
-            TONDA_PLAYER.initialRating,
-            TONDA_PLAYER.initialRating,
-            FOOSBALL_GAME.id,
-          ]
-        )
+      describe('when an existing player Tonda is successfully added to foosball game', () => {
+        beforeEach(async () => {
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_USER_ROW)
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(undefined)
+          await context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER)
+        })
+        it('does not insert Tonda as a user', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).not.toBeCalledWith(
+            dbQueries.insertUser, expect.anything()
+          )
+        })
+        it('inserts Tonda as a player', () => {
+          expect(TRANSACTION_MOCK.executeSingleResultQuery).toBeCalledWith(
+            dbQueries.insertPlayer, [
+              TONDA_USER.id,
+              TONDA_PLAYER.initialRating,
+              TONDA_PLAYER.initialRating,
+              FOOSBALL_GAME.id,
+            ]
+          )
+        })
       })
     })
     describe('when foosball game does not exist', () => {

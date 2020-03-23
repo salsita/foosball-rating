@@ -79,6 +79,17 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
+  async getUserByName(userName: string): Promise<User> {
+    let row
+    try {
+      row = await this.transaction.executeSingleResultQuery(dbQueries.selectUserByName, [userName])
+    } catch (error) {
+      console.error(error)
+      throw new Error(`User with name ${userName} doesn't exist`)
+    }
+    return row && dbTransformations.createUserFromDbRow(row)
+  }
+
   async updateRatingForPlayer(playerId: number, newRating: number): Promise<void> {
     const query = dbQueries.updateRatingForPlayer
     const values = [newRating, playerId]
@@ -115,7 +126,10 @@ export class StorageContext {
     if (!game) {
       throw new Error(`Unable to find game '${game.name}'`)
     }
-    const user = await this.insertUser(name)
+    let user = await this.getUserByName(name)
+    if (!user) {
+      user = await this.insertUser(name)
+    }
     await this.insertPlayer({
       initialRating,
       userId: user.id,
