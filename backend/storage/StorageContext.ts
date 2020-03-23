@@ -159,6 +159,18 @@ export class StorageContext {
     return row && dbTransformations.createGameFromDbRow(row)
   }
 
+  async getMatchesByGameId(id: number): Promise<Array<MatchWithId>> {
+    let rows
+    try {
+      rows = await this.transaction.executeQuery(dbQueries.selectMatchesByGameId, [id])
+    } catch (error) {
+      console.error(error)
+      throw new Error('Unable to retrieve matches')
+    }
+
+    return rows.map(dbTransformations.createMatchFromDbRow)
+  }
+
   async getGameByName(name: string): Promise<Game> {
     let row
     try {
@@ -171,6 +183,11 @@ export class StorageContext {
       throw new Error(`Game with name '${name}' doesn't exist`)
     }
     return dbTransformations.createGameFromDbRow(row)
+  }
+
+  async getMatchesByGameName(gameName: string): Promise<Array<MatchWithId>> {
+    const game = await this.getGameByName(gameName)
+    return await this.getMatchesByGameId(game.id)
   }
 
   async commit(): Promise<void> {

@@ -1,6 +1,6 @@
 import { client } from '../api/api-client'
 
-export const getMatches = () => client.get('/matches')
+export const getMatchesByGameName = gameName => client.get(`games/${gameName}/matches`)
 
 /**
  * @typedef {Object} Match
