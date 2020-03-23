@@ -8,7 +8,8 @@ export class Match {
     readonly team1Won,
     readonly date,
     readonly winningTeamRatingChange,
-    readonly losingTeamRatingChange
+    readonly losingTeamRatingChange,
+    readonly gameId
   ) {
     this.team1 = team1
     this.team2 = team2

@@ -68,10 +68,10 @@ app.post('/users', (req, res) => {
 
 })
 
-app.post('/matches', async (req, res) => {
+app.post('/games/:name/matches', async (req, res) => {
   try {
     const oldUsers = await storage.getAllUsers()
-    const match = await matchRepository.recordMatch(req.body)
+    const match = await matchRepository.recordMatch(req.params.name, req.body)
     const newUsers = await storage.getAllUsers()
     if (matchReporter) {
       await matchReporter.reportMatchOnSlack(match, oldUsers, newUsers)

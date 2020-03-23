@@ -5,7 +5,7 @@ import { ConflictError } from '../errors/ConflictError'
 import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User } from '../types/User'
-import { MatchWithId } from '../types/Match'
+import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
 
 export class StorageContext {
@@ -79,7 +79,7 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async insertMatch(match): Promise<MatchWithId> {
+  async insertMatch(match: Match): Promise<MatchWithId> {
     const isTeamSizeSupported = (team): boolean => team.length >= 1 && team.length <= 2
     if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
       throw new InputError('Inserting teams with unsupported number of players')
@@ -93,7 +93,8 @@ export class StorageContext {
     const query = dbQueries.insertMatch
     const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,
       team2Player1.id, team2Player1.rating, team2Player2.id, team2Player2.rating,
-      match.date, match.winningTeamRatingChange, match.losingTeamRatingChange, match.team1Won]
+      match.date, match.winningTeamRatingChange, match.losingTeamRatingChange, match.team1Won,
+      match.gameId]
 
     let row
     try {
@@ -156,6 +157,20 @@ export class StorageContext {
       throw new Error('Unable to insert new game')
     }
     return row && dbTransformations.createGameFromDbRow(row)
+  }
+
+  async getGameByName(name: string): Promise<Game> {
+    let row
+    try {
+      row = await this.transaction.executeSingleResultQuery(dbQueries.selectGameByName, [name])
+    } catch (error) {
+      console.error(error)
+      throw new Error('Unable to retrieve game by name')
+    }
+    if (!row) {
+      throw new Error(`Game with name '${name}' doesn't exist`)
+    }
+    return dbTransformations.createGameFromDbRow(row)
   }
 
   async commit(): Promise<void> {

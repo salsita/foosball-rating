@@ -56,6 +56,10 @@ export const getAllGames = async (): Promise<Array<Game>> => {
   return executeAndCommit(context => context.getAllGames())
 }
 
+export const getGameByName = async (name: string): Promise<Game> => {
+  return executeAndCommit(context => context.getGameByName(name))
+}
+
 export const insertGame = async (game): Promise<Game> => {
   return executeAndCommit(context => context.insertGame(game))
 }

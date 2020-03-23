@@ -1,8 +1,10 @@
-import { put, takeEvery, fork, call } from 'redux-saga/effects'
+import { put, takeEvery, call, take, select } from 'redux-saga/effects'
 import { getMatches, addMatch } from './matches-effects'
 import { getUsersSaga } from '../users/users-saga'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
+import { GamesActions } from '../games/games-actions'
+import { getSelectedGame } from '../games/games-selectors'
 
 const convertDateInMatch = match => ({
   ...match,
@@ -21,8 +23,9 @@ function* getMatchesSaga() {
 
 function* addMatchSaga(action) {
   try {
+    const selectedGame = yield select(getSelectedGame)
     yield put(MatchesActions.Creators.updateStatus(inProgress))
-    yield call(addMatch, action.match)
+    yield call(addMatch, selectedGame.name, action.match)
     yield call(getMatchesSaga)
     // Need to reload users because ratings have changed
     yield call(getUsersSaga)
@@ -35,6 +38,7 @@ function* addMatchSaga(action) {
 }
 
 export function* matchesSaga() {
-  yield fork(getMatchesSaga)
+  const action = yield take(GamesActions.Types.SELECT_GAME)
+  yield call(getMatchesSaga, action)
   yield takeEvery(MatchesActions.Types.ADD_MATCH, addMatchSaga)
 }

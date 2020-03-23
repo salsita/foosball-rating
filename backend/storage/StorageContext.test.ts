@@ -66,4 +66,32 @@ describe('StorageContext', () => {
       })
     })
   })
+
+  describe('getGameByName', () => {
+    describe('when single result query resolves with data', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
+      })
+      it('resolves with the game', async () => {
+        const game = await context.getGameByName(FOOSBALL_GAME.name)
+        expect(game).toEqual(FOOSBALL_GAME)
+      })
+    })
+    describe('when single result query throws', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockRejectedValueOnce(null)
+      })
+      it('rejects with Error', async () => {
+        await expect(context.getGameByName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
+      })
+    })
+    describe('when foosball does not exist', () => {
+      beforeEach(() => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
+      })
+      it('rejects with Error', async () => {
+        await expect(context.getGameByName(FOOSBALL_GAME.name)).rejects.toThrowError(Error)
+      })
+    })
+  })
 })
