@@ -20,7 +20,7 @@ describe('MatchDescription', () => {
       expect(isMatchDescription(matchData)).toEqual(false)
     })
     it('evaluates to true when data is correct', () => {
-      expect(isMatchDescription({ team1, team2, team1Won }))
+      expect(isMatchDescription({ team1, team2, team1Won })).toEqual(true)
     })
   })
 })

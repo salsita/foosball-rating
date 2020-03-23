@@ -19,3 +19,11 @@ export class UserData {
     readonly name: string
   ) {}
 }
+
+export const isValidUserData = (userData: unknown): userData is UserData => {
+  const test = userData as UserData
+  return typeof test.name === 'string' &&
+    test.name.length !== 0 &&
+    test.name.trim() === test.name &&
+    typeof test.initialRating === 'number'
+}
