@@ -18,6 +18,7 @@ export function* selectGameSaga(game) {
 }
 
 export function* selectGameOnGamesLoadedSaga(action) {
+  // select foosball as first game as it's the only game right now
   yield call(selectGameSaga, action.games[0])
 }
 

@@ -15,13 +15,28 @@ const ERROR = {
 describe('matchesSaga', () => {
   describe('addMatchSaga', () => {
     let gen
-    const expectNextToBe = (value, done = false) => {
-      const result = gen.next()
-      expect(result.value).toStrictEqual(value)
-      expect(result.done).toBe(done)
+    const expectNext = (suppliedValue, generated) => {
+      expect(gen.next(suppliedValue)).toStrictEqual(generated)
     }
-    const expectDone = () => {
-      expectNextToBe(undefined, true)
+    const expectThrow = (suppliedValue, generated) => {
+      expect(gen.throw(suppliedValue)).toStrictEqual(generated)
+    }
+    const expectNextUndoneValue = suppliedValue => {
+      return {
+        toBe: value => {
+          expectNext(suppliedValue, { value, done: false })
+        },
+      }
+    }
+    const expectThrowUndoneValue = suppliedValue => {
+      return {
+        toBe: value => {
+          expectThrow(suppliedValue, { value, done: false })
+        },
+      }
+    }
+    const expectNextDone = suppliedValue => {
+      expectNext(suppliedValue, { value: undefined, done: true })
     }
     beforeEach(() => {
       gen = addMatchSaga({
@@ -30,25 +45,25 @@ describe('matchesSaga', () => {
     })
     describe('when addMatch is successful', () => {
       it('performs correctly the sequence', () => {
-        expectNextToBe(select(getSelectedGame))
-        expect(gen.next(FOOSBALL).value)
-          .toStrictEqual(put(MatchesActions.Creators.updateStatus(inProgress)))
-        expectNextToBe(call(addMatch, FOOSBALL.name, MATCH))
-        expectNextToBe(put(MatchesActions.Creators.matchAdded(MATCH)))
-        expectNextToBe(call(getUsersSaga))
-        expectNextToBe(put(MatchesActions.Creators.updateStatus(success)))
-        expectDone()
+        expectNextUndoneValue().toBe(select(getSelectedGame))
+        expectNextUndoneValue(FOOSBALL)
+          .toBe(put(MatchesActions.Creators.updateStatus(inProgress)))
+        expectNextUndoneValue().toBe(call(addMatch, FOOSBALL.name, MATCH))
+        expectNextUndoneValue().toBe(put(MatchesActions.Creators.matchAdded(MATCH)))
+        expectNextUndoneValue().toBe(call(getUsersSaga))
+        expectNextUndoneValue().toBe(put(MatchesActions.Creators.updateStatus(success)))
+        expectNextDone()
       })
     })
     describe('when addMatch fails', () => {
       it('performs correctly the sequence', () => {
-        expectNextToBe(select(getSelectedGame))
-        expect(gen.next(FOOSBALL).value)
-          .toStrictEqual(put(MatchesActions.Creators.updateStatus(inProgress)))
-        expectNextToBe(call(addMatch, FOOSBALL.name, MATCH))
-        expect(gen.throw(ERROR).value)
-          .toStrictEqual(put(MatchesActions.Creators.updateStatus(failure(ERROR.message))))
-        expectDone()
+        expectNextUndoneValue().toBe(select(getSelectedGame))
+        expectNextUndoneValue(FOOSBALL)
+          .toBe(put(MatchesActions.Creators.updateStatus(inProgress)))
+        expectNextUndoneValue().toBe(call(addMatch, FOOSBALL.name, MATCH))
+        expectThrowUndoneValue(ERROR)
+          .toBe(put(MatchesActions.Creators.updateStatus(failure(ERROR.message))))
+        expectNextDone()
       })
     })
   })
