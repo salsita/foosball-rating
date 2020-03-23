@@ -15,11 +15,11 @@ const ERROR = {
 describe('matchesSaga', () => {
   describe('addMatchSaga', () => {
     let gen
-    const expectNext = (suppliedValue, generated) => {
-      expect(gen.next(suppliedValue)).toStrictEqual(generated)
+    const expectNext = (suppliedValue, expected) => {
+      expect(gen.next(suppliedValue)).toStrictEqual(expected)
     }
-    const expectThrow = (suppliedValue, generated) => {
-      expect(gen.throw(suppliedValue)).toStrictEqual(generated)
+    const expectThrow = (suppliedValue, expected) => {
+      expect(gen.throw(suppliedValue)).toStrictEqual(expected)
     }
     const expectNextUndoneValue = suppliedValue => {
       return {
