@@ -1,17 +1,16 @@
-CREATE FUNCTION MATCHES_AFTER_INSERT_TRIGGER_CREATE()
+CREATE FUNCTION MATCHES_BEFORE_INSERT_TRIGGER_CREATE()
 RETURNS trigger
 LANGUAGE PLPGSQL AS
 $$BEGIN
   IF EXISTS (
-    SELECT * FROM "Matches" m, "Players" p
-    WHERE (
-      m."Team1Player1Id" = p."Id" OR
-      m."Team1Player2Id" = p."Id" OR
-      m."Team2Player1Id" = p."Id" OR
-      m."Team2Player2Id" = p."Id"
+    SELECT * FROM "Players" p
+    WHERE "Id" in (
+      NEW."Team1Player1Id",
+      NEW."Team1Player2Id",
+      NEW."Team2Player1Id",
+      NEW."Team2Player2Id"
     )
-    AND m."Id" = NEW."Id"
-    AND p."GameId" <> NEW."GameId"
+    AND "GameId" <> NEW."GameId"
   )
   THEN
     RAISE EXCEPTION 'A player in a match cant play a different game than others';
@@ -19,5 +18,5 @@ $$BEGIN
   RETURN NEW;
 END;$$;
 
-CREATE TRIGGER MATCHES_AFTER_INSERT_TRIGGER AFTER INSERT ON "Matches"
-FOR EACH ROW EXECUTE PROCEDURE MATCHES_AFTER_INSERT_TRIGGER_CREATE();
+CREATE TRIGGER MATCHES_BEFORE_INSERT_TRIGGER BEFORE INSERT ON "Matches"
+FOR EACH ROW EXECUTE PROCEDURE MATCHES_BEFORE_INSERT_TRIGGER_CREATE();
