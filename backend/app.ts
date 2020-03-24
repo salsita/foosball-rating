@@ -43,8 +43,8 @@ const processError = (response, error): void => {
   response.send(error.message)
 }
 
-app.get('/users', (req, res) => {
-  storage.getPlayersByGame('foosball')
+app.get('/games/:name/players', (req, res) => {
+  storage.getPlayersByGame(req.params.name)
     .then(res.send.bind(res))
     .catch(error => processError(res, error))
 })
@@ -80,9 +80,9 @@ app.get('/games/:name/matches', async (req: Request, res: Response) => {
   }
 })
 
-app.post('/users', async (req: Request, res: Response) => {
+app.post('/games/:name/players', async (req: Request, res: Response) => {
   try {
-    await userRepository.addUserToGame('foosball', req.body)
+    await userRepository.addUserToGame(req.params.name, req.body)
     res.send()
   } catch (error) {
     processError(res, error)
@@ -91,10 +91,9 @@ app.post('/users', async (req: Request, res: Response) => {
 
 app.post('/games/:name/matches', async (req: Request, res: Response) => {
   try {
-    const matchDescription: MatchDescription = req.body
-    const gameName: string = req.params.name
+    const gameName = req.params.name
     const oldUsers = await storage.getPlayersByGame(gameName)
-    const match = await matchRepository.recordMatch(req.params.name, matchDescription)
+    const match = await matchRepository.recordMatch(gameName, req.body)
     const newUsers = await storage.getPlayersByGame(gameName)
     if (matchReporter) {
       await matchReporter.reportMatchOnSlack(match, oldUsers, newUsers)

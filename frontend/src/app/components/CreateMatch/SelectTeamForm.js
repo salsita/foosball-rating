@@ -15,15 +15,15 @@ export class SelectTeamForm extends Component {
     }
   }
 
-  createUserItems = () => this.props.users.map(user => ({
-    label: user.name,
-    value: user.id,
+  createPlayerItems = () => this.props.players.map(player => ({
+    label: player.name,
+    value: player.id,
   }))
 
-  createUserItemsWithNone = () => [{
+  createPlayerItemsWithNone = () => [{
     label: 'None',
     value: INVALID_PLAYER_ID,
-  }, ...this.createUserItems()]
+  }, ...this.createPlayerItems()]
 
   playerSelected = (index, playerId) => {
     this.setState(state => {
@@ -40,10 +40,10 @@ export class SelectTeamForm extends Component {
   }
 
   render = () => {
-    const userItems = this.createUserItemsWithNone()
+    const playerItems = this.createPlayerItemsWithNone()
     const selectInputs = this.state.selectedPlayerIds.map((playerId, index) => (
       <SelectInput
-        key={index} selectedValue={playerId} items={userItems}
+        key={index} selectedValue={playerId} items={playerItems}
         onChange={event => this.playerSelected(index, Number(event.target.value))} />
     ))
     return (

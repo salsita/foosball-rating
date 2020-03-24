@@ -9,7 +9,7 @@ import {
   LineSeries,
 } from 'react-vis'
 
-import { getRatingHistoryGraphForUser } from '../../modules/matches/matches-selectors'
+import { getRatingHistoryGraphForPlayer } from '../../modules/matches/matches-selectors'
 import { Box, TextSpan } from '../../../styles/blocks'
 import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMainGridStyle } from '../../../styles/svg'
 
@@ -48,7 +48,7 @@ const SimpleProfileRatingGraph = props => (
 
 
 const mapStateToProps = (state, props) => ({
-  ratingHistoryGraph: getRatingHistoryGraphForUser(state, props.userId),
+  ratingHistoryGraph: getRatingHistoryGraphForPlayer(state, props.playerId),
 })
 
 export const ProfileRatingGraph = connect(mapStateToProps)(SimpleProfileRatingGraph)

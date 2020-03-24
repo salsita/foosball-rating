@@ -1,7 +1,7 @@
 import { createReducer } from 'reduxsauce'
 
 import { MatchesActions } from '../matches/matches-actions'
-import { UsersActions } from '../users/users-actions'
+import { PlayersActions } from '../players/players-actions'
 import { ready, StatusType } from '../api/request-status'
 import { RootActions } from './root-actions'
 import { AlertType, UserAlert } from './user-alert'
@@ -16,8 +16,8 @@ import { GamesActions } from '../games/games-actions'
 const initialState = {
   matchesStatus: ready,
   matches: [],
-  usersStatus: ready,
-  users: [],
+  playersStatus: ready,
+  players: [],
   games: [],
   selectedGame: null,
   activeAlert: null,
@@ -31,15 +31,15 @@ const initialState = {
   },
 }
 
-const usersLoaded = (state, { users }) => ({
+const playersLoaded = (state, { players }) => ({
   ...state,
-  users,
+  players,
 })
 
-const updateUsersStatus = (state, { status }) => ({
+const updatePlayersStatus = (state, { status }) => ({
   ...state,
-  usersStatus: status,
-  activeAlert: createAlertForUserStatusUpdate(status) || state.activeAlert,
+  playersStatus: status,
+  activeAlert: createAlertForPlayerStatusUpdate(status) || state.activeAlert,
 })
 
 const matchesLoaded = (state, { matches }) => ({
@@ -71,12 +71,12 @@ const createRedirectForMatchesStatusUpdate = status => {
   return null
 }
 
-const createAlertForUserStatusUpdate = status => {
+const createAlertForPlayerStatusUpdate = status => {
   switch (status.type) {
     case StatusType.SUCCESS:
       return new UserAlert('Successfully added!', AlertType.SUCCESS)
     case StatusType.FAILURE:
-      return new UserAlert(`Failed to add user :( - ${status.error}`, AlertType.ERROR)
+      return new UserAlert(`Failed to add player :( - ${status.error}`, AlertType.ERROR)
   }
 
   return null
@@ -147,8 +147,8 @@ const updateTimespan = (state, { timespan }) => ({
 })
 
 export const rootReducer = createReducer(initialState, {
-  [UsersActions.Types.USERS_LOADED]: usersLoaded,
-  [UsersActions.Types.UPDATE_STATUS]: updateUsersStatus,
+  [PlayersActions.Types.PLAYERS_LOADED]: playersLoaded,
+  [PlayersActions.Types.UPDATE_STATUS]: updatePlayersStatus,
   [MatchesActions.Types.MATCHES_LOADED]: matchesLoaded,
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [GamesActions.Types.GAMES_LOADED]: gamesLoaded,

@@ -8,13 +8,13 @@ const trophies = [
   require('../../../media/trophy-3.svg'),
 ]
 
-export const LeaderboardRow = ({ user, position, points }) => (
+export const LeaderboardRow = ({ player, position, points }) => (
   <ListItem>
     <TextSpan align="left">{
       position > 3 ? (position + '.') : <img src={trophies[position - 1]} />
     }</TextSpan>
     <TextDiv>
-      <StyledLink to={createProfilePath(user.id)}>{user.name} ({points})</StyledLink>
+      <StyledLink to={createProfilePath(player.id)}>{player.name} ({points})</StyledLink>
     </TextDiv>
   </ListItem>
 )

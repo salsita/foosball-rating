@@ -4,12 +4,12 @@ import { connect } from 'react-redux'
 import { ListCon } from '../../../styles/blocks'
 import { LeaderboardRow } from './LeaderboardRow'
 import { LeaderboardFilters } from './LeaderboardFilters'
-import { getTopUsers } from '../../modules/users/users-selectors'
+import { getTopPlayers } from '../../modules/players/players-selectors'
 import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-actions'
 import * as Filters from '../../const/leaderboard-filters'
 
 const LeaderboardComponent = (
-  { topUsers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
+  { topPlayers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
 ) => (
   <>
     {showFilters
@@ -18,17 +18,19 @@ const LeaderboardComponent = (
       : ''}
 
     <ListCon className="topPlayers" ascending={filters.order === Filters.orderTypes.ASC}>
-      {topUsers.slice(0, maxItems).map((user, index) =>
-        <LeaderboardRow key={user.id} user={user}
-          position={filters.order === Filters.orderTypes.ASC ? topUsers.length - index : index + 1}
-          points={user.criteriaPoints} />,
+      {topPlayers.slice(0, maxItems).map((player, index) =>
+        <LeaderboardRow key={player.id} player={player}
+          position={
+            filters.order === Filters.orderTypes.ASC ? topPlayers.length - index : index + 1
+          }
+          points={player.criteriaPoints} />,
       )}
     </ListCon>
   </>
 )
 
 const mapStateToProps = state => ({
-  topUsers: getTopUsers(state),
+  topPlayers: getTopPlayers(state),
   filters: state.filters,
 })
 
