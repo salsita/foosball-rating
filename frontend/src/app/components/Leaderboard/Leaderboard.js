@@ -20,7 +20,9 @@ const LeaderboardComponent = (
     <ListCon className="topPlayers" ascending={filters.order === Filters.orderTypes.ASC}>
       {topPlayers.slice(0, maxItems).map((player, index) =>
         <LeaderboardRow key={player.id} player={player}
-          position={filters.order === Filters.orderTypes.ASC ? topPlayers.length - index : index + 1}
+          position={
+            filters.order === Filters.orderTypes.ASC ? topPlayers.length - index : index + 1
+          }
           points={player.criteriaPoints} />,
       )}
     </ListCon>
