@@ -11,7 +11,7 @@ export const updateRatingForPlayer = oneLine`
 
 export const insertUser = 'INSERT INTO "Users"("Name", "Active") VALUES($1, $2) RETURNING *'
 
-export const selectUserByName = 'SELECT * FROM "Users" WHERE "Id" = $1'
+export const selectUserByName = 'SELECT * FROM "Users" WHERE "Name" = $1'
 
 export const insertMatch = oneLine`
   INSERT INTO "Matches"(
