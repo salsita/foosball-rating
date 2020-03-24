@@ -44,7 +44,7 @@ export class SelectTeamForm extends Component {
     const selectInputs = this.state.selectedPlayerIds.map((playerId, index) => (
       <SelectInput
         key={index} selectedValue={playerId} items={userItems}
-        onChange={event => this.playerSelected(index, event.target.value)} />
+        onChange={event => this.playerSelected(index, Number(event.target.value))} />
     ))
     return (
       <>

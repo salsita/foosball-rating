@@ -1,22 +1,11 @@
 import * as storage from '../storage/Storage'
 import { InputError } from '../errors/InputError'
+import { isValidUserData } from '../types/User'
 
-const isValidName = (name): boolean => {
-  if (name.length === 0) {
-    return false
-  }
-
-  if (name.trim() !== name) {
-    return false
-  }
-
-  return true
-}
-
-export const addUser = async (user): Promise<void> => {
-  if (!isValidName(user.name)) {
+export const addUserToGame = async (gameName: string, userData: unknown): Promise<void> => {
+  if (!isValidUserData(userData)) {
     throw new InputError('The name is not valid')
   }
 
-  await storage.insertUser(user)
+  await storage.addUserToGame(gameName, userData)
 }

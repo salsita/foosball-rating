@@ -32,7 +32,7 @@ class AddUserComponent extends Component {
   }
 
   initialRatingChanged = event => {
-    const initialRating = event.target.value
+    const initialRating = Number(event.target.value)
     this.setState(state => ({
       ...state,
       initialRating,
