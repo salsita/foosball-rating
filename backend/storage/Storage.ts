@@ -1,7 +1,7 @@
 import * as dbTransactions from './db/db-transactions'
 import { StorageContext } from './StorageContext'
 import { User, UserData } from '../types/User'
-import { MatchWithId } from '../types/Match'
+import { MatchWithId, Match } from '../types/Match'
 import { Game } from '../types/Game'
 import { Player } from '../types/Player'
 
@@ -67,4 +67,8 @@ export const insertGame = async (game): Promise<Game> => {
 
 export const getMatchesByGameName = async (name: string): Promise<Array<MatchWithId>> => {
   return executeAndCommit(context => context.getMatchesByGameName(name))
+}
+
+export const storeMatch = async (match: Match): Promise<MatchWithId> => {
+  return executeAndCommit(context => context.storeMatch(match))
 }

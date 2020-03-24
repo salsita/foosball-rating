@@ -2,43 +2,12 @@ import * as storage from '../storage/Storage'
 import * as ratingCalculator from '../rating/rating-calculator'
 import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
-import { MatchWithId, Match } from '../types/Match'
+import { Match } from '../types/Match'
 import { RatingChanges } from '../types/RatingChanges'
 import { MatchDescription, isMatchDescription } from '../types/MatchDescription'
 import { Player } from '../types/Player'
-import { StorageContext } from '../storage/StorageContext'
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
-
-const updateRatingForTeam =
-async (team: Array<Player>, difference: number, storageContext: StorageContext): Promise<void> => {
-  await Promise.all(team.map(player => {
-    const newRating = player.rating + difference
-    return storageContext.updateRatingForPlayer(player.id, newRating)
-  }))
-}
-
-const storeMatch = async (match: Match): Promise<MatchWithId> => {
-  const winningTeam = match.team1Won ? match.team1 : match.team2
-  const losingTeam = match.team1Won ? match.team2 : match.team1
-
-  const storageContext = await storage.makeStorageContext()
-
-  let result
-  try {
-    result = await storageContext.insertMatch(match)
-
-    await updateRatingForTeam(winningTeam, match.winningTeamRatingChange, storageContext)
-    await updateRatingForTeam(losingTeam, match.losingTeamRatingChange, storageContext)
-
-    await storageContext.commit()
-  } catch (error) {
-    await storageContext.rollback()
-    throw error
-  }
-
-  return result
-}
 
 const getFilledTeam = async (playedIds: Array<number>): Promise<Array<Player>> => {
   try {
@@ -109,7 +78,7 @@ Promise<Match> => {
   }
 
   const match = await constructMatch(gameName, matchDescription)
-  await storeMatch(match)
+  await storage.storeMatch(match)
 
   return match
 }

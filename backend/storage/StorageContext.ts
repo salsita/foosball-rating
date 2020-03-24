@@ -156,6 +156,23 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
+  async updateRatingForTeam(team: Array<Player>, difference: number): Promise<void> {
+    await Promise.all(team.map(player => {
+      const newRating = player.rating + difference
+      return this.updateRatingForPlayer(player.id, newRating)
+    }))
+  }
+
+  async storeMatch(match: Match): Promise<MatchWithId> {
+    const winningTeam = match.team1Won ? match.team1 : match.team2
+    const losingTeam = match.team1Won ? match.team2 : match.team1
+    const result = await this.insertMatch(match)
+
+    await this.updateRatingForTeam(winningTeam, match.winningTeamRatingChange)
+    await this.updateRatingForTeam(losingTeam, match.losingTeamRatingChange)
+    return result
+  }
+
   async insertMatch(match: Match): Promise<MatchWithId> {
     const isTeamSizeSupported = (team): boolean => team.length >= 1 && team.length <= 2
     if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
