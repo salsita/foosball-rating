@@ -8,6 +8,7 @@ import { User, UserData } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
 import { Player } from '../types/Player'
+import { BadRequestError } from '../errors/BadRequestError'
 
 export class StorageContext {
   constructor(private transaction) {}
@@ -177,6 +178,11 @@ export class StorageContext {
       row = await this.transaction.executeSingleResultQuery(query, values)
     } catch (error) {
       console.error(error)
+      if (dbErrors.isRaiseException(error)) {
+        throw new BadRequestError(error.message)
+      } else if (dbErrors.isCheckViolation(error)) {
+        throw new BadRequestError('Duplicate players are not allowed in a match')
+      }
       throw new Error('Unable to create match')
     }
 
