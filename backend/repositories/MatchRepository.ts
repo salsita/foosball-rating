@@ -6,6 +6,7 @@ import { Match } from '../types/Match'
 import { RatingChanges } from '../types/RatingChanges'
 import { MatchDescription, isMatchDescription } from '../types/MatchDescription'
 import { Player } from '../types/Player'
+import { oneLine } from 'common-tags'
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
 
@@ -74,7 +75,10 @@ Promise<Match> => {
   }
   const elapsedTime = await getElapsedSecondsSinceLatestMatch()
   if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
-    throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
+    throw new InputError(oneLine`
+      Can't add match ${elapsedTime} seconds after the last one.
+      Minimum time is ${ADD_MATCH_COOLDOWN}.
+    `)
   }
 
   const match = await constructMatch(gameName, matchDescription)
