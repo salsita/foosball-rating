@@ -2,12 +2,11 @@ import * as dbTransformations from './db/db-transformations'
 import * as dbQueries from './db/db-queries'
 import * as dbErrors from './db/db-errors'
 import { ConflictError } from '../errors/ConflictError'
-import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User, UserData } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
-import { Player } from '../types/Player'
+import { Player, NULL_PLAYER } from '../types/Player'
 import { BadRequestError } from '../errors/BadRequestError'
 
 export class StorageContext {
@@ -174,15 +173,10 @@ export class StorageContext {
   }
 
   async insertMatch(match: Match): Promise<MatchWithId> {
-    const isTeamSizeSupported = (team): boolean => team.length >= 1 && team.length <= 2
-    if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
-      throw new InputError('Inserting teams with unsupported number of players')
-    }
-
     const team1Player1 = match.team1[0]
-    const team1Player2 = match.team1[1] || { }
+    const team1Player2 = match.team1[1] || NULL_PLAYER
     const team2Player1 = match.team2[0]
-    const team2Player2 = match.team2[1] || { }
+    const team2Player2 = match.team2[1] || NULL_PLAYER
 
     const query = dbQueries.insertMatch
     const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,

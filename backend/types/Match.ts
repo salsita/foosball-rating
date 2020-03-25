@@ -1,18 +1,23 @@
 import { UserInMatches } from './User'
+import { Player } from './Player'
+import { InputError } from '../errors/InputError'
 
 export class Match {
-  readonly team1
-  readonly team2
   constructor(
-    { team1, team2 },
-    readonly team1Won,
-    readonly date,
-    readonly winningTeamRatingChange,
-    readonly losingTeamRatingChange,
-    readonly gameId
+    readonly team1: Array<Player>,
+    readonly team2: Array<Player>,
+    readonly team1Won: boolean,
+    readonly date: Date,
+    readonly winningTeamRatingChange: number,
+    readonly losingTeamRatingChange: number,
+    readonly gameId: number
   ) {
-    this.team1 = team1
-    this.team2 = team2
+    if (team1.length < 1 ||
+        team1.length > 2 ||
+        team2.length < 1 ||
+        team2.length > 2) {
+      throw new InputError('Inserting teams with unsupported number of players')
+    }
   }
 }
 

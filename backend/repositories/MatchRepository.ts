@@ -42,7 +42,8 @@ Promise<Match> => {
   } = getRatingChanges(teams, matchDescription.team1Won)
   const date = new Date()
   return new Match(
-    teams,
+    teams.team1,
+    teams.team2,
     matchDescription.team1Won,
     date,
     winningTeamRatingChange,
