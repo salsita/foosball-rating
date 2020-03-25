@@ -296,6 +296,23 @@ describe('StorageContext', () => {
           ])
       })
     })
-
+  })
+  describe('getLatestMatchByGameId', () => {
+    describe('called with foosball id', () => {
+      let matchWithId: MatchWithId
+      beforeEach(async () => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_MATCH_ROW)
+        matchWithId = await context.getLatestMatchByGameId(FOOSBALL_GAME.id)
+      })
+      it('returns the match with id', () => {
+        expect(matchWithId).toEqual(FOOSBALL_MATCH_WITH_ID)
+      })
+      it('selects latest match by game id', () => {
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.selectLatestMatchByGameId, [
+            FOOSBALL_GAME.id,
+          ])
+      })
+    })
   })
 })

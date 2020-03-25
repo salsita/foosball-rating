@@ -42,7 +42,7 @@ export const FOOSBALL_MATCH_ROW = {
 }
 
 export const FOOSBALL_MATCH_DESCRIPTION: MatchDescription = {
-  team1: [ 1, 2 ],
+  team1: [ 1 ],
   team2: [ 3, 4 ],
   team1Won: true,
 }
@@ -126,3 +126,5 @@ export const TONDA_USER = {
   name: 'Tonda',
   active: true,
 }
+
+export const ERROR = 'error'

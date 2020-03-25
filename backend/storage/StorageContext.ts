@@ -212,16 +212,16 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getLatestMatch(): Promise<MatchWithId> {
+  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId> {
     let row
     try {
-      row = await this.transaction.executeSingleResultQuery(dbQueries.selectLatestMatch, [])
+      row = await this.transaction.executeSingleResultQuery(
+        dbQueries.selectLatestMatchByGameId, [gameId])
     } catch (error) {
       console.error(error)
       throw new Error('Unable to retrieve latest match')
     }
-
-    return row != null ? dbTransformations.createMatchFromDbRow(row) : null
+    return row && dbTransformations.createMatchFromDbRow(row)
   }
 
   async getAllGames(): Promise<Array<Game>> {

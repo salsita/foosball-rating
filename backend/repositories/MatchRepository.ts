@@ -29,9 +29,8 @@ const getRatingChanges = ({ team1, team2 }, team1Won): RatingChanges => {
   return ratingCalculator.computeRatingChanges(winningTeam, losingTeam)
 }
 
-const constructMatch = async (gameName: string, matchDescription: MatchDescription):
+const constructMatch = async (gameId: number, matchDescription: MatchDescription):
 Promise<Match> => {
-  const game = await storage.getGameByName(gameName)
   const teams = {
     team1: await getFilledTeam(matchDescription.team1),
     team2: await getFilledTeam(matchDescription.team2),
@@ -48,12 +47,12 @@ Promise<Match> => {
     date,
     winningTeamRatingChange,
     losingTeamRatingChange,
-    game.id
+    gameId
   )
 }
 
-const getElapsedSecondsSinceLatestMatch = async (): Promise<number> => {
-  const latestMatch = await storage.getLatestMatch()
+const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number> => {
+  const latestMatch = await storage.getLatestMatchByGameId(gameId)
   if (latestMatch == null) {
     return null
   }
@@ -74,7 +73,8 @@ Promise<Match> => {
   if (!isMatchDescription(matchDescription)) {
     throw new InputError('Match data is not valid!')
   }
-  const elapsedTime = await getElapsedSecondsSinceLatestMatch()
+  const game = await storage.getGameByName(gameName)
+  const elapsedTime = await getElapsedSecondsSinceLatestMatch(game.id)
   if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
     throw new InputError(oneLine`
       Can't add match ${elapsedTime} seconds after the last one.
@@ -82,7 +82,7 @@ Promise<Match> => {
     `)
   }
 
-  const match = await constructMatch(gameName, matchDescription)
+  const match = await constructMatch(game.id, matchDescription)
   await storage.storeMatch(match)
 
   return match

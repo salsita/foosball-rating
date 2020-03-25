@@ -7,7 +7,7 @@ describe('Match', () => {
     [ 'with empty team 1', { ...FOOSBALL_MATCH, team1: [] } ],
     [ 'with empty team 2', { ...FOOSBALL_MATCH, team2: [] }],
     [ 'with too big team 1', {
-      ...FOOSBALL_MATCH, team1: [...FOOSBALL_MATCH.team1, TONDA_PLAYER],
+      ...FOOSBALL_MATCH, team1: [...FOOSBALL_MATCH.team1, TONDA_PLAYER, TONDA_PLAYER],
     }],
     [ 'with too big team 2', {
       ...FOOSBALL_MATCH, team2: [...FOOSBALL_MATCH.team2, TONDA_PLAYER],

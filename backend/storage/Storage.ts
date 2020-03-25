@@ -49,8 +49,8 @@ export const getAllMatches = async (): Promise<Array<MatchWithId>> => {
   return executeAndCommit(context => context.getAllMatches())
 }
 
-export const getLatestMatch = async (): Promise<MatchWithId> => {
-  return executeAndCommit(context => context.getLatestMatch())
+export const getLatestMatchByGameId = async (gameId: number): Promise<MatchWithId> => {
+  return executeAndCommit(context => context.getLatestMatchByGameId(gameId))
 }
 
 export const getAllGames = async (): Promise<Array<Game>> => {
