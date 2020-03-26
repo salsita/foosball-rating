@@ -7,25 +7,19 @@ import {
   Button,
   StyledLink,
 } from './../../styles/blocks/'
-import { CREATE_MATCH, DASHBOARD } from '../const/routes'
-import { withRouter } from 'react-router-dom'
+import { DASHBOARD } from '../const/routes'
 import { ThemeActions } from '../modules/theme/theme-actions'
 
 const logo = require('./../../media/logo.png')
 
-const HeaderComponent = ({ theme, history, changeTheme }) => {
-  const createMatch = () => {
-    history.push(CREATE_MATCH)
-  }
+const HeaderComponent = ({ theme, changeTheme, children }) => (
+  <Nav>
+    <Logo><StyledLink to={DASHBOARD}><img src={logo} alt="logo" /></StyledLink></Logo>
+    <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
+    {children}
+  </Nav>
+)
 
-  return (
-    <Nav>
-      <Logo><StyledLink to={DASHBOARD}><img src={logo} alt="logo" /></StyledLink></Logo>
-      <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
-      <Button onClick={createMatch}>Add Match</Button>
-    </Nav>
-  )
-}
 
 const mapStateToProps = state => ({
   theme: state.theme,
@@ -37,4 +31,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export const Header = connect(mapStateToProps, mapDispatchToProps)(withRouter(HeaderComponent))
+export const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderComponent)

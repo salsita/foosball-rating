@@ -13,13 +13,19 @@ import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
+import { Button } from '../styles/blocks'
 
 export class App extends Component {
   render() {
     const matchUrl = this.props.match.url
+    const createMatch = () => {
+      this.props.history.push(`${matchUrl}${ROUTES.CREATE_MATCH}`)
+    }
     return (
       <Theme>
-        <Header />
+        <Header>
+          <Button onClick={createMatch}>Add Match</Button>
+        </Header>
         <Container>
           <Switch>
             <Route exact path={`${matchUrl}${ROUTES.LEADERBOARD}`} component={LeaderboardPage} />
