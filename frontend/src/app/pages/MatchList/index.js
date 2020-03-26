@@ -3,7 +3,7 @@ import { BattleHistory } from '../../components/BattleHistory/BattleHistory'
 import { Subtitle, Box } from './../../../styles/blocks'
 import { connect } from 'react-redux'
 import { getLastMatches } from '../../modules/matches/matches-selectors'
-import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
+import { withPlayerLinks } from '../../modules/matches/matches-utils'
 
 const MatchListPageComponent = ({ lastMatches }) =>
   <>
@@ -14,7 +14,7 @@ const MatchListPageComponent = ({ lastMatches }) =>
   </>
 
 const mapStateToProps = (state, { constructUrl }) => ({
-  lastMatches: getLastMatches(state).map(match => createMatchWithPlayerLinks(match, constructUrl)),
+  lastMatches: withPlayerLinks(getLastMatches(state), constructUrl),
 })
 
 export const MatchListPage = connect(mapStateToProps)(MatchListPageComponent)

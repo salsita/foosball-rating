@@ -11,9 +11,9 @@ import { Leaderboard } from '../../components/Leaderboard/Leaderboard'
 import { MATCH_LIST, LEADERBOARD } from '../../const/routes'
 import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
 import { getLastMatches } from '../../modules/matches/matches-selectors'
-import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
+import { withPlayerLinks } from '../../modules/matches/matches-utils'
 import { getTopPlayers } from '../../modules/players/players-selectors'
-import { createPlayerWithLink } from '../../modules/players/players-utils'
+import { withLinks } from '../../modules/players/players-utils'
 
 const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
   <Box Margin="10px" Padding="10px">
@@ -29,8 +29,8 @@ const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
 
 const mapStateToProps = (state, { constructUrl }) => ({
   createMatchStatus: state.matchesStatus,
-  lastMatches: getLastMatches(state).map(match => createMatchWithPlayerLinks(match, constructUrl)),
-  topPlayers: getTopPlayers(state).map(player => createPlayerWithLink(player, constructUrl)),
+  lastMatches: withPlayerLinks(getLastMatches(state), constructUrl),
+  topPlayers: withLinks(getTopPlayers(state), constructUrl),
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

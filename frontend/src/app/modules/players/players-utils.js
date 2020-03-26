@@ -1,6 +1,9 @@
 import { createProfilePath } from '../../const/routes'
 
-export const createPlayerWithLink = (player, constructUrl) => ({
+const createPlayerWithLink = (player, constructUrl) => ({
   ...player,
   link: constructUrl(createProfilePath(player.id)),
 })
+
+export const withLinks =
+  (players, constructUrl) => players.map(player => createPlayerWithLink(player, constructUrl))
