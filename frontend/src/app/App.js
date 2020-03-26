@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { Theme } from './components/theme'
 import * as ROUTES from './const/routes'
 import { Header } from './components/header'
 import { Footer } from './components/Footer/footer'
