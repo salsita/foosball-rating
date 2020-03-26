@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getLastMatches } from '../../modules/matches/matches-selectors'
 import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
 
-export const MatchListPageComponent = ({ lastMatches }) =>
+const MatchListPageComponent = ({ lastMatches }) =>
   <>
     <Box Margin="10px" Padding="10px">
       <Subtitle textAlign="center">Last Battles</Subtitle>
