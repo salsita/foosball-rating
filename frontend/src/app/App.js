@@ -21,9 +21,7 @@ export class App extends Component {
     const createMatch = () => {
       this.props.history.push(`${path}${ROUTES.CREATE_MATCH}`)
     }
-    const constructUrl = relativePath => {
-      return `${path}${relativePath}`
-    }
+    const constructUrl = relativePath => `${path}${relativePath}`
     return (
       <Theme>
         <Header>

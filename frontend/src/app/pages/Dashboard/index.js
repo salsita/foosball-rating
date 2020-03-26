@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import {
@@ -15,23 +15,17 @@ import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
 import { getTopPlayers } from '../../modules/players/players-selectors'
 import { createPlayerWithLink } from '../../modules/players/players-utils'
 
-class DashboardComponent extends Component {
+const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
+  <Box Margin="10px" Padding="10px">
+    <SnackbarAlert />
+    <Subtitle textAlign="center">Last Battles</Subtitle>
+    <BattleHistory lastMatches={lastMatches} maxItems={5} />
+    <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
+    <Subtitle textAlign="center">Top Rating</Subtitle>
+    <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
+    <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
+  </Box>
 
-  render() {
-    const { lastMatches, topPlayers, constructUrl } = this.props
-    return (
-      <Box Margin="10px" Padding="10px">
-        <SnackbarAlert />
-        <Subtitle textAlign="center">Last Battles</Subtitle>
-        <BattleHistory lastMatches={lastMatches} maxItems={5} />
-        <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
-        <Subtitle textAlign="center">Top Rating</Subtitle>
-        <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
-        <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
-      </Box>
-    )
-  }
-}
 
 const mapStateToProps = (state, { constructUrl }) => ({
   createMatchStatus: state.matchesStatus,

@@ -16,17 +16,14 @@ const store = createStore(rootReducer,
 
 sagaMiddleware.run(rootSaga)
 
-export const Root = () => {
-  return (
-    <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path='/foosball' component={App}/>
-          <Route>
-            <Redirect to='/foosball'/>
-          </Route>
-        </Switch>
-      </Router>
-    </Provider>
-  )
-}
+export const Root = () =>
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path='/foosball' component={App}/>
+        <Route>
+          <Redirect to='/foosball'/>
+        </Route>
+      </Switch>
+    </Router>
+  </Provider>
