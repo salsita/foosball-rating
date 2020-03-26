@@ -32,7 +32,7 @@ export class App extends Component {
         <Container>
           <Switch>
             <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
-              <LeaderboardPage constructUrl={constructUrl}/>
+              <LeaderboardPage constructUrl={constructUrl} />
             </Route>
             <Route exact path={constructUrl(ROUTES.CREATE_MATCH)}>
               <CreateMatchPage constructUrl={constructUrl} />

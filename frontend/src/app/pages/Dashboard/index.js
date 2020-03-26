@@ -10,19 +10,23 @@ import { BattleHistory } from './../../components/BattleHistory/BattleHistory'
 import { Leaderboard } from '../../components/Leaderboard/Leaderboard'
 import { MATCH_LIST, LEADERBOARD } from '../../const/routes'
 import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
+import { getLastMatches } from '../../modules/matches/matches-selectors'
+import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
+import { getTopPlayers } from '../../modules/players/players-selectors'
+import { createPlayerWithLink } from '../../modules/players/players-utils'
 
 class DashboardComponent extends Component {
 
   render() {
-    const constructUrl = this.props.constructUrl
+    const { lastMatches, topPlayers, constructUrl } = this.props
     return (
       <Box Margin="10px" Padding="10px">
         <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
-        <BattleHistory constructUrl={constructUrl} maxItems={5} />
+        <BattleHistory lastMatches={lastMatches} maxItems={5} />
         <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
         <Subtitle textAlign="center">Top Rating</Subtitle>
-        <Leaderboard constructUrl={constructUrl} maxItems={5} showFilters={false} />
+        <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
         <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
       </Box>
     )
@@ -31,7 +35,8 @@ class DashboardComponent extends Component {
 
 const mapStateToProps = (state, { constructUrl }) => ({
   createMatchStatus: state.matchesStatus,
-  constructUrl,
+  lastMatches: getLastMatches(state).map(match => createMatchWithPlayerLinks(match, constructUrl)),
+  topPlayers: getTopPlayers(state).map(player => createPlayerWithLink(player, constructUrl)),
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

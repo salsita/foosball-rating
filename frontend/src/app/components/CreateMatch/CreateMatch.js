@@ -118,11 +118,10 @@ class CreateMatchComponent extends Component {
   }
 }
 
-const mapStateToProps = (state, { constructUrl }) => ({
+const mapStateToProps = state => ({
   players: getPlayers(state),
   status: state.matchesStatus,
   activeRedirect: state.activeRedirect,
-  constructUrl,
 })
 
 const mapDispatchToProps = dispatch => ({
