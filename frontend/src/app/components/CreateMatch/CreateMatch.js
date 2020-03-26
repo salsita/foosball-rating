@@ -74,7 +74,7 @@ class CreateMatchComponent extends Component {
   componentWillReceiveProps = newProps => {
     const redirect = newProps.activeRedirect
     if (redirect) {
-      newProps.history.push(redirect)
+      newProps.history.push(newProps.constructUrl(redirect))
       newProps.dismissRedirect()
     }
   }
@@ -118,10 +118,11 @@ class CreateMatchComponent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { constructUrl }) => ({
   players: getPlayers(state),
   status: state.matchesStatus,
   activeRedirect: state.activeRedirect,
+  constructUrl,
 })
 
 const mapDispatchToProps = dispatch => ({

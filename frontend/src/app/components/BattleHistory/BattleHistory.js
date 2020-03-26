@@ -6,6 +6,7 @@ import {
 import { BattleHistoryRow } from './BattleHistoryRow'
 
 import { getLastMatches } from '../../modules/matches/matches-selectors'
+import { createMatchWithPlayerLinks } from '../../modules/matches/matches-utils'
 
 class BattleHistoryComponent extends Component {
   render() {
@@ -19,8 +20,8 @@ class BattleHistoryComponent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  lastMatches: getLastMatches(state),
+const mapStateToProps = (state, { constructUrl }) => ({
+  lastMatches: getLastMatches(state).map(match => createMatchWithPlayerLinks(match, constructUrl)),
 })
 
 export const BattleHistory = connect(mapStateToProps)(BattleHistoryComponent)

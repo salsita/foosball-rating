@@ -14,22 +14,24 @@ import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
 class DashboardComponent extends Component {
 
   render() {
+    const constructUrl = this.props.constructUrl
     return (
       <Box Margin="10px" Padding="10px">
         <SnackbarAlert />
         <Subtitle textAlign="center">Last Battles</Subtitle>
-        <BattleHistory maxItems={5} />
-        <StyledLink to={MATCH_LIST}>Show all...</StyledLink>
+        <BattleHistory constructUrl={constructUrl} maxItems={5} />
+        <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
         <Subtitle textAlign="center">Top Rating</Subtitle>
-        <Leaderboard maxItems={5} showFilters={false} />
-        <StyledLink to={LEADERBOARD}>Show more...</StyledLink>
+        <Leaderboard constructUrl={constructUrl} maxItems={5} showFilters={false} />
+        <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
       </Box>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { constructUrl }) => ({
   createMatchStatus: state.matchesStatus,
+  constructUrl,
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

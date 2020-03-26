@@ -17,9 +17,12 @@ import { Button } from '../styles/blocks'
 
 export class App extends Component {
   render() {
-    const matchUrl = this.props.match.url
+    const { match: { path } } = this.props
     const createMatch = () => {
-      this.props.history.push(`${matchUrl}${ROUTES.CREATE_MATCH}`)
+      this.props.history.push(`${path}${ROUTES.CREATE_MATCH}`)
+    }
+    const constructUrl = relativePath => {
+      return `${path}${relativePath}`
     }
     return (
       <Theme>
@@ -28,12 +31,20 @@ export class App extends Component {
         </Header>
         <Container>
           <Switch>
-            <Route exact path={`${matchUrl}${ROUTES.LEADERBOARD}`} component={LeaderboardPage} />
-            <Route exact path={`${matchUrl}${ROUTES.CREATE_MATCH}`} component={CreateMatchPage} />
-            <Route exact path={`${matchUrl}${ROUTES.ADD_PLAYER}`} component={AddPlayerPage} />
-            <Route exact path={`${matchUrl}${ROUTES.MATCH_LIST}`} component={MatchListPage} />
-            <Route exact path={`${matchUrl}${ROUTES.PROFILE}`} component={Profile} />
-            <Route component={Dashboard} />
+            <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
+              <LeaderboardPage constructUrl={constructUrl}/>
+            </Route>
+            <Route exact path={constructUrl(ROUTES.CREATE_MATCH)}>
+              <CreateMatchPage constructUrl={constructUrl} />
+            </Route>
+            <Route exact path={constructUrl(ROUTES.ADD_PLAYER)} component={AddPlayerPage} />
+            <Route exact path={constructUrl(ROUTES.MATCH_LIST)}>
+              <MatchListPage constructUrl={constructUrl} />
+            </Route>
+            <Route exact path={constructUrl(ROUTES.PROFILE)} component={Profile} />
+            <Route>
+              <Dashboard constructUrl={constructUrl} />
+            </Route>
           </Switch>
         </Container>
         <Footer />

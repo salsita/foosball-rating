@@ -3,10 +3,9 @@ import {
   WinnerSpan,
   StyledLink,
 } from '../../../styles/blocks'
-import { createProfilePath } from '../../const/routes'
 
 const createListFromTeam = team => team
-  .map((player, index) => [<StyledLink key={index} to={createProfilePath(player.id)}>{player.name}
+  .map((player, index) => [<StyledLink key={index} to={player.link}>{player.name}
     <span>({player.matchRating})</span></StyledLink>])
   .reduce((prev, curr) => [...prev, '&', ...curr])
 

@@ -7,6 +7,7 @@ import { LeaderboardFilters } from './LeaderboardFilters'
 import { getTopPlayers } from '../../modules/players/players-selectors'
 import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-actions'
 import * as Filters from '../../const/leaderboard-filters'
+import { createPlayerWithLink } from '../../modules/players/players-utils'
 
 const LeaderboardComponent = (
   { topPlayers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
@@ -29,8 +30,8 @@ const LeaderboardComponent = (
   </>
 )
 
-const mapStateToProps = state => ({
-  topPlayers: getTopPlayers(state),
+const mapStateToProps = (state, { constructUrl }) => ({
+  topPlayers: getTopPlayers(state).map(player => createPlayerWithLink(player, constructUrl)),
   filters: state.filters,
 })
 

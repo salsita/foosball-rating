@@ -7,14 +7,13 @@ import {
   Button,
   StyledLink,
 } from './../../styles/blocks/'
-import { DASHBOARD } from '../const/routes'
 import { ThemeActions } from '../modules/theme/theme-actions'
 
 const logo = require('./../../media/logo.png')
 
 const HeaderComponent = ({ theme, changeTheme, children }) => (
   <Nav>
-    <Logo><StyledLink to={DASHBOARD}><img src={logo} alt="logo" /></StyledLink></Logo>
+    <Logo><StyledLink to={'/'}><img src={logo} alt="logo" /></StyledLink></Logo>
     <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
     {children}
   </Nav>
