@@ -17,13 +17,13 @@ import { Button } from '../styles/blocks'
 
 export class App extends Component {
   render() {
-    const { match: { path } } = this.props
+    const { match: { url } } = this.props
     const createMatch = () => {
-      this.props.history.push(`${path}${ROUTES.CREATE_MATCH}`)
+      this.props.history.push(`${url}${ROUTES.CREATE_MATCH}`)
     }
-    const constructUrl = relativePath => `${path}${relativePath}`
+    const constructUrl = relativePath => `${url}${relativePath}`
     return (
-      <Theme>
+      <>
         <Header>
           <Button onClick={createMatch}>Add Match</Button>
         </Header>
@@ -46,7 +46,7 @@ export class App extends Component {
           </Switch>
         </Container>
         <Footer />
-      </Theme>
+      </>
     )
   }
 }

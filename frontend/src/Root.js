@@ -6,6 +6,7 @@ import { rootSaga } from './app/modules/root/root-saga'
 import { rootReducer } from './app/modules/root/root-reducer'
 import { createStore, compose, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { Theme } from './app/components/theme'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -18,12 +19,14 @@ sagaMiddleware.run(rootSaga)
 
 export const Root = () =>
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route path='/foosball' component={App}/>
-        <Route>
-          <Redirect to='/foosball'/>
-        </Route>
-      </Switch>
-    </Router>
+    <Theme>
+      <Router>
+        <Switch>
+          <Route path='/foosball' component={App}/>
+          <Route>
+            <Redirect to='/foosball'/>
+          </Route>
+        </Switch>
+      </Router>
+    </Theme>
   </Provider>
