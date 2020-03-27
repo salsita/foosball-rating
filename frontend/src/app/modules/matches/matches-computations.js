@@ -3,13 +3,13 @@ const didPlayerWin = (playerId, match) => {
   return Boolean(winningTeam.find(player => player.id === playerId))
 }
 
-const getTeamMates = (userId, match) => {
-  const userTeam = match.team1.find(player => player.id === userId) ? match.team1 : match.team2
-  return userTeam.filter(player => player.id !== userId)
+const getTeamMates = (playerId, match) => {
+  const playerTeam = match.team1.find(player => player.id === playerId) ? match.team1 : match.team2
+  return playerTeam.filter(player => player.id !== playerId)
 }
 
-const getOpponents = (userId, match) => {
-  return match.team1.find(player => player.id === userId) ? match.team2 : match.team1
+const getOpponents = (playerId, match) => {
+  return match.team1.find(player => player.id === playerId) ? match.team2 : match.team1
 }
 
 export const generateMatchRatingChanges = (playerId, playerMatches) => playerMatches.map(match => {
@@ -104,60 +104,60 @@ export const computeDays = matchChanges => {
   }
 }
 
-export const computeTeammates = (userId, userMatches) => {
-  const teammates = findSignificantUsers(userId, userMatches, getTeamMates)
+export const computeTeammates = (playerId, playerMatches) => {
+  const teammates = findSignificanPlayers(playerId, playerMatches, getTeamMates)
   return {
-    mostFrequentTeammate: teammates.mostFrequentUser,
-    leastFrequentTeammate: teammates.leastFrequentUser,
-    mostSuccessTeammate: teammates.mostSuccessUser,
-    leastSuccessTeammate: teammates.leastSuccessUser,
+    mostFrequentTeammate: teammates.mostFrequentPlayer,
+    leastFrequentTeammate: teammates.leastFrequentPlayer,
+    mostSuccessTeammate: teammates.mostSuccessPlayer,
+    leastSuccessTeammate: teammates.leastSuccessPlayer,
   }
 }
 
-export const computeOpponents = (userId, userMatches) => {
-  const opponents = findSignificantUsers(userId, userMatches, getOpponents)
+export const computeOpponents = (playerId, playerMatches) => {
+  const opponents = findSignificanPlayers(playerId, playerMatches, getOpponents)
   return {
-    mostFrequentOpponent: opponents.mostFrequentUser,
-    leastFrequentOpponent: opponents.leastFrequentUser,
-    mostSuccessOpponent: opponents.mostSuccessUser,
-    leastSuccessOpponent: opponents.leastSuccessUser,
+    mostFrequentOpponent: opponents.mostFrequentPlayer,
+    leastFrequentOpponent: opponents.leastFrequentPlayer,
+    mostSuccessOpponent: opponents.mostSuccessPlayer,
+    leastSuccessOpponent: opponents.leastSuccessPlayer,
   }
 }
 
-const findSignificantUsers = (userId, userMatches, usersProvider) => {
-  let mostFrequentUser = {}
-  let leastFrequentUser = {}
-  let mostSuccessUser = {}
-  let leastSuccessUser = {}
-  const usersMap = {}
-  for (const match of userMatches) {
-    const users = usersProvider(userId, match)
-    for (const user of users) {
-      if (!Object.hasOwnProperty.call(usersMap, user.id)) {
-        usersMap[user.id] = {
-          user: user,
+const findSignificanPlayers = (playerId, playerMatches, playersProvider) => {
+  let mostFrequentPlayer = {}
+  let leastFrequentPlayer = {}
+  let mostSuccessPlayer = {}
+  let leastSuccessPlayer = {}
+  const playersMap = {}
+  for (const match of playerMatches) {
+    const players = playersProvider(playerId, match)
+    for (const player of players) {
+      if (!Object.hasOwnProperty.call(playersMap, player.id)) {
+        playersMap[player.id] = {
+          player: player,
           matches: 1,
-          wins: Number(didUserWin(userId, match)),
-          winRatio: Number(didUserWin(userId, match)),
+          wins: Number(didPlayerWin(playerId, match)),
+          winRatio: Number(didPlayerWin(playerId, match)),
         }
       } else {
-        ++usersMap[user.id]['matches']
-        usersMap[user.id]['wins'] += Number(didUserWin(userId, match))
-        usersMap[user.id]['losses'] = usersMap[user.id]['matches'] - usersMap[user.id]['wins']
+        ++playersMap[player.id]['matches']
+        playersMap[player.id]['wins'] += Number(didPlayerWin(playerId, match))
+        playersMap[player.id]['losses'] = playersMap[player.id]['matches'] - playersMap[player.id]['wins']
       }
 
-      mostFrequentUser = updateMaxFromMap(mostFrequentUser, 'matches', usersMap[user.id])
-      leastFrequentUser = updateMinFromMap(leastFrequentUser, 'matches', usersMap[user.id])
-      mostSuccessUser = updateMaxFromMap(mostSuccessUser, 'wins', usersMap[user.id])
-      leastSuccessUser = updateMaxFromMap(leastSuccessUser, 'losses', usersMap[user.id])
+      mostFrequentPlayer = updateMaxFromMap(mostFrequentPlayer, 'matches', playersMap[player.id])
+      leastFrequentPlayer = updateMinFromMap(leastFrequentPlayer, 'matches', playersMap[player.id])
+      mostSuccessPlayer = updateMaxFromMap(mostSuccessPlayer, 'wins', playersMap[player.id])
+      leastSuccessPlayer = updateMaxFromMap(leastSuccessPlayer, 'losses', playersMap[player.id])
     }
   }
 
   return {
-    mostFrequentUser,
-    leastFrequentUser,
-    mostSuccessUser,
-    leastSuccessUser,
+    mostFrequentPlayer,
+    leastFrequentPlayer,
+    mostSuccessPlayer,
+    leastSuccessPlayer,
   }
 }
 

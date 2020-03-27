@@ -8,8 +8,8 @@ import {
 import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
 import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
 import { ProfileStatistics } from '../../components/ProfileStatistics'
-import { getUser, getRankingsForUser } from '../../modules/users/users-selectors'
-import { getStatisticsForUser } from '../../modules/matches/matches-selectors'
+import { getPlayer, getRankingsForPlayer } from '../../modules/players/players-selectors'
+import { getStatisticsForPlayer } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
   render() {
@@ -43,7 +43,7 @@ class ProfileComponent extends Component {
 
 const mapStateToProps = (state, props) => ({
   player: getPlayer(state, Number(props.match.params.playerId)),
-  rankings: getRankingsForPlayer(state, Number(props.match.params.userId)),
+  rankings: getRankingsForPlayer(state, Number(props.match.params.playerId)),
   statistics: getStatisticsForPlayer(state, Number(props.match.params.playerId)),
 })
 

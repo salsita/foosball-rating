@@ -35,20 +35,20 @@ export const ProfileStatistics = props => {
             </td>
           </tr>
           <tr>
-            {getUserRow('Most Played With', mostFrequentTeammate, 'matches', true)}
-            {getUserRow('Least PLayed With', leastFrequentTeammate, 'matches', false)}
+            {getPlayerRow('Most Played With', mostFrequentTeammate, 'matches', true)}
+            {getPlayerRow('Least PLayed With', leastFrequentTeammate, 'matches', false)}
           </tr>
           <tr>
-            {getUserRow('Most Played Against', mostFrequentOpponent, 'matches', true)}
-            {getUserRow('Least Played Against', leastFrequentOpponent, 'matches', false)}
+            {getPlayerRow('Most Played Against', mostFrequentOpponent, 'matches', true)}
+            {getPlayerRow('Least Played Against', leastFrequentOpponent, 'matches', false)}
           </tr>
           <tr>
-            {getUserRow('Most Won With', mostSuccessTeammate, 'wins', true)}
-            {getUserRow('Least Won With', leastSuccessTeammate, 'wins', false)}
+            {getPlayerRow('Most Won With', mostSuccessTeammate, 'wins', true)}
+            {getPlayerRow('Least Won With', leastSuccessTeammate, 'wins', false)}
           </tr>
           <tr>
-            {getUserRow('Most Won Over', mostSuccessOpponent, 'wins', true)}
-            {getUserRow('Most Lost To', leastSuccessOpponent, 'losses', false)}
+            {getPlayerRow('Most Won Over', mostSuccessOpponent, 'wins', true)}
+            {getPlayerRow('Most Lost To', leastSuccessOpponent, 'losses', false)}
           </tr>
         </tbody>
       </StatisticsTable>
@@ -62,10 +62,10 @@ const getScorePart = (value, isGreen, sign = 'x') => (
   <WinnerSpan winner={isGreen}>{sign}{value}</WinnerSpan>
 )
 
-const getUserRow = (text, stat, valueKey, isGreen) => (
+const getPlayerRow = (text, stat, valueKey, isGreen) => (
   <td>{text}:
     <StatisticsValue>
-      {getPlayerLink(stat.user)} {getScorePart(stat[valueKey], isGreen)}
+      {getPlayerLink(stat.player)} {getScorePart(stat[valueKey], isGreen)}
     </StatisticsValue>
   </td>
 )
