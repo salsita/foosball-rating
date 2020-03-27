@@ -148,17 +148,17 @@ const computePlayerStats = (playerId, playerMatches, playersProvider) => {
     : DEFAULT_PLAYERS_STATISTICS
 }
 
-export const computeKingStreakDuration = (matchesLast, usersLast) => {
-  if (usersLast.length < 1) {
+export const computeKingStreakDuration = (matchesLast, playersLast) => {
+  if (playersLast.length < 1) {
     return null
   }
 
-  const usersMap = usersLast.reduce((map, user) => {
-    map[user.id] = user.rating
+  const playersMap = playersLast.reduce((map, player) => {
+    map[player.id] = player.rating
     return map
   }, new Map())
 
-  const kingId = usersLast[0].id
+  const kingId = playersLast[0].id
   let matchFound = false
   for (const match of matchesLast) {
     const players = [...match.team1, ...match.team2]
@@ -167,20 +167,20 @@ export const computeKingStreakDuration = (matchesLast, usersLast) => {
     const kingPlayer = players.find(player => player.id === kingId)
     let kingWon = false
     if (kingPlayer) {
-      kingWon = usersMap[kingId] > kingPlayer.matchRating
-      usersMap[kingId] = kingPlayer.matchRating
+      kingWon = playersMap[kingId] > kingPlayer.matchRating
+      playersMap[kingId] = kingPlayer.matchRating
     }
 
     // #2 check whether none of the other players beat the king
     for (const player of players) {
-      usersMap[player.id] = player.matchRating
-      matchFound |= (player.id !== kingId && player.matchRating > usersMap[kingId])
+      playersMap[player.id] = player.matchRating
+      matchFound |= (player.id !== kingId && player.matchRating > playersMap[kingId])
     }
 
     // #3 check if king was first before winning
     if (kingPlayer && kingWon && !matchFound) {
-      for (const key in usersMap) {
-        matchFound |= (usersMap[key] > usersMap[kingId])
+      for (const key in playersMap) {
+        matchFound |= (playersMap[key] > playersMap[kingId])
       }
     }
 
