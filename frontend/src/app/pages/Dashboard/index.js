@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import {
@@ -10,26 +10,27 @@ import { BattleHistory } from './../../components/BattleHistory/BattleHistory'
 import { Leaderboard } from '../../components/Leaderboard/Leaderboard'
 import { MATCH_LIST, LEADERBOARD } from '../../const/routes'
 import { SnackbarAlert } from '../../components/SnackbarAlert/SnackbarAlert'
+import { getLastMatches } from '../../modules/matches/matches-selectors'
+import { withPlayerLinks } from '../../modules/matches/matches-utils'
+import { getTopPlayers } from '../../modules/players/players-selectors'
+import { withLinks } from '../../modules/players/players-utils'
 
-class DashboardComponent extends Component {
+const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
+  <Box Margin="10px" Padding="10px">
+    <SnackbarAlert />
+    <Subtitle textAlign="center">Last Battles</Subtitle>
+    <BattleHistory lastMatches={lastMatches} maxItems={5} />
+    <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
+    <Subtitle textAlign="center">Top Rating</Subtitle>
+    <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
+    <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
+  </Box>
 
-  render() {
-    return (
-      <Box Margin="10px" Padding="10px">
-        <SnackbarAlert />
-        <Subtitle textAlign="center">Last Battles</Subtitle>
-        <BattleHistory maxItems={5} />
-        <StyledLink to={MATCH_LIST}>Show all...</StyledLink>
-        <Subtitle textAlign="center">Top Rating</Subtitle>
-        <Leaderboard maxItems={5} showFilters={false} />
-        <StyledLink to={LEADERBOARD}>Show more...</StyledLink>
-      </Box>
-    )
-  }
-}
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { constructUrl }) => ({
   createMatchStatus: state.matchesStatus,
+  lastMatches: withPlayerLinks(getLastMatches(state), constructUrl),
+  topPlayers: withLinks(getTopPlayers(state), constructUrl),
 })
 
 const RoutingDashboardComponent = withRouter(DashboardComponent)

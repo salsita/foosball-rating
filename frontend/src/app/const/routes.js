@@ -1,4 +1,4 @@
-export const DASHBOARD = '/'
+export const DASHBOARD = ''
 export const LEADERBOARD = '/leaderboard'
 export const CREATE_MATCH = '/create-match'
 export const PROFILE = '/profile/:playerId'

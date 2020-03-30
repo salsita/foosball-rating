@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
-import { createStore, compose, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
-import { Theme } from './components/theme'
-import { rootSaga } from './modules/root/root-saga'
-import { rootReducer } from './modules/root/root-reducer'
 import * as ROUTES from './const/routes'
 import { Header } from './components/header'
 import { Footer } from './components/Footer/footer'
@@ -18,39 +12,40 @@ import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
-
-const sagaMiddleware = createSagaMiddleware()
-
-const store = createStore(rootReducer,
-  compose(applyMiddleware(sagaMiddleware), window.__REDUX_DEVTOOLS_EXTENSION__
-    ? window.__REDUX_DEVTOOLS_EXTENSION__()
-    : v => v))
-
-sagaMiddleware.run(rootSaga)
+import { Button } from '../styles/blocks'
 
 export class App extends Component {
   render() {
+    const { match: { url } } = this.props
+    const createMatch = () => {
+      this.props.history.push(`${url}${ROUTES.CREATE_MATCH}`)
+    }
+    const constructUrl = relativePath => `${url}${relativePath}`
     return (
-      <Provider store={store}>
-        <Theme>
-          <Router>
-            <>
-              <Header />
-              <Container>
-                <Switch>
-                  <Route exact path={ROUTES.LEADERBOARD} component={LeaderboardPage} />
-                  <Route exact path={ROUTES.CREATE_MATCH} component={CreateMatchPage} />
-                  <Route exact path={ROUTES.ADD_PLAYER} component={AddPlayerPage} />
-                  <Route exact path={ROUTES.MATCH_LIST} component={MatchListPage} />
-                  <Route exact path={ROUTES.PROFILE} component={Profile} />
-                  <Route component={Dashboard} />
-                </Switch>
-              </Container>
-              <Footer />
-            </>
-          </Router>
-        </Theme>
-      </Provider>
+      <>
+        <Header>
+          <Button onClick={createMatch}>Add Match</Button>
+        </Header>
+        <Container>
+          <Switch>
+            <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
+              <LeaderboardPage constructUrl={constructUrl} />
+            </Route>
+            <Route exact path={constructUrl(ROUTES.CREATE_MATCH)}>
+              <CreateMatchPage constructUrl={constructUrl} />
+            </Route>
+            <Route exact path={constructUrl(ROUTES.ADD_PLAYER)} component={AddPlayerPage} />
+            <Route exact path={constructUrl(ROUTES.MATCH_LIST)}>
+              <MatchListPage constructUrl={constructUrl} />
+            </Route>
+            <Route exact path={constructUrl(ROUTES.PROFILE)} component={Profile} />
+            <Route>
+              <Dashboard constructUrl={constructUrl} />
+            </Route>
+          </Switch>
+        </Container>
+        <Footer />
+      </>
     )
   }
 }

@@ -74,7 +74,7 @@ class CreateMatchComponent extends Component {
   componentWillReceiveProps = newProps => {
     const redirect = newProps.activeRedirect
     if (redirect) {
-      newProps.history.push(redirect)
+      newProps.history.push(newProps.constructUrl(redirect))
       newProps.dismissRedirect()
     }
   }

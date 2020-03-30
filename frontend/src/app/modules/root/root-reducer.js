@@ -51,7 +51,7 @@ const updateMatchesStatus = (state, { status }) => ({
   ...state,
   matchesStatus: status,
   activeAlert: createAlertForMatchesStatusUpdate(status) || state.activeAlert,
-  activeRedirect: createRedirectForMatchesStatusUpdate(status) || state.activeRedirect,
+  activeRedirect: createRedirectForMatchesStatusUpdate(status) != null || state.activeRedirect,
 })
 
 const gamesLoaded = (state, { games }) => ({
