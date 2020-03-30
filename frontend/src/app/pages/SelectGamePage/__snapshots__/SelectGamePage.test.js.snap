@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectGamePageComponent when there is a foosball game renders Header and select 1`] = `
+<Fragment>
+  <Connect(HeaderComponent) />
+  <styled.div>
+    <styled.h2>
+      Games
+    </styled.h2>
+    <SelectInput
+      items={
+        Array [
+          Object {
+            "label": "Select the game!",
+            "value": "Select the game!",
+          },
+          Object {
+            "label": "foosball",
+            "value": "foosball",
+          },
+        ]
+      }
+      onChange={[Function]}
+    />
+  </styled.div>
+  <Footer />
+</Fragment>
+`;

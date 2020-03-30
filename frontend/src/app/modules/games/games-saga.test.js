@@ -1,28 +1,42 @@
 import { getGames } from './games-effects'
-import { getGamesSaga } from './games-saga'
-import { call, put } from 'redux-saga/effects'
+import { getGamesSaga, selectGameByNameSaga, selectGame } from './games-saga'
+import { call, put, select } from 'redux-saga/effects'
 import { GamesActions } from './games-actions'
-
-const RESPONSE = {
-  data: {},
-}
+import { selectGames } from './games-selectors'
+import { sagaTest } from '../../../tests/utils'
+import { FOOSBALL_GAME } from '../../../tests/data'
 
 describe('gameSaga', () => {
+  let gen
   describe('getGamesSaga', () => {
-    let gen
     beforeEach(() => {
-      gen = getGamesSaga()
+      gen = sagaTest(getGamesSaga())
     })
-    it('yields to getGames', () => {
-      expect(gen.next().value).toStrictEqual(call(getGames))
+    it('performs correctly the sequence', () => {
+      gen.expectNextUndoneValue().toBe(call(getGames))
+      gen.expectNextUndoneValue({ data: [FOOSBALL_GAME] })
+        .toBe(put(GamesActions.Creators.gamesLoaded([FOOSBALL_GAME])))
+      gen.expectNextDone()
     })
-    describe('after getGames call resolves with Data', () => {
-      beforeEach(() => {
-        gen.next()
+  })
+  describe('selectGameByNameSaga', () => {
+    beforeEach(() => {
+      gen =
+        sagaTest(selectGameByNameSaga(GamesActions.Creators.selectGameByName(FOOSBALL_GAME.name)))
+    })
+    describe('when foosball exists', () => {
+      it('performs correctly the sequence', () => {
+        gen.expectNextUndoneValue().toBe(select(selectGames))
+        gen.expectNextUndoneValue([FOOSBALL_GAME]).toBe(call(selectGame, FOOSBALL_GAME))
+        gen.expectNextDone()
       })
-      it('puts a gamesLoaded action with this data', () => {
-        expect(gen.next(RESPONSE).value)
-          .toStrictEqual(put(GamesActions.Creators.gamesLoaded(RESPONSE.data)))
+    })
+    describe('when foosball does not exist', () => {
+      it('performs correctly the sequence', () => {
+        gen.expectNextUndoneValue().toBe(select(selectGames))
+        gen.expectNextUndoneValue([])
+          .toBe(put(GamesActions.Creators.notFoundGame(FOOSBALL_GAME.name)))
+        gen.expectNextDone()
       })
     })
   })

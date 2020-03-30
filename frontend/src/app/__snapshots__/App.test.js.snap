@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppComponent when game is not selected and not found renders with no button and message "Game 'foosball'" was not found 1`] = `
+<Fragment>
+  <Connect(HeaderComponent) />
+  <styled.div>
+    <styled.h2>
+      Game 'foosball' was not found!
+       
+    </styled.h2>
+  </styled.div>
+  <Footer />
+</Fragment>
+`;
+
+exports[`AppComponent when game is not selected but could be found renders header with no button and with message "Loading" 1`] = `
+<Fragment>
+  <Connect(HeaderComponent) />
+  <styled.div>
+    <styled.h2>
+      Loading...
+       
+    </styled.h2>
+  </styled.div>
+  <Footer />
+</Fragment>
+`;
+
+exports[`AppComponent when game is selected renders button Add Match in the header 1`] = `
+<Fragment>
+  <Connect(HeaderComponent)>
+    <styled.button
+      onClick={[Function]}
+    >
+      Add Match
+    </styled.button>
+  </Connect(HeaderComponent)>
+  <styled.div>
+    <Switch>
+      <Route
+        exact={true}
+        path="/foosball/leaderboard"
+      >
+        <Connect(LeaderboardPageComponent)
+          constructUrl={[Function]}
+        />
+      </Route>
+      <Route
+        exact={true}
+        path="/foosball/create-match"
+      >
+        <CreateMatchPage
+          constructUrl={[Function]}
+        />
+      </Route>
+      <Route
+        component={[Function]}
+        exact={true}
+        path="/foosball/add-player"
+      />
+      <Route
+        exact={true}
+        path="/foosball/match-list"
+      >
+        <Connect(MatchListPageComponent)
+          constructUrl={[Function]}
+        />
+      </Route>
+      <Route
+        component={[Function]}
+        exact={true}
+        path="/foosball/profile/:playerId"
+      />
+      <Route>
+        <Connect(withRouter(DashboardComponent))
+          constructUrl={[Function]}
+        />
+      </Route>
+    </Switch>
+  </styled.div>
+  <Footer />
+</Fragment>
+`;
