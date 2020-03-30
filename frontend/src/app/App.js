@@ -12,11 +12,13 @@ import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
-import { Button } from '../styles/blocks'
+import { Button, Subtitle } from '../styles/blocks'
+import { isGameSelected } from './modules/games/games-selectors'
+import { connect } from 'react-redux'
 
-export class App extends Component {
+export class AppComponent extends Component {
   render() {
-    const { match: { url } } = this.props
+    const { match: { url, params: { gameName } }, isGameSelected, gameNotFound } = this.props
     const createMatch = () => {
       this.props.history.push(`${url}${ROUTES.CREATE_MATCH}`)
     }
@@ -24,28 +26,38 @@ export class App extends Component {
     return (
       <>
         <Header>
-          <Button onClick={createMatch}>Add Match</Button>
+          { isGameSelected? <Button onClick={createMatch}>Add Match</Button> : null }
         </Header>
         <Container>
-          <Switch>
-            <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
-              <LeaderboardPage constructUrl={constructUrl} />
-            </Route>
-            <Route exact path={constructUrl(ROUTES.CREATE_MATCH)}>
-              <CreateMatchPage constructUrl={constructUrl} />
-            </Route>
-            <Route exact path={constructUrl(ROUTES.ADD_PLAYER)} component={AddPlayerPage} />
-            <Route exact path={constructUrl(ROUTES.MATCH_LIST)}>
-              <MatchListPage constructUrl={constructUrl} />
-            </Route>
-            <Route exact path={constructUrl(ROUTES.PROFILE)} component={Profile} />
-            <Route>
-              <Dashboard constructUrl={constructUrl} />
-            </Route>
-          </Switch>
+          { isGameSelected
+            ? <Switch>
+              <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
+                <LeaderboardPage constructUrl={constructUrl} />
+              </Route>
+              <Route exact path={constructUrl(ROUTES.CREATE_MATCH)}>
+                <CreateMatchPage constructUrl={constructUrl} />
+              </Route>
+              <Route exact path={constructUrl(ROUTES.ADD_PLAYER)} component={AddPlayerPage} />
+              <Route exact path={constructUrl(ROUTES.MATCH_LIST)}>
+                <MatchListPage constructUrl={constructUrl} />
+              </Route>
+              <Route exact path={constructUrl(ROUTES.PROFILE)} component={Profile} />
+              <Route>
+                <Dashboard constructUrl={constructUrl} />
+              </Route>
+            </Switch>
+            : <Subtitle>{ gameNotFound? `Game '${gameName}' was not found!` : 'Loading...' } </Subtitle>
+          }
         </Container>
         <Footer />
       </>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  isGameSelected: isGameSelected(state),
+  gameNotFound: state.gameNotFound,
+})
+
+export const App = connect(mapStateToProps)(AppComponent)

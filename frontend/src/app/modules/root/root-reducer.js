@@ -20,6 +20,7 @@ const initialState = {
   players: [],
   games: [],
   selectedGame: null,
+  gameNotFound: false,
   activeAlert: null,
   activeRedirect: null,
   theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
@@ -62,6 +63,20 @@ const gamesLoaded = (state, { games }) => ({
 const selectGame = (state, { selectedGame }) => ({
   ...state,
   selectedGame,
+  gameNotFound: false,
+})
+
+const deselectGame = state => ({
+  ...state,
+  selectedGame: null,
+  matches: [],
+  players: [],
+  gameNotFound: false,
+})
+
+const markGameAsNotFound = state => ({
+  ...state,
+  gameNotFound: true,
 })
 
 const createRedirectForMatchesStatusUpdate = status => {
@@ -157,6 +172,8 @@ export const rootReducer = createReducer(initialState, {
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [GamesActions.Types.GAMES_LOADED]: gamesLoaded,
   [GamesActions.Types.SELECT_GAME]: selectGame,
+  [GamesActions.Types.NOT_FOUND_GAME]: markGameAsNotFound,
+  [GamesActions.Types.DESELECT_GAME]: deselectGame,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,
   [ThemeActions.Types.THEME_CHANGED]: themeChanged,

@@ -1,8 +1,8 @@
-import { put, fork, call, takeEvery, select } from 'redux-saga/effects'
+import { put, call, takeEvery, select } from 'redux-saga/effects'
 import { GamesActions } from './games-actions'
 import { getGames } from './games-effects'
 import { MatchesActions } from '../matches/matches-actions'
-import { getSelectedGame } from './games-selectors'
+import { getSelectedGame, selectGames } from './games-selectors'
 
 export function* getGamesSaga() {
   try {
@@ -13,22 +13,26 @@ export function* getGamesSaga() {
   }
 }
 
-export function* selectGameSaga(game) {
+export function* selectGame(game) {
   yield put(GamesActions.Creators.selectGame(game))
-}
-
-export function* selectGameOnGamesLoadedSaga(action) {
-  // select foosball as first game as it's the only game right now
-  yield call(selectGameSaga, action.games[0])
 }
 
 export function* refreshSelectionSaga() {
   const selectedGame = yield select(getSelectedGame)
-  yield call(selectGameSaga, selectedGame)
+  yield call(selectGame, selectedGame)
+}
+
+export function* selectGameByNameSaga({ gameName }) {
+  const games = yield select(selectGames)
+  const game = games.find(game => game.name === gameName)
+  if (game) {
+    yield call(selectGame, game)
+  } else {
+    yield put(GamesActions.Creators.notFoundGame(gameName))
+  }
 }
 
 export function* gamesSaga() {
-  yield fork(getGamesSaga)
-  yield takeEvery(GamesActions.Types.GAMES_LOADED, selectGameOnGamesLoadedSaga)
+  yield takeEvery(GamesActions.Types.SELECT_GAME_BY_NAME, selectGameByNameSaga)
   yield takeEvery(MatchesActions.Types.MATCH_ADDED, refreshSelectionSaga)
 }
