@@ -1,15 +1,17 @@
-import { Pool, QueryResultRow } from 'pg'
+import { Pool, QueryResultRow, PoolClient } from 'pg'
 import * as dbConfig from './db-config'
 
 const pool = new Pool(dbConfig.productionConfig)
 
+type QueryValues = Array<string|number|boolean|Date>
+
 export class Transaction {
   private active: boolean
-  constructor(private client) {
+  constructor(private client: PoolClient) {
     this.active = true
   }
 
-  async executeQuery(query, values): Promise<Array<QueryResultRow>> {
+  async executeQuery(query: string, values: QueryValues): Promise<Array<QueryResultRow>> {
     if (!this.active) {
       throw new Error('Attempting to execute query on an inactive transaction')
     }
@@ -19,7 +21,8 @@ export class Transaction {
     return res.rows
   }
 
-  async executeSingleResultQuery(query, values): Promise<QueryResultRow> {
+  async executeSingleResultQuery(query: string, values: QueryValues):
+  Promise<QueryResultRow> {
     const rows = await this.executeQuery(query, values)
     if (rows.length == 0) {
       return null

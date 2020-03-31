@@ -1,16 +1,18 @@
 import * as dbTransformations from './db/db-transformations'
 import * as dbQueries from './db/db-queries'
 import * as dbErrors from './db/db-errors'
+import { Transaction } from './db/db-transactions'
 import { ConflictError } from '../errors/ConflictError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User, UserData } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
-import { Player, NULL_PLAYER } from '../types/Player'
+import { Player, NULL_PLAYER, PlayerData } from '../types/Player'
 import { BadRequestError } from '../errors/BadRequestError'
+import { QueryResultRow } from 'pg'
 
 export class StorageContext {
-  constructor(private transaction) {}
+  constructor(private transaction: Transaction) {}
 
   async getAllUsers(): Promise<Array<User>> {
     let rows
@@ -60,7 +62,7 @@ export class StorageContext {
     return dbTransformations.createPlayerFromDbRow(row)
   }
 
-  async getUser(userId): Promise<User> {
+  async getUser(userId: number): Promise<User> {
     const query = dbQueries.selectUser
     const values = [userId]
 
@@ -107,7 +109,7 @@ export class StorageContext {
     }
   }
 
-  async insertPlayer({ initialRating, userId, gameId }): Promise<void> {
+  async insertPlayer({ initialRating, userId, gameId }: PlayerData): Promise<void> {
     try {
       await this.transaction.executeSingleResultQuery(dbQueries.insertPlayer, [
         userId, initialRating, initialRating, gameId,
@@ -130,11 +132,7 @@ export class StorageContext {
     if (!user) {
       user = await this.insertUser(name)
     }
-    await this.insertPlayer({
-      initialRating,
-      userId: user.id,
-      gameId: game.id,
-    })
+    await this.insertPlayer(new PlayerData(initialRating, user.id, game.id))
   }
 
   async insertUser(name: string): Promise<User> {
@@ -265,7 +263,7 @@ export class StorageContext {
   }
 
   async getGameByName(name: string): Promise<Game> {
-    let row
+    let row: QueryResultRow
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.selectGameByName, [name])
     } catch (error) {

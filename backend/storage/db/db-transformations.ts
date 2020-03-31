@@ -2,22 +2,42 @@ import { User } from '../../types/User'
 import { MatchWithId } from '../../types/Match'
 import { Game } from '../../types/Game'
 import { Player } from '../../types/Player'
+import { QueryResultRow } from 'pg'
+import {
+  isValidMatchRow,
+  isValidPlayerRow,
+  isValidGameRow,
+  isValidUserRow,
+} from '../../types/Database'
 
-export const createUserFromDbRow = (userRow): User => ({
-  id: Number(userRow.Id),
-  name: userRow.Name,
-  active: Boolean(userRow.Active),
-})
+export const createUserFromDbRow = (userRow: QueryResultRow): User => {
+  if (!isValidUserRow(userRow)) {
+    throw new Error('Invalid row to transform to create User')
+  }
+  return new User(
+    Number(userRow.Id),
+    userRow.Name,
+    Boolean(userRow.Active)
+  )
+}
 
-export const createPlayerFromDbRow = (player): Player => ({
-  id: Number(player.Id),
-  name: player.Name,
-  rating: Number(player.Rating),
-  active: Boolean(player.Active),
-  initialRating: Number(player.InitialRating),
-})
+export const createPlayerFromDbRow = (player: QueryResultRow): Player => {
+  if (!isValidPlayerRow(player)) {
+    throw new Error('Invalid row to transform to create Player')
+  }
+  return new Player(
+    Number(player.Id),
+    player.Name,
+    Number(player.Rating),
+    Boolean(player.Active),
+    Number(player.InitialRating),
+  )
+}
 
-export const createMatchFromDbRow = (matchRow): MatchWithId => {
+export const createMatchFromDbRow = (matchRow: QueryResultRow): MatchWithId => {
+  if (!isValidMatchRow(matchRow)) {
+    throw new Error('Invalid row to transform to create Match')
+  }
   const team1Player2Array = matchRow.Team1Player2Id ? [{
     id: Number(matchRow.Team1Player2Id),
     matchRating: Number(matchRow.Team1Player2Rating),
@@ -51,8 +71,13 @@ export const createMatchFromDbRow = (matchRow): MatchWithId => {
   }
 }
 
-export const createGameFromDbRow = (gameRow): Game => ({
-  id: Number(gameRow.Id),
-  name: gameRow.Name,
-  description: gameRow.Description,
-})
+export const createGameFromDbRow = (gameRow: QueryResultRow): Game => {
+  if (!isValidGameRow(gameRow)) {
+    throw new Error('Invalid row to transform to create Game')
+  }
+  return new Game(
+    Number(gameRow.Id),
+    gameRow.Name,
+    gameRow.Description,
+  )
+}

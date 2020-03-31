@@ -3,6 +3,10 @@ export interface GameData {
   readonly description: string;
 }
 
-export interface Game extends GameData {
-  readonly id: number;
+export class Game {
+  constructor(
+    readonly id: number,
+    readonly name: string,
+    readonly description: string,
+  ) {}
 }

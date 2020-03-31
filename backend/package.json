@@ -19,6 +19,7 @@
     "slackbots": "^1.2.0"
   },
   "devDependencies": {
+    "@types/common-tags": "^1.8.0",
     "@types/express": "^4.17.3",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.0",

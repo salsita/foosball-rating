@@ -1,6 +1,6 @@
 export class NotFoundError extends Error {
   readonly httpStatusCode: number
-  constructor(message) {
+  constructor(message: string) {
     super(message)
     this.httpStatusCode = 404
   }

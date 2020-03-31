@@ -1,10 +1,12 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "es6",
-      "sourceMap": true
-    },
-    "exclude": [
-      "node_modules"
-    ]
-  }
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "typeRoots": ["./types"]
+  },
+  "exclude": [
+    "node_modules"
+  ],
+}
