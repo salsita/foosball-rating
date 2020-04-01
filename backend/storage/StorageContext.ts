@@ -2,12 +2,11 @@ import * as dbTransformations from './db/db-transformations'
 import * as dbQueries from './db/db-queries'
 import * as dbErrors from './db/db-errors'
 import { ConflictError } from '../errors/ConflictError'
-import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
 import { User, UserData } from '../types/User'
 import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
-import { Player } from '../types/Player'
+import { Player, NULL_PLAYER } from '../types/Player'
 import { BadRequestError } from '../errors/BadRequestError'
 
 export class StorageContext {
@@ -156,16 +155,28 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async insertMatch(match: Match): Promise<MatchWithId> {
-    const isTeamSizeSupported = (team): boolean => team.length >= 1 && team.length <= 2
-    if (!isTeamSizeSupported(match.team1) || !isTeamSizeSupported(match.team2)) {
-      throw new InputError('Inserting teams with unsupported number of players')
-    }
+  async updateRatingForTeam(team: Array<Player>, difference: number): Promise<void> {
+    await Promise.all(team.map(player => {
+      const newRating = player.rating + difference
+      return this.updateRatingForPlayer(player.id, newRating)
+    }))
+  }
 
+  async storeMatch(match: Match): Promise<MatchWithId> {
+    const winningTeam = match.team1Won ? match.team1 : match.team2
+    const losingTeam = match.team1Won ? match.team2 : match.team1
+    const result = await this.insertMatch(match)
+
+    await this.updateRatingForTeam(winningTeam, match.winningTeamRatingChange)
+    await this.updateRatingForTeam(losingTeam, match.losingTeamRatingChange)
+    return result
+  }
+
+  async insertMatch(match: Match): Promise<MatchWithId> {
     const team1Player1 = match.team1[0]
-    const team1Player2 = match.team1[1] || { }
+    const team1Player2 = match.team1[1] || NULL_PLAYER
     const team2Player1 = match.team2[0]
-    const team2Player2 = match.team2[1] || { }
+    const team2Player2 = match.team2[1] || NULL_PLAYER
 
     const query = dbQueries.insertMatch
     const values = [team1Player1.id, team1Player1.rating, team1Player2.id, team1Player2.rating,
@@ -201,16 +212,16 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getLatestMatch(): Promise<MatchWithId> {
+  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId> {
     let row
     try {
-      row = await this.transaction.executeSingleResultQuery(dbQueries.selectLatestMatch, [])
+      row = await this.transaction.executeSingleResultQuery(
+        dbQueries.selectLatestMatchByGameId, [gameId])
     } catch (error) {
       console.error(error)
       throw new Error('Unable to retrieve latest match')
     }
-
-    return row != null ? dbTransformations.createMatchFromDbRow(row) : null
+    return row && dbTransformations.createMatchFromDbRow(row)
   }
 
   async getAllGames(): Promise<Array<Game>> {

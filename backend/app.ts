@@ -10,7 +10,6 @@ import { addGame } from './repositories/GameRepository'
 import { makeBot, SingleChannelBot } from './bot/bot-factory'
 
 import { MatchReporter } from './match-reporter/MatchReporter'
-import { MatchDescription } from './types/MatchDescription'
 
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })

@@ -2,43 +2,13 @@ import * as storage from '../storage/Storage'
 import * as ratingCalculator from '../rating/rating-calculator'
 import { InputError } from '../errors/InputError'
 import { NotFoundError } from '../errors/NotFoundError'
-import { MatchWithId, Match } from '../types/Match'
+import { Match } from '../types/Match'
 import { RatingChanges } from '../types/RatingChanges'
 import { MatchDescription, isMatchDescription } from '../types/MatchDescription'
 import { Player } from '../types/Player'
-import { StorageContext } from '../storage/StorageContext'
+import { oneLine } from 'common-tags'
 
 const ADD_MATCH_COOLDOWN = process.env.ADD_MATCH_COOLDOWN || 60
-
-const updateRatingForTeam =
-async (team: Array<Player>, difference: number, storageContext: StorageContext): Promise<void> => {
-  await Promise.all(team.map(player => {
-    const newRating = player.rating + difference
-    return storageContext.updateRatingForPlayer(player.id, newRating)
-  }))
-}
-
-const storeMatch = async (match: Match): Promise<MatchWithId> => {
-  const winningTeam = match.team1Won ? match.team1 : match.team2
-  const losingTeam = match.team1Won ? match.team2 : match.team1
-
-  const storageContext = await storage.makeStorageContext()
-
-  let result
-  try {
-    result = await storageContext.insertMatch(match)
-
-    await updateRatingForTeam(winningTeam, match.winningTeamRatingChange, storageContext)
-    await updateRatingForTeam(losingTeam, match.losingTeamRatingChange, storageContext)
-
-    await storageContext.commit()
-  } catch (error) {
-    await storageContext.rollback()
-    throw error
-  }
-
-  return result
-}
 
 const getFilledTeam = async (playedIds: Array<number>): Promise<Array<Player>> => {
   try {
@@ -59,9 +29,8 @@ const getRatingChanges = ({ team1, team2 }, team1Won): RatingChanges => {
   return ratingCalculator.computeRatingChanges(winningTeam, losingTeam)
 }
 
-const constructMatch = async (gameName: string, matchDescription: MatchDescription):
+const constructMatch = async (gameId: number, matchDescription: MatchDescription):
 Promise<Match> => {
-  const game = await storage.getGameByName(gameName)
   const teams = {
     team1: await getFilledTeam(matchDescription.team1),
     team2: await getFilledTeam(matchDescription.team2),
@@ -72,17 +41,18 @@ Promise<Match> => {
   } = getRatingChanges(teams, matchDescription.team1Won)
   const date = new Date()
   return new Match(
-    teams,
+    teams.team1,
+    teams.team2,
     matchDescription.team1Won,
     date,
     winningTeamRatingChange,
     losingTeamRatingChange,
-    game.id
+    gameId
   )
 }
 
-const getElapsedSecondsSinceLatestMatch = async (): Promise<number> => {
-  const latestMatch = await storage.getLatestMatch()
+const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number> => {
+  const latestMatch = await storage.getLatestMatchByGameId(gameId)
   if (latestMatch == null) {
     return null
   }
@@ -103,13 +73,17 @@ Promise<Match> => {
   if (!isMatchDescription(matchDescription)) {
     throw new InputError('Match data is not valid!')
   }
-  const elapsedTime = await getElapsedSecondsSinceLatestMatch()
+  const game = await storage.getGameByName(gameName)
+  const elapsedTime = await getElapsedSecondsSinceLatestMatch(game.id)
   if (elapsedTime != null && elapsedTime < ADD_MATCH_COOLDOWN) {
-    throw new InputError(`Can't add match ${elapsedTime} seconds after the last one. Minimum time is ${ADD_MATCH_COOLDOWN}.`)
+    throw new InputError(oneLine`
+      Can't add match ${elapsedTime} seconds after the last one.
+      Minimum time is ${ADD_MATCH_COOLDOWN}.
+    `)
   }
 
-  const match = await constructMatch(gameName, matchDescription)
-  await storeMatch(match)
+  const match = await constructMatch(game.id, matchDescription)
+  await storage.storeMatch(match)
 
   return match
 }

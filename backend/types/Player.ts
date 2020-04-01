@@ -11,3 +11,5 @@ export class Player extends User {
     super(id, name, active)
   }
 }
+
+export const NULL_PLAYER = new Player(null, null, null, null, null)

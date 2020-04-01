@@ -1,5 +1,12 @@
-import { MatchWithId } from '../types/Match'
+import { MatchWithId, Match } from '../types/Match'
 import { Player } from '../types/Player'
+import { MatchDescription } from '../types/MatchDescription'
+import * as moment from 'moment'
+
+const NOW_MOMENT = moment('2020-03-25 10:00:00')
+export const NOW = NOW_MOMENT.toDate()
+export const ONE_MINUTE_AFTER = moment(NOW_MOMENT).add(1, 'minute').toDate()
+export const HALF_MINUTE_AFTER = moment(NOW_MOMENT).add(30, 'seconds').toDate()
 
 export const FOOSBALL_DATA = {
   name: 'foosball',
@@ -27,19 +34,25 @@ export const FOOSBALL_MATCH_ROW = {
   Team2Player1Rating: '1003',
   Team2Player2Id: '4',
   Team2Player2Rating: '1004',
-  Date: new Date('2019-09-02 10:29:50.486'),
+  Date: NOW,
   WinningTeamRatingChange: '16',
   LosingTeamRatingChange: '-16',
   Team1Won: 'true',
   GameId: '1',
 }
 
-export const FOOSBALL_MATCH: MatchWithId = {
+export const FOOSBALL_MATCH_DESCRIPTION: MatchDescription = {
+  team1: [ 1 ],
+  team2: [ 3, 4 ],
+  team1Won: true,
+}
+
+export const FOOSBALL_MATCH_WITH_ID: MatchWithId = {
   id: 2,
   team1:[ { id: 1, matchRating: 1001 }, { id: 2, matchRating: 1002 }],
   team2:[ { id: 3, matchRating: 1003 }, { id: 4, matchRating: 1004 }],
   team1Won: true,
-  date: FOOSBALL_MATCH_ROW.Date,
+  date: NOW,
   winningTeamRatingChange: 16,
   losingTeamRatingChange: -16,
 }
@@ -60,6 +73,48 @@ export const TONDA_PLAYER: Player = {
   initialRating: 1000,
 }
 
+export const RADEK_PLAYER_ROW = {
+  Id: '4',
+  Name: 'Radek',
+  Rating: '1001',
+  Active: 'true',
+  InitialRating: '1300',
+}
+
+export const RADEK_PLAYER: Player = {
+  id: 4,
+  name: 'Radek',
+  rating: 1001,
+  active: true,
+  initialRating: 1300,
+}
+
+export const PETR_PLAYER_ROW = {
+  Id: '4',
+  Name: 'Petr',
+  Rating: '1001',
+  Active: 'true',
+  InitialRating: '1300',
+}
+
+export const PETR_PLAYER: Player = {
+  id: 5,
+  name: 'Petr',
+  rating: 999,
+  active: true,
+  initialRating: 1200,
+}
+
+export const FOOSBALL_MATCH: Match = {
+  team1: [ TONDA_PLAYER ],
+  team2: [ RADEK_PLAYER, PETR_PLAYER],
+  team1Won: true,
+  date: FOOSBALL_MATCH_ROW.Date,
+  winningTeamRatingChange: 16,
+  losingTeamRatingChange: -16,
+  gameId: 1,
+}
+
 export const TONDA_USER_ROW = {
   Id: '4',
   Name: 'Tonda',
@@ -71,3 +126,5 @@ export const TONDA_USER = {
   name: 'Tonda',
   active: true,
 }
+
+export const ERROR = 'error'

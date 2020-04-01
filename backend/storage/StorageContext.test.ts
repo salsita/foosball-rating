@@ -1,10 +1,26 @@
 import { StorageContext } from '../storage/StorageContext'
-import { FOOSBALL_DATA, FOOSBALL_ROW, FOOSBALL_GAME, FOOSBALL_MATCH_ROW, FOOSBALL_MATCH, TONDA_PLAYER, TONDA_PLAYER_ROW, TONDA_USER_ROW, TONDA_USER } from '../tests/TestData'
+import {
+  FOOSBALL_DATA,
+  FOOSBALL_ROW,
+  FOOSBALL_GAME,
+  FOOSBALL_MATCH_ROW,
+  FOOSBALL_MATCH_WITH_ID,
+  TONDA_PLAYER,
+  TONDA_PLAYER_ROW,
+  PETR_PLAYER,
+  PETR_PLAYER_ROW,
+  RADEK_PLAYER,
+  RADEK_PLAYER_ROW,
+  TONDA_USER_ROW,
+  TONDA_USER,
+  FOOSBALL_MATCH,
+} from '../tests/TestData'
 import { Game } from '../types/Game'
 import { insertGame } from './db/db-queries'
 import { ConflictError } from '../errors/ConflictError'
 import { UNIQUE_VIOLATION_CODE } from './db/db-errors'
 import * as dbQueries from './db/db-queries'
+import { MatchWithId } from '../types/Match'
 
 const TRANSACTION_MOCK = {
   executeSingleResultQuery: jest.fn(),
@@ -104,7 +120,7 @@ describe('StorageContext', () => {
       })
       it('resolves with the matches', async () => {
         const matches = await context.getMatchesByGameName(FOOSBALL_GAME.name)
-        expect(matches).toEqual([ FOOSBALL_MATCH ])
+        expect(matches).toEqual([ FOOSBALL_MATCH_WITH_ID ])
       })
     })
     describe('when there is no such game', () => {
@@ -226,6 +242,76 @@ describe('StorageContext', () => {
       it('throws an error', async () => {
         await expect(context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER))
           .rejects.toThrowError(Error)
+      })
+    })
+  })
+
+  describe('storeMatch', () => {
+    describe('when all db queries are successful', () => {
+      let matchWithId: MatchWithId
+      beforeEach(async () => {
+        // insert match query
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_MATCH_ROW)
+        // update ratings queries
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_PLAYER_ROW)
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(RADEK_PLAYER_ROW)
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(PETR_PLAYER_ROW)
+
+        matchWithId = await context.storeMatch(FOOSBALL_MATCH)
+      })
+      it('inserts the match', () => {
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.insertMatch, [
+            TONDA_PLAYER.id, TONDA_PLAYER.rating,
+            null, null,
+            RADEK_PLAYER.id, RADEK_PLAYER.rating,
+            PETR_PLAYER.id, PETR_PLAYER.rating,
+            FOOSBALL_MATCH.date,
+            FOOSBALL_MATCH.winningTeamRatingChange,
+            FOOSBALL_MATCH.losingTeamRatingChange,
+            FOOSBALL_MATCH.team1Won,
+            FOOSBALL_MATCH.gameId,
+          ])
+      })
+      it('returns match with id', () => {
+        expect(matchWithId).toEqual(FOOSBALL_MATCH_WITH_ID)
+      })
+      it('increases rating for Tonda', () => {
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.updateRatingForPlayer, [
+            TONDA_PLAYER.rating + FOOSBALL_MATCH.winningTeamRatingChange,
+            TONDA_PLAYER.id,
+          ])
+      })
+      it('decreases rating for Radek and Petr', () => {
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.updateRatingForPlayer, [
+            RADEK_PLAYER.rating + FOOSBALL_MATCH.losingTeamRatingChange,
+            RADEK_PLAYER.id,
+          ])
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.updateRatingForPlayer, [
+            PETR_PLAYER.rating + FOOSBALL_MATCH.losingTeamRatingChange,
+            PETR_PLAYER.id,
+          ])
+      })
+    })
+  })
+  describe('getLatestMatchByGameId', () => {
+    describe('called with foosball id', () => {
+      let matchWithId: MatchWithId
+      beforeEach(async () => {
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_MATCH_ROW)
+        matchWithId = await context.getLatestMatchByGameId(FOOSBALL_GAME.id)
+      })
+      it('returns the match with id', () => {
+        expect(matchWithId).toEqual(FOOSBALL_MATCH_WITH_ID)
+      })
+      it('selects latest match by game id', () => {
+        expect(TRANSACTION_MOCK.executeSingleResultQuery)
+          .toBeCalledWith(dbQueries.selectLatestMatchByGameId, [
+            FOOSBALL_GAME.id,
+          ])
       })
     })
   })

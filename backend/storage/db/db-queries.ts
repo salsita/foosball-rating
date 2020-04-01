@@ -26,7 +26,13 @@ export const selectAllMatches = 'SELECT * FROM "Matches"'
 
 export const selectMatchesByGameId = 'SELECT * FROM "Matches" WHERE "GameId" = $1'
 
-export const selectLatestMatch = 'SELECT * FROM "Matches" ORDER BY "Date" DESC LIMIT 1'
+export const selectLatestMatchByGameId = oneLine`
+  SELECT *
+  FROM "Matches"
+  WHERE "GameId" = $1
+  ORDER BY "Date" DESC
+  LIMIT 1
+`
 
 export const selectAllusers = 'SELECT * FROM "Users"'
 
