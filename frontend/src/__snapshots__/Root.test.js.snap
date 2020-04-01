@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(ThemeComponent)>
+    <BrowserRouter>
+      <Switch>
+        <Route
+          component={[Function]}
+          path="/foosball"
+        />
+        <Route>
+          <Redirect
+            to="/foosball"
+          />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  </Connect(ThemeComponent)>
+</Provider>
+`;
