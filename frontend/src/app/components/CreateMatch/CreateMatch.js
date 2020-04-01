@@ -14,7 +14,7 @@ import { SnackbarAlert } from '../SnackbarAlert/SnackbarAlert'
 import { RootActions } from '../../modules/root/root-actions'
 import { CircularProgress } from '@material-ui/core'
 
-class CreateMatchComponent extends Component {
+export class CreateMatchComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -73,7 +73,7 @@ class CreateMatchComponent extends Component {
 
   componentWillReceiveProps = newProps => {
     const redirect = newProps.activeRedirect
-    if (redirect) {
+    if (redirect != null) {
       newProps.history.push(newProps.constructUrl(redirect))
       newProps.dismissRedirect()
     }
