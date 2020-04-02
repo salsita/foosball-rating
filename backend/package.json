@@ -23,7 +23,7 @@
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.0",
     "common-tags": "^1.8.0",
-    "jest": "^25.1.0",
+    "jest": "^25.2.6",
     "node-pg-migrate": "^4.2.3",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
