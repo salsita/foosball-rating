@@ -139,6 +139,7 @@ const computePlayers = (playerId, playerMatches, playersProvider) => {
           losses: Number(!didPlayerWin(playerId, match)),
         }
         : {
+          ...playersMap[player.id],
           matches: playersMap[player.id]['matches'] + 1,
           wins: playersMap[player.id]['wins'] += Number(didPlayerWin(playerId, match)),
           losses: playersMap[player.id]['losses'] += Number(!didPlayerWin(playerId, match)),
