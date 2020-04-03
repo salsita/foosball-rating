@@ -1,0 +1,26 @@
+name: Build, lint, tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: build
+      run: npm install
+    - name: FE unit tests
+      run: |
+        cd frontend
+        npm test
+    - name: BE unit tests
+      run: |
+        cd backend
+        npm test 
+    - name: lint
+      run: npm run lint
