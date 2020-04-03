@@ -13,6 +13,8 @@ const alertTypeToString = alertType => {
       return 'success'
     case AlertType.ERROR:
       return 'error'
+    default:
+      break
   }
   return 'info'
 }

@@ -10,7 +10,7 @@ const trophies = [
 export const LeaderboardRow = ({ player, position, points }) => (
   <ListItem>
     <TextSpan align="left">{
-      position > 3 ? (position + '.') : <img src={trophies[position - 1]} />
+      position > 3 ? (position + '.') : <img src={trophies[position - 1]} alt={`cup${position}`} />
     }</TextSpan>
     <TextDiv>
       <StyledLink to={player.link}>{player.name} ({points})</StyledLink>

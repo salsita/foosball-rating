@@ -77,6 +77,8 @@ const createAlertForPlayerStatusUpdate = status => {
       return new UserAlert('Successfully added!', AlertType.SUCCESS)
     case StatusType.FAILURE:
       return new UserAlert(`Failed to add player :( - ${status.error}`, AlertType.ERROR)
+    default:
+      break
   }
 
   return null
@@ -88,6 +90,8 @@ const createAlertForMatchesStatusUpdate = status => {
       return new UserAlert('Succesfully created!', AlertType.SUCCESS)
     case StatusType.FAILURE:
       return new UserAlert(`Failed to create match :( - ${status.error}`, AlertType.ERROR)
+    default:
+      break
   }
 
   return null
