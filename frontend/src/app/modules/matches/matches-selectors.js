@@ -2,8 +2,11 @@ import { createSelector } from 'reselect'
 import {
   computeLongestWinStreak,
   computeWinRatio,
+  computeWins,
   generateMatchRatingChanges,
   plotRatingHistory,
+  findMax,
+  findMin,
   computeDays,
   computeTeammates,
   computeOpponents,
@@ -42,20 +45,30 @@ const getLastMatchesForPlayer = createSelector(
 
 const generateStatisticsForPlayer = (playerId, playerMatches) => {
   const matchChanges = generateMatchRatingChanges(playerId, playerMatches)
+  const days = computeDays(matchChanges)
+  const teammates = computeTeammates(playerId, playerMatches)
+  const opponents = computeOpponents(playerId, playerMatches)
+
   return {
     matchChanges,
     longestStreak: computeLongestWinStreak(playerId, playerMatches),
     winRatio: computeWinRatio(playerId, playerMatches),
     totalMatches: playerMatches.length,
-    moreStatistics: computeMoreStatistics(playerId, matchChanges, playerMatches),
+    wins: computeWins(playerId, playerMatches),
+    bestDay: findMax(days),
+    worstDay: findMin(days),
+
+    mostFrequentTeammate: findMax(teammates, 'matches'),
+    leastFrequentTeammate: findMin(teammates, 'matches'),
+    mostSuccessTeammate: findMax(teammates, 'wins'),
+    leastSuccessTeammate: findMax(teammates, 'losses'),
+
+    mostFrequentOpponent: findMax(opponents, 'matches'),
+    leastFrequentOpponent: findMin(opponents, 'matches'),
+    mostSuccessOpponent: findMax(opponents, 'wins'),
+    leastSuccessOpponent: findMax(opponents, 'losses'),
   }
 }
-
-const computeMoreStatistics = (playerId, matchChanges, playerMatches) => ({
-  ...computeDays(matchChanges),
-  ...computeTeammates(playerId, playerMatches),
-  ...computeOpponents(playerId, playerMatches),
-})
 
 export const getStatisticsForPlayer = createSelector(
   getLastMatchesForPlayer,

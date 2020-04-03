@@ -1,76 +1,79 @@
 import React from 'react'
 
-import { TextSpan, StatisticsTable, StatisticsValue, StyledLink, WinnerSpan } from '../../../styles/blocks'
-import { createProfilePath } from '../../const/routes'
+import { TextSpan, StatisticsTable } from '../../../styles/blocks'
+import { StatsRow } from './StatsRow'
 
 export const ProfileStatistics = props => {
   const {
     rankings: { ranking, toNextRank, toPrevRank },
     statistics: {
-      bestDay, worstDay, mostFrequentTeammate, leastFrequentTeammate, mostFrequentOpponent,
-      leastFrequentOpponent, mostSuccessTeammate, leastSuccessTeammate, mostSuccessOpponent,
-      leastSuccessOpponent,
+      bestDay, worstDay,
+      mostFrequentTeammate, leastFrequentTeammate, mostFrequentOpponent, leastFrequentOpponent,
+      mostSuccessTeammate, leastSuccessTeammate, mostSuccessOpponent, leastSuccessOpponent,
     },
   } = props
+
+  const rows = [
+    [
+      createRankRowObject('To Next Rank', toNextRank, '+', toNextRank <= 20),
+      createRankRowObject('To Prev Rank', toPrevRank, '-', toPrevRank > 20),
+    ], [
+      createDateRowObject('Best Day', bestDay || {}),
+      createDateRowObject('Worst Day', worstDay || {}),
+    ], [
+      createRowObject('Most Played With', mostFrequentTeammate, 'x', true),
+      createRowObject('Least Played With', leastFrequentTeammate, 'x', false),
+    ], [
+      createRowObject('Most Played Against', mostFrequentOpponent, 'x', true),
+      createRowObject('Least Played Against', leastFrequentOpponent, 'x', false),
+    ], [
+      createRowObject('Most Won With', mostSuccessTeammate, 'x', true),
+      createRowObject('Most Lost With', leastSuccessTeammate, 'x', false),
+    ], [
+      createRowObject('Most Won Over', mostSuccessOpponent, 'x', true),
+      createRowObject('Most Lost To', leastSuccessOpponent, 'x', false),
+    ],
+  ]
 
   return (
     <>
       <TextSpan>Ranking: {ranking}</TextSpan>
       <StatisticsTable>
         <tbody>
-          <tr>
-            <td>To Next Rank:
-              <StatisticsValue>{getScorePart(toNextRank, toNextRank <= 20, '+')}</StatisticsValue>
-            </td>
-            <td>To Prev Rank:
-              <StatisticsValue>{getScorePart(toPrevRank, toPrevRank > 20, '-')}</StatisticsValue>
-            </td>
-          </tr>
-          <tr>
-            <td>Best Day:
-              <StatisticsValue>{bestDay?.date} {getDayScorePart(bestDay?.value)}</StatisticsValue>
-            </td>
-            <td>Worst Day:
-              <StatisticsValue>{worstDay?.date} {getDayScorePart(worstDay?.value)}</StatisticsValue>
-            </td>
-          </tr>
-          <tr>
-            {getPlayerRow('Most Played With', mostFrequentTeammate, 'matches', true)}
-            {getPlayerRow('Least PLayed With', leastFrequentTeammate, 'matches', false)}
-          </tr>
-          <tr>
-            {getPlayerRow('Most Played Against', mostFrequentOpponent, 'matches', true)}
-            {getPlayerRow('Least Played Against', leastFrequentOpponent, 'matches', false)}
-          </tr>
-          <tr>
-            {getPlayerRow('Most Won With', mostSuccessTeammate, 'wins', true)}
-            {getPlayerRow('Least Won With', leastSuccessTeammate, 'wins', false)}
-          </tr>
-          <tr>
-            {getPlayerRow('Most Won Over', mostSuccessOpponent, 'wins', true)}
-            {getPlayerRow('Most Lost To', leastSuccessOpponent, 'losses', false)}
-          </tr>
+          {rows.map((row, index) => (
+            <tr key={index}>
+              {row.map((node, key) => (
+                <StatsRow key={[index, key].join('_')}
+                  text={node.text}
+                  player={node.player}
+                  score={node.score}
+                  positive={node.positive}
+                  altText={node.altText} />
+              ))}
+            </tr>
+          ))}
         </tbody>
       </StatisticsTable>
     </>
   )
 }
 
-const getDayScorePart = score => getScorePart(score, score > 0, score > 0 ? '+' : '')
+const createRowObject = (text, obj, sign, positive) => ({
+  text,
+  player: obj.value,
+  score: `${obj.score}${sign}`,
+  positive: positive,
+})
 
-const getScorePart = (value, isGreen, sign = 'x') => (
-  <WinnerSpan winner={isGreen}>{sign}{value}</WinnerSpan>
-)
+const createDateRowObject = (text, obj) => ({
+  text,
+  altText: obj.value,
+  score: `${obj.score > 0 ? '+' : ''}${obj.score}`,
+  positive: obj.score > 0,
+})
 
-const getPlayerRow = (text, stat, valueKey, isGreen) => (
-  <td>{text}:
-    <StatisticsValue>
-      {getPlayerLink(stat.player)} {getScorePart(stat[valueKey], isGreen)}
-    </StatisticsValue>
-  </td>
-)
-
-const getPlayerLink = player => (
-  <StyledLink key={player?.id} to={createProfilePath(player?.id)}>{player?.name}
-   &nbsp;<span>({player?.matchRating})</span></StyledLink>
-)
+const createRankRowObject = (text, score, sign, positive) => ({
+  text,
+  score: `${sign}${score}`,
+  positive: positive,
+})

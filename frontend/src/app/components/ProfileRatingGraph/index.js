@@ -22,7 +22,7 @@ const SimpleProfileRatingGraph = props => (
       <FlexibleWidthXYPlot
         height={300}
         xType='time'
-        margin={{ left: 45, bottom: 65 }}
+        margin={{ left: 45 }}
       >
         <HorizontalGridLines
           style={plotGridStyle}

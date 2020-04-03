@@ -19,7 +19,8 @@ class ProfileComponent extends Component {
     const {
       player: { name, rating, id },
       rankings,
-      statistics: { totalMatches, winRatio, longestStreak, matchChanges, moreStatistics },
+      statistics,
+      statistics: { totalMatches, wins, winRatio, longestStreak, matchChanges },
     } = this.props
 
     return (
@@ -28,12 +29,12 @@ class ProfileComponent extends Component {
         <Subtitle>Elo rating: {rating}</Subtitle>
         <ProfileDetail>
           <Subtitle>Matches: {totalMatches}</Subtitle>
-          <Subtitle>Wins: {Math.round(totalMatches * winRatio)}</Subtitle>
+          <Subtitle>Wins: {wins}</Subtitle>
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
+        <ProfileStatistics statistics={statistics} rankings={rankings} />
         <ProfileRatingGraph playerId={id} />
-        <ProfileStatistics statistics={moreStatistics} rankings={rankings} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>
     )
