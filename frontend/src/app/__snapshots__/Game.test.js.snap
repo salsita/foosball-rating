@@ -28,9 +28,18 @@ exports[`GameComponent when the selection is empty renders header with no button
 </Fragment>
 `;
 
-exports[`GameComponent when foosball is selected renders button Add Match in the header 1`] = `
+exports[`GameComponent when foosball is selected renders button "Add Match" and game title in the header 1`] = `
 <Fragment>
   <Connect(HeaderComponent)>
+    <span
+      id="title"
+    >
+      <Styled(Link)
+        to="/foosball"
+      >
+        FOOSBALL
+      </Styled(Link)>
+    </span>
     <styled.button
       onClick={[Function]}
     >

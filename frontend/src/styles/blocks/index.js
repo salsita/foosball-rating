@@ -4,8 +4,8 @@ import {
 } from './typo'
 import { Nav, Container, GridContainer, Box, ProfileDetail } from './layout'
 import { ListCon, ListItem } from './list'
-import { StyledLink } from './link'
-import { Button } from './buttons'
+import { StyledLink, SimpleLink } from './link'
+import { Button, SimpleButton } from './buttons'
 import { SelectBox, Label, Input } from './inputs'
 import { Logo } from './logo'
 
@@ -14,8 +14,8 @@ export {
   FiltersBlock, FiltersSpan, StyledHyperLink,
   Nav, Container, GridContainer, Box, ProfileDetail,
   ListCon, ListItem,
-  StyledLink,
-  Button,
+  SimpleLink, StyledLink,
+  Button, SimpleButton,
   SelectBox, Label, Input,
   Logo,
 }

@@ -1,6 +1,6 @@
 import { GameComponent } from './Game'
 import { Header } from './components/header'
-import { Button } from '../styles/blocks'
+import { SimpleButton } from '../styles/blocks'
 import { shallowWithProps } from '../tests/utils'
 import { HISTORY_MOCK, ROUTER_MATCH } from '../tests/mocks'
 import { FOOSBALL_GAME, URLS } from '../tests/data'
@@ -35,12 +35,12 @@ describe('GameComponent', () => {
         history: HISTORY_MOCK,
       })
     })
-    it('renders button Add Match in the header', () => {
+    it('renders button "Add Match" and game title in the header', () => {
       expect(gameComponent).toMatchSnapshot()
     })
     describe('on Add Match button click', () => {
       beforeEach(() => {
-        gameComponent.find(Header).find(Button).simulate('click')
+        gameComponent.find(Header).find(SimpleButton).simulate('click')
       })
       it('redirects to foosball create match page', () => {
         expect(HISTORY_MOCK.push).toBeCalledWith(URLS.CREATE_FOOSBALL_MATCH)

@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom'
 import * as ROUTES from './const/routes'
 import { Header } from './components/header'
 import { Footer } from './components/Footer/footer'
-import { Container } from '../styles/blocks/layout'
 // pages
 import { Dashboard } from './pages/Dashboard'
 import { LeaderboardPage } from './pages/Leaderboard'
@@ -12,7 +11,7 @@ import { CreateMatchPage } from './pages/CreateMatch'
 import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
-import { Button, Subtitle } from '../styles/blocks'
+import { SimpleButton, Subtitle, SimpleLink, Container } from '../styles/blocks'
 import { connect } from 'react-redux'
 import urljoin from 'url-join'
 import { SelectionStatus } from './const/games'
@@ -28,7 +27,12 @@ export class GameComponent extends Component {
       <>
         <Header>
           { selection.status === SelectionStatus.SELECTED
-            ? <Button onClick={createMatch}>Add Match</Button>
+            ? <>
+              <span id='title'>
+                <SimpleLink to={url}>{selection.value.name.toUpperCase()}</SimpleLink>
+              </span>
+              <SimpleButton onClick={createMatch}>Add Match</SimpleButton>
+            </>
             : null }
         </Header>
         <Container id="container">
