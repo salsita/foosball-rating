@@ -12,6 +12,7 @@ import { ThemeTypes } from '../../const/theme-types'
 import { StorageThemeKey } from '../../const/constants'
 import * as Filters from '../../const/leaderboard-filters'
 import { GamesActions } from '../games/games-actions'
+import { createEmptySelection, createGameSelection, createFailedSelection } from '../../types/GameSelection'
 
 const initialState = {
   matchesStatus: ready,
@@ -19,10 +20,7 @@ const initialState = {
   playersStatus: ready,
   players: [],
   games: [],
-  selectedGame: null,
-  gameNotFound: false,
-  activeAlert: null,
-  activeRedirect: null,
+  gameSelection: createEmptySelection(),
   theme: window.localStorage.getItem(StorageThemeKey) || ThemeTypes.Dark,
   themeTransition: false,
   filters: {
@@ -62,21 +60,19 @@ const gamesLoaded = (state, { games }) => ({
 
 const selectGame = (state, { selectedGame }) => ({
   ...state,
-  selectedGame,
-  gameNotFound: false,
+  gameSelection: createGameSelection(selectedGame),
 })
 
 const deselectGame = state => ({
   ...state,
-  selectedGame: null,
   matches: [],
   players: [],
-  gameNotFound: false,
+  gameSelection: createEmptySelection(),
 })
 
-const markGameAsNotFound = state => ({
+const selectionFailed = (state, { gameName }) => ({
   ...state,
-  gameNotFound: true,
+  gameSelection: createFailedSelection(gameName),
 })
 
 const createRedirectForMatchesStatusUpdate = (state, status) => {
@@ -172,7 +168,7 @@ export const rootReducer = createReducer(initialState, {
   [MatchesActions.Types.UPDATE_STATUS]: updateMatchesStatus,
   [GamesActions.Types.GAMES_LOADED]: gamesLoaded,
   [GamesActions.Types.SELECT_GAME]: selectGame,
-  [GamesActions.Types.NOT_FOUND_GAME]: markGameAsNotFound,
+  [GamesActions.Types.SELECTION_FAILED]: selectionFailed,
   [GamesActions.Types.DESELECT_GAME]: deselectGame,
   [RootActions.Types.DISMISS_ALERT]: dismissAlert,
   [RootActions.Types.DISMISS_REDIRECT]: dismissRedirect,

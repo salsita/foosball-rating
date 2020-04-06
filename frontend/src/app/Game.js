@@ -13,13 +13,13 @@ import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
 import { Button, Subtitle } from '../styles/blocks'
-import { isGameSelected } from './modules/games/games-selectors'
 import { connect } from 'react-redux'
 import urljoin from 'url-join'
+import { SelectionStatus } from './const/games'
 
 export class GameComponent extends Component {
   render() {
-    const { match: { url, params: { gameName } }, isGameSelected, gameNotFound } = this.props
+    const { match: { url }, selection } = this.props
     const constructUrl = relativePath => urljoin(url, relativePath)
     const createMatch = () => {
       this.props.history.push(constructUrl(ROUTES.CREATE_MATCH))
@@ -27,10 +27,12 @@ export class GameComponent extends Component {
     return (
       <>
         <Header>
-          { isGameSelected? <Button onClick={createMatch}>Add Match</Button> : null }
+          { selection.status === SelectionStatus.SELECTED
+            ? <Button onClick={createMatch}>Add Match</Button>
+            : null }
         </Header>
         <Container>
-          { isGameSelected
+          { selection.status === SelectionStatus.SELECTED
             ? <Switch>
               <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>
                 <LeaderboardPage constructUrl={constructUrl} />
@@ -47,7 +49,11 @@ export class GameComponent extends Component {
                 <Dashboard constructUrl={constructUrl} />
               </Route>
             </Switch>
-            : <Subtitle>{ gameNotFound? `Game '${gameName}' was not found!` : 'Loading...' } </Subtitle>
+            : <Subtitle>
+              { selection.status === SelectionStatus.FAILED
+                ? `Game '${selection.gameName}' was not found!`
+                : 'Loading...' }
+            </Subtitle>
           }
         </Container>
         <Footer />
@@ -57,8 +63,7 @@ export class GameComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  isGameSelected: isGameSelected(state),
-  gameNotFound: state.gameNotFound,
+  selection: state.gameSelection,
 })
 
 export const Game = connect(mapStateToProps)(GameComponent)

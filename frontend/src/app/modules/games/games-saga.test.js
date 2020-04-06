@@ -35,7 +35,7 @@ describe('gameSaga', () => {
       it('performs correctly the sequence', () => {
         gen.expectNextUndoneValue().toBe(select(selectGames))
         gen.expectNextUndoneValue([])
-          .toBe(put(GamesActions.Creators.notFoundGame(FOOSBALL_GAME.name)))
+          .toBe(put(GamesActions.Creators.selectionFailed(FOOSBALL_GAME.name)))
         gen.expectNextDone()
       })
     })

@@ -1,32 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GameComponent when game is not selected and not found renders with no button and message "Game 'foosball'" was not found 1`] = `
+exports[`GameComponent when foosball selection fails renders with no button and message "Game 'foosball'" was not found 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
   <styled.div>
     <styled.h2>
       Game 'foosball' was not found!
-       
     </styled.h2>
   </styled.div>
   <Footer />
 </Fragment>
 `;
 
-exports[`GameComponent when game is not selected but could be found renders header with no button and with message "Loading" 1`] = `
+exports[`GameComponent when the selection is empty renders header with no button and with message "Loading" 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
   <styled.div>
     <styled.h2>
       Loading...
-       
     </styled.h2>
   </styled.div>
   <Footer />
 </Fragment>
 `;
 
-exports[`GameComponent when game is selected renders button Add Match in the header 1`] = `
+exports[`GameComponent when foosball is selected renders button Add Match in the header 1`] = `
 <Fragment>
   <Connect(HeaderComponent)>
     <styled.button

@@ -4,18 +4,22 @@ import { Button } from '../styles/blocks'
 import { shallowWithProps } from '../tests/utils'
 import { HISTORY_MOCK, ROUTER_MATCH } from '../tests/mocks'
 import { FOOSBALL_GAME, URLS } from '../tests/data'
+import {
+  createFailedSelection,
+  createGameSelection,
+  createEmptySelection,
+} from './types/GameSelection'
 
 describe('GameComponent', () => {
   let gameComponent
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  describe('when game is not selected and not found', () => {
+  describe('when foosball selection fails', () => {
     beforeEach(() => {
       gameComponent = shallowWithProps(GameComponent, {
-        match: { params: { gameName: FOOSBALL_GAME.name } },
-        isGameSelected: false,
-        gameNotFound: true,
+        match: { },
+        selection: createFailedSelection(FOOSBALL_GAME.name),
       })
     })
     it('renders with no button and message "Game \'foosball\'" was not found', () => {
@@ -23,11 +27,11 @@ describe('GameComponent', () => {
     })
   })
 
-  describe('when game is selected', () => {
+  describe('when foosball is selected', () => {
     beforeEach(() => {
       gameComponent = shallowWithProps(GameComponent, {
         match: { ...ROUTER_MATCH, url: URLS.FOOSBALL },
-        isGameSelected: true,
+        selection: createGameSelection(FOOSBALL_GAME),
         history: HISTORY_MOCK,
       })
     })
@@ -38,18 +42,17 @@ describe('GameComponent', () => {
       beforeEach(() => {
         gameComponent.find(Header).find(Button).simulate('click')
       })
-      it('redirects to create match page', () => {
+      it('redirects to foosball create match page', () => {
         expect(HISTORY_MOCK.push).toBeCalledWith(URLS.CREATE_FOOSBALL_MATCH)
       })
     })
   })
 
-  describe('when game is not selected but could be found', () => {
+  describe('when the selection is empty', () => {
     beforeEach(() => {
       gameComponent = shallowWithProps(GameComponent, {
         match: { ...ROUTER_MATCH, url: URLS.FOOSBALL },
-        isGameSelected: false,
-        gameNotFound: false,
+        selection: createEmptySelection(),
       })
     })
     it('renders header with no button and with message "Loading"', () => {
