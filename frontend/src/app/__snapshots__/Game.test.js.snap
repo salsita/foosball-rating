@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppComponent when game is not selected and not found renders with no button and message "Game 'foosball'" was not found 1`] = `
+exports[`GameComponent when game is not selected and not found renders with no button and message "Game 'foosball'" was not found 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
   <styled.div>
@@ -13,7 +13,7 @@ exports[`AppComponent when game is not selected and not found renders with no bu
 </Fragment>
 `;
 
-exports[`AppComponent when game is not selected but could be found renders header with no button and with message "Loading" 1`] = `
+exports[`GameComponent when game is not selected but could be found renders header with no button and with message "Loading" 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
   <styled.div>
@@ -26,7 +26,7 @@ exports[`AppComponent when game is not selected but could be found renders heade
 </Fragment>
 `;
 
-exports[`AppComponent when game is selected renders button Add Match in the header 1`] = `
+exports[`GameComponent when game is selected renders button Add Match in the header 1`] = `
 <Fragment>
   <Connect(HeaderComponent)>
     <styled.button

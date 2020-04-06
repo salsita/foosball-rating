@@ -16,7 +16,7 @@ import { Button, Subtitle } from '../styles/blocks'
 import { isGameSelected, selectionFailed } from './modules/games/games-selectors'
 import { connect } from 'react-redux'
 
-export class AppComponent extends Component {
+export class GameComponent extends Component {
   render() {
     const { match: { url, params: { gameName } }, isGameSelected, selectionFailed } = this.props
     const createMatch = () => {
@@ -60,4 +60,4 @@ const mapStateToProps = state => ({
   selectionFailed: selectionFailed(state),
 })
 
-export const App = connect(mapStateToProps)(AppComponent)
+export const Game = connect(mapStateToProps)(GameComponent)
