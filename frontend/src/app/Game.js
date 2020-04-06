@@ -15,14 +15,15 @@ import { MatchListPage } from './pages/MatchList'
 import { Button, Subtitle } from '../styles/blocks'
 import { isGameSelected, selectionFailed } from './modules/games/games-selectors'
 import { connect } from 'react-redux'
+import urljoin from 'url-join'
 
 export class GameComponent extends Component {
   render() {
     const { match: { url, params: { gameName } }, isGameSelected, selectionFailed } = this.props
+    const constructUrl = relativePath => urljoin(url, relativePath)
     const createMatch = () => {
-      this.props.history.push(`${url}${ROUTES.CREATE_MATCH}`)
+      this.props.history.push(constructUrl(ROUTES.CREATE_MATCH))
     }
-    const constructUrl = relativePath => `${url}${relativePath}`
     return (
       <>
         <Header>
