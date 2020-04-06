@@ -15,7 +15,7 @@ describe('GameComponent', () => {
       gameComponent = shallowWithProps(GameComponent, {
         match: { params: { gameName: FOOSBALL_GAME.name } },
         isGameSelected: false,
-        selectionFailed: true,
+        gameNotFound: true,
       })
     })
     it('renders with no button and message "Game \'foosball\'" was not found', () => {
@@ -49,7 +49,7 @@ describe('GameComponent', () => {
       gameComponent = shallowWithProps(GameComponent, {
         match: { ...ROUTER_MATCH, url: URLS.FOOSBALL },
         isGameSelected: false,
-        selectionFailed: false,
+        gameNotFound: false,
       })
     })
     it('renders header with no button and with message "Loading"', () => {

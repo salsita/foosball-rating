@@ -4,7 +4,7 @@ export const GamesActions = createActions({
   gamesLoaded: ['games'],
   selectGame: ['selectedGame'],
   selectGameByName: ['gameName'],
-  selectionFailed: [],
+  notFoundGame: ['gameName'],
   refreshGameById: ['gameId'],
   deselectGame: [],
 }, {
