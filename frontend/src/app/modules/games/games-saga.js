@@ -28,7 +28,7 @@ export function* selectGameByNameSaga({ gameName }) {
   if (game) {
     yield call(selectGame, game)
   } else {
-    yield put(GamesActions.Creators.notFoundGame(gameName))
+    yield put(GamesActions.Creators.selectionFailed())
   }
 }
 

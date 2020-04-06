@@ -13,12 +13,12 @@ import { Profile } from './pages/Profile'
 import { AddPlayerPage } from './pages/AddPlayer'
 import { MatchListPage } from './pages/MatchList'
 import { Button, Subtitle } from '../styles/blocks'
-import { isGameSelected } from './modules/games/games-selectors'
+import { isGameSelected, selectionFailed } from './modules/games/games-selectors'
 import { connect } from 'react-redux'
 
 export class AppComponent extends Component {
   render() {
-    const { match: { url, params: { gameName } }, isGameSelected, gameNotFound } = this.props
+    const { match: { url, params: { gameName } }, isGameSelected, selectionFailed } = this.props
     const createMatch = () => {
       this.props.history.push(`${url}${ROUTES.CREATE_MATCH}`)
     }
@@ -46,7 +46,7 @@ export class AppComponent extends Component {
                 <Dashboard constructUrl={constructUrl} />
               </Route>
             </Switch>
-            : <Subtitle>{ gameNotFound? `Game '${gameName}' was not found!` : 'Loading...' } </Subtitle>
+            : <Subtitle>{ selectionFailed? `Game '${gameName}' was not found!` : 'Loading...' } </Subtitle>
           }
         </Container>
         <Footer />
@@ -57,7 +57,7 @@ export class AppComponent extends Component {
 
 const mapStateToProps = state => ({
   isGameSelected: isGameSelected(state),
-  gameNotFound: state.gameNotFound,
+  selectionFailed: selectionFailed(state),
 })
 
 export const App = connect(mapStateToProps)(AppComponent)
