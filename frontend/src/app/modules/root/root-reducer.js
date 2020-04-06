@@ -49,11 +49,11 @@ const matchesLoaded = (state, { matches }) => ({
   matches,
 })
 
-const updateMatchesStatus = (state, { status }) => ({
+export const updateMatchesStatus = (state, { status }) => ({
   ...state,
   matchesStatus: status,
   activeAlert: createAlertForMatchesStatusUpdate(status) || state.activeAlert,
-  activeRedirect: createRedirectForMatchesStatusUpdate(status) != null || state.activeRedirect,
+  activeRedirect: createRedirectForMatchesStatusUpdate(state, status),
 })
 
 const gamesLoaded = (state, { games }) => ({
@@ -80,11 +80,11 @@ const selectionFailed = state => ({
   gameSelectionStatus: SelectionStatus.FAILED,
 })
 
-const createRedirectForMatchesStatusUpdate = status => {
+const createRedirectForMatchesStatusUpdate = (state, status) => {
   if (status.type === StatusType.SUCCESS) {
     return DASHBOARD
   }
-  return null
+  return state.activeRedirect
 }
 
 const createAlertForPlayerStatusUpdate = status => {
