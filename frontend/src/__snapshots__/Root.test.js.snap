@@ -13,19 +13,38 @@ exports[`matches snapshot 1`] = `
   }
 >
   <Connect(ThemeComponent)>
-    <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
       <Switch>
         <Route
           component={[Function]}
-          path="/foosball"
+          path="/:gameName"
         />
-        <Route>
-          <Redirect
-            to="/foosball"
-          />
-        </Route>
+        <Route
+          component={[Function]}
+        />
       </Switch>
-    </BrowserRouter>
+    </Router>
   </Connect(ThemeComponent)>
 </Provider>
 `;
