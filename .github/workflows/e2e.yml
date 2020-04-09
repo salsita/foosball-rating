@@ -1,0 +1,59 @@
+name: e2e tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    # cypress requires xvfb
+    container: thompsnm/nodejs-chrome-xvfb
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: XXXX
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v2
+    - name: setup BE
+      run: |
+        cd backend
+        npm install
+        npm run create-schema
+        npm run create-test-db
+      env:
+        DATABASE_URL: postgres://postgres:XXXX@postgres:5432/postgres
+    - name: setup FE
+      run: |
+        cd frontend
+        npm install
+        cp .env.local.example .env
+    - name: e2e
+      uses: cypress-io/github-action@v1
+      with:
+        browser: chrome
+        headless: true
+        start: npm run start:e2e
+        wait-on: 'http://localhost:3001'
+        wait-on-timeout: 120
+      env: 
+        DATABASE_URL: postgres://postgres:XXXX@postgres:5432/postgres
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+    # Test run video was always captured, so this action uses "always()" condition
+    - uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos

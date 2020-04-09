@@ -12,3 +12,5 @@ ADD --chown=foosball:foosball . /srv/
 
 RUN cp frontend/.env.docker.example frontend/.env
 RUN npm install
+RUN npm run install:children
+RUN cd frontend && npm run build && cd ..

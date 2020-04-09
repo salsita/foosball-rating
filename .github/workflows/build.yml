@@ -17,10 +17,12 @@ jobs:
     - name: FE unit tests
       run: |
         cd frontend
+        npm install
         npm test
     - name: BE unit tests
       run: |
         cd backend
+        npm install
         npm test 
     - name: lint
       run: npm run lint
