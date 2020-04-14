@@ -26,7 +26,7 @@ jobs:
     - name: setup BE
       run: |
         cd backend
-        npm install
+        npm ci
         npm run create-schema
         npm run create-test-db
       env:
@@ -34,7 +34,7 @@ jobs:
     - name: setup FE
       run: |
         cd frontend
-        npm install
+        npm ci
         cp .env.local.example .env
     - name: e2e
       uses: cypress-io/github-action@v1
