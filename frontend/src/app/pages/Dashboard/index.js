@@ -16,7 +16,7 @@ import { getTopPlayers } from '../../modules/players/players-selectors'
 import { withLinks } from '../../modules/players/players-utils'
 
 const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
-  <Box Margin="10px" Padding="10px">
+  <Box id="dashboard" Margin="10px" Padding="10px">
     <SnackbarAlert />
     <Subtitle textAlign="center">Last Battles</Subtitle>
     <BattleHistory lastMatches={lastMatches} maxItems={5} />

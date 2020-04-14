@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cd backend && npm run create-schema && cd .. && ./start.sh",
-    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd ..",
-    "lint": "eslint --max-warnings 0 './backend/**/*.ts' './frontend/src/**/*.js' --ignore-pattern '/backend/node_modules/*' --ignore-pattern '/frontend/node_modules/*'"
+    "lint": "eslint --max-warnings 0 './backend/**/*.ts' './frontend/src/**/*.js' --ignore-pattern '**/node_modules/*'",
+    "start:e2e": "concurrently \"cd backend && npm start\" \"wait-on http://localhost:3000/games && cd frontend && npm run start:e2e\"",
+    "install:children": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
+    "cypress": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -23,16 +25,22 @@
     "serve": "^10.1.2"
   },
   "devDependencies": {
+    "@cypress/browserify-preprocessor": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
+    "babel-eslint": "10.0.3",
+    "concurrently": "^5.1.0",
+    "cypress": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "babel-eslint": "10.0.3",
-    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-mocha": "^6.2.2",
-    "typescript": "^3.8.3"
+    "eslint-plugin-react": "^7.12.4",
+    "tsify": "^4.0.1",
+    "typescript": "^3.8.3",
+    "wait-on": "^4.0.1"
   }
 }
