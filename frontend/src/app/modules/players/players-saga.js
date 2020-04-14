@@ -14,7 +14,7 @@ export function* getPlayersSaga(action) {
   }
 }
 
-function* addPlayerSaga(action) {
+export function* addPlayerSaga(action) {
   try {
     const selectedGame = yield select(getSelectedGame)
     yield put(PlayersActions.Creators.updateStatus(inProgress))

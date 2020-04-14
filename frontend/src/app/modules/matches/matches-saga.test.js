@@ -6,17 +6,11 @@ import { inProgress, success, failure } from '../api/request-status'
 import { getPlayersSaga } from '../players/players-saga'
 import { getSelectedGame } from '../games/games-selectors'
 import { sagaTest } from '../../../tests/utils'
-
-const MATCH = {}
-const FOOSBALL = { name: 'foosball' }
-const ERROR = {
-  message: 'ERROR',
-}
+import { FOOSBALL_GAME, ERROR, MATCH } from '../../../tests/data'
 
 describe('matchesSaga', () => {
   describe('addMatchSaga', () => {
     let gen
-
     beforeEach(() => {
       gen = sagaTest(addMatchSaga({
         match: MATCH,
@@ -25,9 +19,9 @@ describe('matchesSaga', () => {
     describe('when addMatch is successful', () => {
       it('performs correctly the sequence', () => {
         gen.expectNextUndoneValue().toBe(select(getSelectedGame))
-        gen.expectNextUndoneValue(FOOSBALL)
+        gen.expectNextUndoneValue(FOOSBALL_GAME)
           .toBe(put(MatchesActions.Creators.updateStatus(inProgress)))
-        gen.expectNextUndoneValue().toBe(call(addMatch, FOOSBALL.name, MATCH))
+        gen.expectNextUndoneValue().toBe(call(addMatch, FOOSBALL_GAME.name, MATCH))
         gen.expectNextUndoneValue().toBe(put(MatchesActions.Creators.matchAdded(MATCH)))
         gen.expectNextUndoneValue().toBe(call(getPlayersSaga))
         gen.expectNextUndoneValue().toBe(put(MatchesActions.Creators.updateStatus(success)))
@@ -37,9 +31,9 @@ describe('matchesSaga', () => {
     describe('when addMatch fails', () => {
       it('performs correctly the sequence', () => {
         gen.expectNextUndoneValue().toBe(select(getSelectedGame))
-        gen.expectNextUndoneValue(FOOSBALL)
+        gen.expectNextUndoneValue(FOOSBALL_GAME)
           .toBe(put(MatchesActions.Creators.updateStatus(inProgress)))
-        gen.expectNextUndoneValue().toBe(call(addMatch, FOOSBALL.name, MATCH))
+        gen.expectNextUndoneValue().toBe(call(addMatch, FOOSBALL_GAME.name, MATCH))
         gen.expectThrowUndoneValue(ERROR)
           .toBe(put(MatchesActions.Creators.updateStatus(failure(ERROR.message))))
         gen.expectNextDone()
