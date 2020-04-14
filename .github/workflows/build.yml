@@ -13,16 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build
-      run: npm install
+      run: npm ci
     - name: FE unit tests
       run: |
         cd frontend
-        npm install
+        npm ci
         npm test
     - name: BE unit tests
       run: |
         cd backend
-        npm install
+        npm ci
         npm test 
     - name: lint
       run: npm run lint
