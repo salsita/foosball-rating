@@ -53,15 +53,15 @@ class AddPlayerComponent extends Component {
             <Label>
               Name:
             </Label>
-            <Input value={this.state.name} onChange={this.nameChanged} />
+            <Input id='player-name-input' value={this.state.name} onChange={this.nameChanged} />
           </GridContainer>
           <GridContainer Column='1fr 1fr' Padding='10px'>
             <Label>
               Initial Rating:
             </Label>
-            <Input type='number' value={this.state.initialRating} onChange={this.initialRatingChanged} />
+            <Input id='player-rating-input' type='number' value={this.state.initialRating} onChange={this.initialRatingChanged} />
           </GridContainer>
-          <Button onClick={this.submitForm} enabled={canSubmit}>Create</Button>
+          <Button id='add-player-button' onClick={this.submitForm} enabled={canSubmit}>Create</Button>
         </Box>
         <SnackbarAlert />
         <div>
