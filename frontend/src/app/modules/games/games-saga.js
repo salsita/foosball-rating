@@ -3,6 +3,7 @@ import { GamesActions } from './games-actions'
 import { getGames } from './games-effects'
 import { MatchesActions } from '../matches/matches-actions'
 import { getSelectedGame, selectGames } from './games-selectors'
+import { PlayersActions } from '../players/players-actions'
 
 export function* getGamesSaga() {
   try {
@@ -35,4 +36,5 @@ export function* selectGameByNameSaga({ gameName }) {
 export function* gamesSaga() {
   yield takeEvery(GamesActions.Types.SELECT_GAME_BY_NAME, selectGameByNameSaga)
   yield takeEvery(MatchesActions.Types.MATCH_ADDED, refreshSelectionSaga)
+  yield takeEvery(PlayersActions.Types.PLAYER_ADDED, refreshSelectionSaga)
 }

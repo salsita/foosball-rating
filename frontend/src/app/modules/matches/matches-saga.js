@@ -1,6 +1,5 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects'
 import { getMatchesByGameName, addMatch } from './matches-effects'
-import { getPlayersSaga } from '../players/players-saga'
 import { MatchesActions } from './matches-actions'
 import { inProgress, success, failure } from '../api/request-status'
 import { GamesActions } from '../games/games-actions'
@@ -26,8 +25,6 @@ export function* addMatchSaga(action) {
     yield put(MatchesActions.Creators.updateStatus(inProgress))
     yield call(addMatch, selectedGame.name, action.match)
     yield put(MatchesActions.Creators.matchAdded(action.match))
-    // Need to reload players because ratings have changed
-    yield call(getPlayersSaga)
     yield put(MatchesActions.Creators.updateStatus(success))
   } catch (error) {
     console.error(error)

@@ -1,4 +1,4 @@
-import { addPlayerSaga, getPlayersSaga } from './players-saga'
+import { addPlayerSaga } from './players-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { inProgress, success, failure } from '../api/request-status'
 import { getSelectedGame } from '../games/games-selectors'
@@ -21,7 +21,7 @@ describe('players saga', () => {
         gen.expectNextUndoneValue(FOOSBALL_GAME)
           .toBe(put(PlayersActions.Creators.updateStatus(inProgress)))
         gen.expectNextUndoneValue().toBe(call(addPlayer, FOOSBALL_GAME.name, RADEK))
-        gen.expectNextUndoneValue().toBe(call(getPlayersSaga))
+        gen.expectNextUndoneValue().toBe(put(PlayersActions.Creators.playerAdded()))
         gen.expectNextUndoneValue().toBe(put(PlayersActions.Creators.updateStatus(success)))
         gen.expectNextDone()
       })
