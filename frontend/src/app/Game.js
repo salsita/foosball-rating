@@ -15,6 +15,7 @@ import { SimpleButton, Subtitle, SimpleLink, Container } from '../styles/blocks'
 import { connect } from 'react-redux'
 import urljoin from 'url-join'
 import { SelectionStatus } from './const/games'
+import { capitalize } from './utils/string-utils'
 
 export class GameComponent extends Component {
   render() {
@@ -29,7 +30,7 @@ export class GameComponent extends Component {
           { selection.status === SelectionStatus.SELECTED
             ? <>
               <span id='title'>
-                <SimpleLink to={url}>{selection.value.name.toUpperCase()}</SimpleLink>
+                <SimpleLink to={url}>{capitalize(selection.value.name)}</SimpleLink>
               </span>
               <SimpleButton onClick={createMatch}>Add Match</SimpleButton>
             </>
