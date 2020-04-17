@@ -1,20 +1,21 @@
 import styled from 'styled-components'
 import { variables } from './../variables'
 
-export const Button = styled.button`
-  background: var(--cYellow);
+export const SimpleButton = styled.button`
   border: none;
-  padding: 15px 20px;
   border-radius: 8px;
-  width: 100%;
-  font-weight: 700;
   color: var(--cFont);
-
-  @media (min-width: ${variables.bpMedium}) {
-    width: 300px;
-  }
 
   &:hover {
     cursor: pointer;
+  }
+`
+
+export const Button = styled(SimpleButton)`
+  background: var(--cYellow);
+  padding: 15px 20px;
+  width: 100%;
+  @media (min-width: ${variables.bpMedium}) {
+    width: 300px;
   }
 `

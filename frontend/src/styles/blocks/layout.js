@@ -6,20 +6,38 @@ const Nav = styled.nav`
   width: 100%;
   height: 50px;
   background: var(--cYellow);
-  text-align: center;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
 
-  h1 {
-    margin-top: 10px;
-    background: var(--cYellow);
-    text-align: center;
+  font-size: 16px
+  #title {
+    display: flex;
+    flex: 1;
+    justify-content: start;
+    align-items: center;
+    font-size: 1.7em;
+    @media (max-width: ${variables.bpSmall}) {
+      font-size: 1.4em;
+    }
+    padding-bottom: 3px;
+  }
+  #theme {
+    padding: 8px;
+    display: flex;
+    width: auto;
+    svg {
+      height: 1.5em;
+      width: 1.5em;
+      font-size: inherit;
+    }
   }
   button {
-    float: right;
+    padding: 2px 10px 0px 10px;
     width: auto;
     background: var(--cTheme);
-    padding: 10px 15px;
-    color: var(--cFont);
-    margin: 7px;
+    margin: 5px;
+    font-size: inherit;
   }
 `
 

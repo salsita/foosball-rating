@@ -1,9 +1,10 @@
 import { Page } from './Page'
 import { SelectGamePage } from './SelectGamePage'
 import { Player } from '../types/Player'
+import { DashboardPage } from './DashboardPage'
 
 export class CreatePlayerPage extends Page {
-  constructor(gameName: string) {
+  constructor(private gameName: string) {
     super(`/${gameName}/add-player`)
   }
 
@@ -15,6 +16,11 @@ export class CreatePlayerPage extends Page {
   goToSelectGamePage(): SelectGamePage {
     this.getHeader().get('#logo').click()
     return new SelectGamePage()
+  }
+
+  goToDashboard(): DashboardPage {
+    this.getHeader().get('#title-link').click()
+    return new DashboardPage(this.gameName)
   }
 
   addPlayer(player: Player, score: number): CreatePlayerPage {

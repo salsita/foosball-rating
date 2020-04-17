@@ -20,8 +20,7 @@ describe('Create player page', () => {
     })
     it('is seen in the leaderboard without reload', () => {
       const leaderboard = addPlayerPage
-        .goToSelectGamePage()
-        .selectGame(FOOSBALL_GAME.name)
+        .goToDashboard()
         .goToLeaderboard()
       leaderboard.locatePlayerWithScore(player, score)
     })

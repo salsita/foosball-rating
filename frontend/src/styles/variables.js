@@ -4,6 +4,8 @@ export const variables = {
 
   bpMedium: '600px',
 
+  bpSmall: '420px',
+
   // Grid Layout vars
   GridGap: '1rem',
   DefaultGridTemplateColums: '1fr',
