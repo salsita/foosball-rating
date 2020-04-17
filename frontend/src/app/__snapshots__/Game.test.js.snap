@@ -35,6 +35,7 @@ exports[`GameComponent when foosball is selected renders button "Add Match" and 
       id="title"
     >
       <Styled(Link)
+        id="title-link"
         to="/foosball"
       >
         Foosball

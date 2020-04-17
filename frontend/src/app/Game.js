@@ -30,7 +30,7 @@ export class GameComponent extends Component {
           { selection.status === SelectionStatus.SELECTED
             ? <>
               <span id='title'>
-                <SimpleLink to={url}>{capitalize(selection.value.name)}</SimpleLink>
+                <SimpleLink id='title-link' to={url}>{capitalize(selection.value.name)}</SimpleLink>
               </span>
               <SimpleButton onClick={createMatch}>Add Match</SimpleButton>
             </>
