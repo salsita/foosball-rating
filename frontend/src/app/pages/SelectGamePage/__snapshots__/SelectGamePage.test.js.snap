@@ -3,11 +3,14 @@
 exports[`SelectGamePageComponent when there is a foosball game renders Header and select 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
-  <styled.div>
+  <styled.div
+    id="container"
+  >
     <styled.h2>
       Games
     </styled.h2>
     <SelectInput
+      id="select-game-input"
       items={
         Array [
           Object {

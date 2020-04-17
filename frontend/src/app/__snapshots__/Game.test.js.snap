@@ -3,7 +3,9 @@
 exports[`GameComponent when foosball selection fails renders with no button and message "Game 'foosball'" was not found 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
-  <styled.div>
+  <styled.div
+    id="container"
+  >
     <styled.h2>
       Game 'foosball' was not found!
     </styled.h2>
@@ -15,7 +17,9 @@ exports[`GameComponent when foosball selection fails renders with no button and 
 exports[`GameComponent when the selection is empty renders header with no button and with message "Loading" 1`] = `
 <Fragment>
   <Connect(HeaderComponent) />
-  <styled.div>
+  <styled.div
+    id="container"
+  >
     <styled.h2>
       Loading...
     </styled.h2>
@@ -33,7 +37,9 @@ exports[`GameComponent when foosball is selected renders button Add Match in the
       Add Match
     </styled.button>
   </Connect(HeaderComponent)>
-  <styled.div>
+  <styled.div
+    id="container"
+  >
     <Switch>
       <Route
         exact={true}
