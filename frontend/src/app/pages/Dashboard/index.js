@@ -23,7 +23,7 @@ const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
     <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
     <Subtitle textAlign="center">Top Rating</Subtitle>
     <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
-    <StyledLink to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
+    <StyledLink id="show-leaderboard" to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
   </Box>
 
 

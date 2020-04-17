@@ -12,3 +12,13 @@ export const URLS = {
   CREATE_FOOSBALL_MATCH: `/${FOOSBALL_GAME.name}/create-match`,
   SQUASH: `/${SQUASH_GAME.name}`,
 }
+
+export const RADEK = {
+  name: 'Radek',
+}
+
+export const ERROR = {
+  message: 'error',
+}
+
+export const MATCH = {}

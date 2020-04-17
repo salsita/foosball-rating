@@ -3,6 +3,7 @@ import { getPlayers, addPlayer } from './players-effects'
 import { PlayersActions } from './players-actions'
 import { inProgress, success, failure } from '../api/request-status'
 import { GamesActions } from '../games/games-actions'
+import { getSelectedGame } from '../games/games-selectors'
 
 export function* getPlayersSaga(action) {
   try {
@@ -13,12 +14,12 @@ export function* getPlayersSaga(action) {
   }
 }
 
-function* addPlayerSaga(action) {
+export function* addPlayerSaga(action) {
   try {
-    const state = yield select()
+    const selectedGame = yield select(getSelectedGame)
     yield put(PlayersActions.Creators.updateStatus(inProgress))
-    yield call(addPlayer, state.selectedGame.name, action.player)
-    yield call(getPlayersSaga)
+    yield call(addPlayer, selectedGame.name, action.player)
+    yield put(PlayersActions.Creators.playerAdded())
     yield put(PlayersActions.Creators.updateStatus(success))
   } catch (error) {
     console.error(error)

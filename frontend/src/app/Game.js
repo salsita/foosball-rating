@@ -31,7 +31,7 @@ export class GameComponent extends Component {
             ? <Button onClick={createMatch}>Add Match</Button>
             : null }
         </Header>
-        <Container>
+        <Container id="container">
           { selection.status === SelectionStatus.SELECTED
             ? <Switch>
               <Route exact path={constructUrl(ROUTES.LEADERBOARD)}>

@@ -12,8 +12,8 @@ import { ThemeActions } from '../modules/theme/theme-actions'
 const logo = require('./../../media/logo.png')
 
 const HeaderComponent = ({ theme, changeTheme, children }) => (
-  <Nav>
-    <Logo><StyledLink to={'/'}><img src={logo} alt="logo" /></StyledLink></Logo>
+  <Nav id="header">
+    <Logo id="logo"><StyledLink to={'/'}><img src={logo} alt="logo" /></StyledLink></Logo>
     <Button onClick={() => {changeTheme(theme)}}>Theme</Button>
     {children}
   </Nav>

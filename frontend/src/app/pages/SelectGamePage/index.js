@@ -17,9 +17,10 @@ export class SelectGamePageComponent extends React.Component {
     return (
       <>
         <Header/>
-        <Container>
+        <Container id="container">
           <Subtitle>Games</Subtitle>
           <SelectInput
+            id="select-game-input"
             items={gameItems}
             onChange={event => {
               const value = event.target.value
