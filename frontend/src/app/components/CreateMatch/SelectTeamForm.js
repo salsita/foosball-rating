@@ -42,7 +42,7 @@ export class SelectTeamForm extends Component {
   render = () => {
     const playerItems = this.createPlayerItemsWithNone()
     const selectInputs = this.state.selectedPlayerIds.map((playerId, index) => (
-      <SelectInput
+      <SelectInput id={`${this.props.id}-player-input-${index}`}
         key={index} selectedValue={playerId} items={playerItems}
         onChange={event => this.playerSelected(index, Number(event.target.value))} />
     ))
@@ -50,7 +50,8 @@ export class SelectTeamForm extends Component {
       <>
         <Subtitle>{this.props.teamName}</Subtitle>
         {selectInputs}
-        <Button disabled={!this.props.canSubmit} onClick={this.props.teamSubmitted}>
+        <Button id={`${this.props.id}-win-button`}
+          disabled={!this.props.canSubmit} onClick={this.props.teamSubmitted}>
           {this.props.teamName} Win
         </Button>
       </>

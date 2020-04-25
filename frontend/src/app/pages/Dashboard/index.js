@@ -20,7 +20,7 @@ const DashboardComponent = ({ lastMatches, topPlayers, constructUrl }) =>
     <SnackbarAlert />
     <Subtitle textAlign="center">Last Battles</Subtitle>
     <BattleHistory lastMatches={lastMatches} maxItems={5} />
-    <StyledLink to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
+    <StyledLink id="show-all-matches" to={constructUrl(MATCH_LIST)}>Show all...</StyledLink>
     <Subtitle textAlign="center">Top Rating</Subtitle>
     <Leaderboard topPlayers={topPlayers} maxItems={5} showFilters={false} />
     <StyledLink id="show-leaderboard" to={constructUrl(LEADERBOARD)}>Show more...</StyledLink>
