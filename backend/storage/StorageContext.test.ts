@@ -21,11 +21,11 @@ import { ConflictError } from '../errors/ConflictError'
 import { UNIQUE_VIOLATION_CODE } from './db/db-errors'
 import * as dbQueries from './db/db-queries'
 import { MatchWithId } from '../types/Match'
+import { Transaction } from './db/db-transactions'
+jest.mock('./db/db-transactions')
 
-const TRANSACTION_MOCK = {
-  executeSingleResultQuery: jest.fn(),
-  executeQuery: jest.fn(),
-}
+const MockedTransaction = Transaction as jest.Mock<Transaction>
+const TRANSACTION_MOCK = new MockedTransaction() as jest.Mocked<Transaction>
 
 describe('StorageContext', () => {
   let context: StorageContext
@@ -144,7 +144,7 @@ describe('StorageContext', () => {
     })
     describe('when Tonda plays foosball', () => {
       beforeEach(() => {
-        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_GAME)
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
         TRANSACTION_MOCK.executeQuery.mockResolvedValueOnce([TONDA_PLAYER_ROW])
       })
       it('resolves with Tonda', async () => {
