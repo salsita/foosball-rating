@@ -1,15 +1,15 @@
-/* eslint-disable */
 declare module 'slackbots' {
   interface Config {
-    token: string
+    token: string;
   }
   interface ApiConfig {
-    channel: string,
-    purpose: string
+    channel: string;
+    purpose: string;
   }
   interface PostConfig {
-    as_user: boolean
+    as_user: boolean;
   }
+  /* eslint-disable import/no-default-export*/
   export default class Slackbot {
     constructor(config: Config)
     on(eventName: string, cb: Function): void

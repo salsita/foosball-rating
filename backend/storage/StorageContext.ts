@@ -9,7 +9,6 @@ import { MatchWithId, Match } from '../types/Match'
 import { Game, GameData } from '../types/Game'
 import { Player, NULL_PLAYER, PlayerData } from '../types/Player'
 import { BadRequestError } from '../errors/BadRequestError'
-import { QueryResultRow } from 'pg'
 
 export class StorageContext {
   constructor(private transaction: Transaction) {}
@@ -81,7 +80,7 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async getUserByName(userName: string): Promise<User> {
+  async getUserByName(userName: string): Promise<User|null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.selectUserByName, [userName])
@@ -126,7 +125,7 @@ export class StorageContext {
   async addUserToGame(gameName: string, { name, initialRating }: UserData): Promise<void> {
     const game = await this.getGameByName(gameName)
     if (!game) {
-      throw new Error(`Unable to find game '${game.name}'`)
+      throw new Error(`Unable to find game '${gameName}'`)
     }
     let user = await this.getUserByName(name)
     if (!user) {
@@ -149,7 +148,9 @@ export class StorageContext {
       }
       throw new Error('Unable to add user')
     }
-
+    if (!row) {
+      throw new Error(`No user was added with name '${name}'`)
+    }
     return dbTransformations.createUserFromDbRow(row)
   }
 
@@ -194,7 +195,9 @@ export class StorageContext {
       }
       throw new Error('Unable to create match')
     }
-
+    if (!row) {
+      throw new Error('No match was created')
+    }
     return dbTransformations.createMatchFromDbRow(row)
   }
 
@@ -210,7 +213,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId> {
+  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId|null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(
@@ -233,7 +236,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createGameFromDbRow)
   }
 
-  async insertGame(game: GameData): Promise<Game> {
+  async insertGame(game: GameData): Promise<Game|null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.insertGame, [
@@ -263,7 +266,7 @@ export class StorageContext {
   }
 
   async getGameByName(name: string): Promise<Game> {
-    let row: QueryResultRow
+    let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.selectGameByName, [name])
     } catch (error) {

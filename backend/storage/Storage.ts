@@ -7,6 +7,9 @@ import { Player } from '../types/Player'
 
 export const makeStorageContext = async (): Promise<StorageContext> => {
   const transaction = await dbTransactions.beginTransaction()
+  if (!transaction) {
+    throw new Error('Failed to create transaction')
+  }
   return new StorageContext(transaction)
 }
 
@@ -49,7 +52,7 @@ export const getAllMatches = async (): Promise<Array<MatchWithId>> => {
   return executeAndCommit(context => context.getAllMatches())
 }
 
-export const getLatestMatchByGameId = async (gameId: number): Promise<MatchWithId> => {
+export const getLatestMatchByGameId = async (gameId: number): Promise<MatchWithId|null> => {
   return executeAndCommit(context => context.getLatestMatchByGameId(gameId))
 }
 
@@ -61,7 +64,7 @@ export const getGameByName = async (name: string): Promise<Game> => {
   return executeAndCommit(context => context.getGameByName(name))
 }
 
-export const insertGame = async (game: GameData): Promise<Game> => {
+export const insertGame = async (game: GameData): Promise<Game|null> => {
   return executeAndCommit(context => context.insertGame(game))
 }
 

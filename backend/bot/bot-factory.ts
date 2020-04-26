@@ -17,10 +17,12 @@ export class SingleChannelBot {
   }
 }
 
-export const makeBot = (botToken: string, channelName: string): Promise<SingleChannelBot> => {
+export const makeBot =
+(botToken: string|undefined, channelName: string|undefined): Promise<SingleChannelBot> => {
   return new Promise((resolve, reject): void => {
     if (!botToken || !channelName) {
       reject(Error('botToken or channelName missing'))
+      return
     }
 
     const slackbot = new SlackBot({

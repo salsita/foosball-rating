@@ -2,6 +2,7 @@ import { MatchWithId, Match } from '../types/Match'
 import { Player } from '../types/Player'
 import { MatchDescription } from '../types/MatchDescription'
 import * as moment from 'moment'
+import { UserRow } from '../types/Database'
 
 const NOW_MOMENT = moment('2020-03-25 10:00:00')
 export const NOW = NOW_MOMENT.toDate()
@@ -115,7 +116,7 @@ export const FOOSBALL_MATCH: Match = {
   gameId: 1,
 }
 
-export const TONDA_USER_ROW = {
+export const TONDA_USER_ROW: UserRow = {
   Id: '4',
   Name: 'Tonda',
   Active: 'true',

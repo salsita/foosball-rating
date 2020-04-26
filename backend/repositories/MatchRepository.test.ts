@@ -41,7 +41,7 @@ describe('MatchRepository', () => {
           .mockResolvedValueOnce(RADEK_PLAYER)
           .mockResolvedValueOnce(PETR_PLAYER)
         mockedGetLatestMatchByGameId.mockResolvedValueOnce(FOOSBALL_MATCH_WITH_ID)
-        mockedStoreMatch.mockResolvedValueOnce(undefined)
+        mockedStoreMatch.mockResolvedValueOnce(FOOSBALL_MATCH_WITH_ID)
       })
       describe('called one minute later', () => {
         lockDate(ONE_MINUTE_AFTER)

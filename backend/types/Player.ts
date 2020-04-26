@@ -20,4 +20,10 @@ export class Player extends User {
   }
 }
 
-export const NULL_PLAYER = new Player(null, null, null, null, null)
+export const NULL_PLAYER = {
+  id: null,
+  name: null,
+  rating: null,
+  active: null,
+  initialRating: null,
+}

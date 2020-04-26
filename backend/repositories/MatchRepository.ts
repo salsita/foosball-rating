@@ -49,7 +49,7 @@ Promise<Match> => {
   )
 }
 
-const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number> => {
+const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number|null> => {
   const latestMatch = await storage.getLatestMatchByGameId(gameId)
   if (latestMatch == null) {
     return null

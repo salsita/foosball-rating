@@ -22,7 +22,7 @@ export class Transaction {
   }
 
   async executeSingleResultQuery(query: string, values: QueryValues):
-  Promise<QueryResultRow> {
+  Promise<QueryResultRow|null> {
     const rows = await this.executeQuery(query, values)
     if (rows.length == 0) {
       return null
@@ -52,7 +52,7 @@ export class Transaction {
   }
 }
 
-export const beginTransaction = async (): Promise<Transaction> => {
+export const beginTransaction = async (): Promise<Transaction|null> => {
   const client = await pool.connect()
   try {
     await client.query('BEGIN')

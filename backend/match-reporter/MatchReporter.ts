@@ -5,7 +5,8 @@ import { Match } from '../types/Match'
 
 const DEFAULT_LEADERBOARD_SIZE = 5
 
-const parseMatchReportDecorations = (config: string): Array<MatchReportDecoration> => config
+const parseMatchReportDecorations =
+(config: string | undefined): Array<MatchReportDecoration> => config
   ? config.split(';').map(configPart => {
     const splitConfigPart = configPart.split(',')
     if (splitConfigPart.length !== 4) {
@@ -111,13 +112,14 @@ export class MatchReporter {
   readonly decorations: MatchReportDecoration[]
   constructor(
     readonly bot: SingleChannelBot,
-    matchReportPrefixSuffixConfig: string,
+    matchReportPrefixSuffixConfig: string | undefined,
     readonly leaderboardSize = DEFAULT_LEADERBOARD_SIZE
   ) {
     try {
       this.decorations = parseMatchReportDecorations(matchReportPrefixSuffixConfig)
     } catch (e) {
       console.warn(`Parsing matchReportPrefixSuffixConfig failed: ${e.message}`)
+      this.decorations = []
     }
   }
 
