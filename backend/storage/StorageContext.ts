@@ -80,7 +80,7 @@ export class StorageContext {
     return dbTransformations.createUserFromDbRow(row)
   }
 
-  async getUserByName(userName: string): Promise<User|null> {
+  async getUserByName(userName: string): Promise<User | null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.selectUserByName, [userName])
@@ -213,7 +213,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createMatchFromDbRow)
   }
 
-  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId|null> {
+  async getLatestMatchByGameId(gameId: number): Promise<MatchWithId | null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(
@@ -236,7 +236,7 @@ export class StorageContext {
     return rows.map(dbTransformations.createGameFromDbRow)
   }
 
-  async insertGame(game: GameData): Promise<Game|null> {
+  async insertGame(game: GameData): Promise<Game | null> {
     let row
     try {
       row = await this.transaction.executeSingleResultQuery(dbQueries.insertGame, [

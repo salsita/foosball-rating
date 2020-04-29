@@ -46,7 +46,7 @@ describe('StorageContext', () => {
       [ 'null', 'null', null, null ],
       [ 'foosball row', 'foosball game', FOOSBALL_ROW, FOOSBALL_GAME ],
     ])('when executeSingleResultQuery resolves with %s', (res1Desc, res2Desc, row, result) => {
-      let foosballGame: Game|null
+      let foosballGame: Game | null
       beforeEach(async () => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(row)
         foosballGame = await context.insertGame(FOOSBALL_DATA)
@@ -302,7 +302,7 @@ describe('StorageContext', () => {
   })
   describe('getLatestMatchByGameId', () => {
     describe('called with foosball id', () => {
-      let matchWithId: MatchWithId|null
+      let matchWithId: MatchWithId | null
       beforeEach(async () => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_MATCH_ROW)
         matchWithId = await context.getLatestMatchByGameId(FOOSBALL_GAME.id)

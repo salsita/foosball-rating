@@ -52,7 +52,7 @@ export const getAllMatches = async (): Promise<Array<MatchWithId>> => {
   return executeAndCommit(context => context.getAllMatches())
 }
 
-export const getLatestMatchByGameId = async (gameId: number): Promise<MatchWithId|null> => {
+export const getLatestMatchByGameId = async (gameId: number): Promise<MatchWithId | null> => {
   return executeAndCommit(context => context.getLatestMatchByGameId(gameId))
 }
 
@@ -64,7 +64,7 @@ export const getGameByName = async (name: string): Promise<Game> => {
   return executeAndCommit(context => context.getGameByName(name))
 }
 
-export const insertGame = async (game: GameData): Promise<Game|null> => {
+export const insertGame = async (game: GameData): Promise<Game | null> => {
   return executeAndCommit(context => context.insertGame(game))
 }
 
