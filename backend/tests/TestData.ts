@@ -117,9 +117,9 @@ export const FOOSBALL_MATCH: Match = {
 }
 
 export const TONDA_USER_ROW: UserRow = {
-  Id: '4',
+  Id: 4,
   Name: 'Tonda',
-  Active: 'true',
+  Active: true,
 }
 
 export const TONDA_USER = {
