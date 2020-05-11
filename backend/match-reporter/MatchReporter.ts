@@ -1,9 +1,12 @@
 import { SingleChannelBot } from '../bot/bot-factory'
 import { MatchReportDecoration, EMPTY_DECORATION } from '../types/MatchReportDecoration'
+import { Player } from '../types/Player'
+import { Match } from '../types/Match'
 
 const DEFAULT_LEADERBOARD_SIZE = 5
 
-const parseMatchReportDecorations = (config): Array<MatchReportDecoration> => config
+const parseMatchReportDecorations =
+(config: string | undefined): Array<MatchReportDecoration> => config
   ? config.split(';').map(configPart => {
     const splitConfigPart = configPart.split(',')
     if (splitConfigPart.length !== 4) {
@@ -18,7 +21,7 @@ const parseMatchReportDecorations = (config): Array<MatchReportDecoration> => co
   })
   : []
 
-const createRankingChangeMessage = (oldRankings, newRankings): string => {
+const createRankingChangeMessage = (oldRankings: Player[], newRankings: Player[]): string => {
   const rankingChanges = oldRankings
     .map((oldPlayer, index) => ({
       name: oldPlayer.name,
@@ -38,13 +41,14 @@ const createRankingChangeMessage = (oldRankings, newRankings): string => {
     .join('\n')
 }
 
-const hasLeaderboardChanged = (leaderboardSize, oldRankings, newRankings): boolean => {
+const hasLeaderboardChanged =
+(leaderboardSize: number, oldRankings: Player[], newRankings: Player[]): boolean => {
   return oldRankings.findIndex((oldPlayer, index) => {
     return oldPlayer.id !== newRankings[index].id
   }) < leaderboardSize
 }
 
-const getDecorationsForTeam = (team, decorations: Array<MatchReportDecoration>):
+const getDecorationsForTeam = (team: Player[], decorations: Array<MatchReportDecoration>):
 MatchReportDecoration => {
   for (const decoration of decorations) {
     if (team.every(player => player.name === decoration.player1 ||
@@ -55,7 +59,7 @@ MatchReportDecoration => {
   return EMPTY_DECORATION
 }
 
-const createMatchResultMessage = (match, decorations): string => {
+const createMatchResultMessage = (match: Match, decorations: MatchReportDecoration[]): string => {
   const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
   let winningTeam, losingTeam
   if (team1Won) {
@@ -94,9 +98,9 @@ const createMatchResultMessage = (match, decorations): string => {
   return messageParts.join(' ')
 }
 
-const ratingComparator = (a, b): number => b.rating - a.rating
+const ratingComparator = (a: Player, b: Player): number => b.rating - a.rating
 
-const createPurposeMessage = async (rankings): Promise<string> => {
+const createPurposeMessage = async (rankings: Player[]): Promise<string> => {
   const rankingsText = rankings
     .map((ranking, i) => `${i + 1}. ${ranking.name} (${ranking.rating})`)
     .join('\n')
@@ -108,21 +112,23 @@ export class MatchReporter {
   readonly decorations: MatchReportDecoration[]
   constructor(
     readonly bot: SingleChannelBot,
-    matchReportPrefixSuffixConfig,
+    matchReportPrefixSuffixConfig: string | undefined,
     readonly leaderboardSize = DEFAULT_LEADERBOARD_SIZE
   ) {
     try {
       this.decorations = parseMatchReportDecorations(matchReportPrefixSuffixConfig)
     } catch (e) {
       console.warn(`Parsing matchReportPrefixSuffixConfig failed: ${e.message}`)
+      this.decorations = []
     }
   }
 
-  async reportMatchOnSlack(match, oldUsers, newUsers): Promise<void> {
+  async reportMatchOnSlack(match: Match, oldPlayers: Player[], newPlayers: Player[]):
+  Promise<void> {
     const matchResultMessage = createMatchResultMessage(match, this.decorations)
 
-    const oldRankings = oldUsers.sort(ratingComparator)
-    const newRankings = newUsers.sort(ratingComparator)
+    const oldRankings = oldPlayers.sort(ratingComparator)
+    const newRankings = newPlayers.sort(ratingComparator)
 
     const rankingChangeMessage = createRankingChangeMessage(oldRankings, newRankings)
     await this.bot.postMessage(`${matchResultMessage}\n${rankingChangeMessage}`)

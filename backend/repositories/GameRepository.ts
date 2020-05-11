@@ -4,8 +4,8 @@ import * as storage from '../storage/Storage'
 
 const isValidGameData = (data: unknown): data is GameData => {
   const gameData = data as GameData
-  return gameData.name &&
-    gameData.description &&
+  return !!gameData.name &&
+    !!gameData.description &&
     gameData.name.trim() == gameData.name &&
     gameData.name.toLowerCase() == gameData.name &&
     !gameData.name.includes(' ') &&

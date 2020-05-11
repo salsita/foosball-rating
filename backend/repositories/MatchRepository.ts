@@ -22,7 +22,7 @@ const getFilledTeam = async (playedIds: Array<number>): Promise<Array<Player>> =
   }
 }
 
-const getRatingChanges = ({ team1, team2 }, team1Won): RatingChanges => {
+const getRatingChanges = (team1: Player[], team2: Player[], team1Won: boolean): RatingChanges => {
   const winningTeam = team1Won ? team1 : team2
   const losingTeam = team1Won ? team2 : team1
 
@@ -31,18 +31,16 @@ const getRatingChanges = ({ team1, team2 }, team1Won): RatingChanges => {
 
 const constructMatch = async (gameId: number, matchDescription: MatchDescription):
 Promise<Match> => {
-  const teams = {
-    team1: await getFilledTeam(matchDescription.team1),
-    team2: await getFilledTeam(matchDescription.team2),
-  }
+  const team1 = await getFilledTeam(matchDescription.team1)
+  const team2 = await getFilledTeam(matchDescription.team2)
   const {
     winningTeamRatingChange,
     losingTeamRatingChange,
-  } = getRatingChanges(teams, matchDescription.team1Won)
+  } = getRatingChanges(team1, team2, matchDescription.team1Won)
   const date = new Date()
   return new Match(
-    teams.team1,
-    teams.team2,
+    team1,
+    team2,
     matchDescription.team1Won,
     date,
     winningTeamRatingChange,
@@ -51,7 +49,7 @@ Promise<Match> => {
   )
 }
 
-const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number> => {
+const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number | null> => {
   const latestMatch = await storage.getLatestMatchByGameId(gameId)
   if (latestMatch == null) {
     return null

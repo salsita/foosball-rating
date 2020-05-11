@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils'
-import { FOOSBALL_DATA } from '../tests/TestData'
+import { FOOSBALL_DATA, FOOSBALL_GAME } from '../tests/TestData'
 
 import { insertGame } from '../storage/Storage'
 import { addGame } from './GameRepository'
@@ -30,7 +30,7 @@ describe('GameRepository', () => {
     })
     describe('when insertGame resolves', () => {
       beforeEach(() => {
-        mockedInsertGame.mockResolvedValue(undefined)
+        mockedInsertGame.mockResolvedValue(FOOSBALL_GAME)
       })
     })
     it('stores a valid foosball data via insertGame', async () => {

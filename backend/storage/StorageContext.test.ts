@@ -21,11 +21,11 @@ import { ConflictError } from '../errors/ConflictError'
 import { UNIQUE_VIOLATION_CODE } from './db/db-errors'
 import * as dbQueries from './db/db-queries'
 import { MatchWithId } from '../types/Match'
+import { Transaction } from './db/db-transactions'
+jest.mock('./db/db-transactions')
 
-const TRANSACTION_MOCK = {
-  executeSingleResultQuery: jest.fn(),
-  executeQuery: jest.fn(),
-}
+const MockedTransaction = Transaction as jest.Mock<Transaction>
+const TRANSACTION_MOCK = new MockedTransaction() as jest.Mocked<Transaction>
 
 describe('StorageContext', () => {
   let context: StorageContext
@@ -46,7 +46,7 @@ describe('StorageContext', () => {
       [ 'null', 'null', null, null ],
       [ 'foosball row', 'foosball game', FOOSBALL_ROW, FOOSBALL_GAME ],
     ])('when executeSingleResultQuery resolves with %s', (res1Desc, res2Desc, row, result) => {
-      let foosballGame: Game
+      let foosballGame: Game | null
       beforeEach(async () => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(row)
         foosballGame = await context.insertGame(FOOSBALL_DATA)
@@ -144,7 +144,7 @@ describe('StorageContext', () => {
     })
     describe('when Tonda plays foosball', () => {
       beforeEach(() => {
-        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_GAME)
+        TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_ROW)
         TRANSACTION_MOCK.executeQuery.mockResolvedValueOnce([TONDA_PLAYER_ROW])
       })
       it('resolves with Tonda', async () => {
@@ -181,9 +181,12 @@ describe('StorageContext', () => {
       })
       describe('when a new user Tonda is successfully added to foosball game', () => {
         beforeEach(async () => {
+          // select Tonda as a user
           TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
+          // insert Tonda as a user
           TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_USER_ROW)
-          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(undefined)
+          // insert Tonda as a player
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_PLAYER_ROW)
           await context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER)
         })
         it('searches game by name', () => {
@@ -215,7 +218,7 @@ describe('StorageContext', () => {
       describe('when an existing player Tonda is successfully added to foosball game', () => {
         beforeEach(async () => {
           TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(TONDA_USER_ROW)
-          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(undefined)
+          TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(null)
           await context.addUserToGame(FOOSBALL_GAME.name, TONDA_PLAYER)
         })
         it('does not insert Tonda as a user', () => {
@@ -299,7 +302,7 @@ describe('StorageContext', () => {
   })
   describe('getLatestMatchByGameId', () => {
     describe('called with foosball id', () => {
-      let matchWithId: MatchWithId
+      let matchWithId: MatchWithId | null
       beforeEach(async () => {
         TRANSACTION_MOCK.executeSingleResultQuery.mockResolvedValueOnce(FOOSBALL_MATCH_ROW)
         matchWithId = await context.getLatestMatchByGameId(FOOSBALL_GAME.id)

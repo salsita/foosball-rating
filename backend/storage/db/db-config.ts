@@ -1,3 +1,5 @@
+import { PoolConfig } from 'pg'
+
 export const testConfig = {
   user: 'postgres',
   host: 'localhost',
@@ -6,7 +8,7 @@ export const testConfig = {
   port: 5432,
 }
 
-export let productionConfig
+export let productionConfig: PoolConfig
 if (process.env.DATABASE_URL) {
   productionConfig = {
     connectionString: process.env.DATABASE_URL,
