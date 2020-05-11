@@ -3,71 +3,72 @@ import { QueryResultRow } from 'pg'
 export interface PlayerRow {
   Id: string;
   Name: string;
-  Rating: string;
-  Active: string;
-  InitialRating: string;
+  Rating: number;
+  Active: boolean;
+  InitialRating: number;
 }
 
 export const isValidPlayerRow = (queryRow: QueryResultRow): queryRow is PlayerRow => {
   return queryRow.Id &&
          queryRow.Name &&
-         queryRow.Rating &&
-         queryRow.Active &&
-         queryRow.InitialRating
+         queryRow.Rating !== undefined &&
+         queryRow.Active !== undefined &&
+         queryRow.InitialRating !== undefined
 }
 
 export interface UserRow {
-  Id: string;
+  Id: number;
   Name: string;
-  Active: string;
+  Active: boolean;
 }
 
 export const isValidUserRow = (queryRow: QueryResultRow): queryRow is UserRow => {
-  return queryRow.Id &&
+  return queryRow.Id !== undefined &&
          queryRow.Name &&
-         queryRow.Active
+         queryRow.Active !== undefined
 }
 
 export interface MatchRow {
   Id: string;
-  Team1Player1Id: string;
-  Team1Player1Rating: string;
-  Team1Player2Id: string;
-  Team1Player2Rating: string;
-  Team2Player1Id: string;
-  Team2Player1Rating: string;
-  Team2Player2Id: string;
-  Team2Player2Rating: string;
+  Team1Player1Id: number;
+  Team1Player1Rating: number;
+  Team1Player2Id: number | null;
+  Team1Player2Rating: number | null;
+  Team2Player1Id: number;
+  Team2Player1Rating: number;
+  Team2Player2Id: number | null;
+  Team2Player2Rating: number | null;
   Date: Date;
-  WinningTeamRatingChange: string;
-  LosingTeamRatingChange: string;
-  Team1Won: string;
+  WinningTeamRatingChange: number;
+  LosingTeamRatingChange: number;
+  Team1Won: boolean;
+  GameId: number;
 }
 
 export const isValidMatchRow = (queryRow: QueryResultRow): queryRow is MatchRow => {
   return queryRow.Id &&
-         queryRow.Team1Player1Id &&
-         queryRow.Team1Player1Rating &&
-         queryRow.Team1Player2Id &&
-         queryRow.Team1Player2Rating &&
-         queryRow.Team2Player1Id &&
-         queryRow.Team2Player1Rating &&
-         queryRow.Team2Player2Id &&
-         queryRow.Team2Player2Rating &&
+         queryRow.Team1Player1Id !== undefined &&
+         queryRow.Team1Player1Rating !== undefined &&
+         queryRow.Team1Player2Id !== undefined &&
+         queryRow.Team1Player2Rating !== undefined &&
+         queryRow.Team2Player1Id !== undefined &&
+         queryRow.Team2Player1Rating !== undefined &&
+         queryRow.Team2Player2Id !== undefined &&
+         queryRow.Team2Player2Rating !== undefined &&
          queryRow.Date &&
-         queryRow.WinningTeamRatingChange &&
-         queryRow.LosingTeamRatingChange &&
-         queryRow.Team1Won
+         queryRow.WinningTeamRatingChange !== undefined &&
+         queryRow.LosingTeamRatingChange !== undefined &&
+         queryRow.Team1Won !== undefined
 }
 
 export interface GameRow {
-  Id: string;
+  Id: number;
   Name: string;
   Description: string;
 }
 
 export const isValidGameRow = (queryRow: QueryResultRow): queryRow is GameRow => {
-  return queryRow.Id &&
+  return queryRow.Id !== undefined &&
          queryRow.Name &&
          queryRow.Description
 }
