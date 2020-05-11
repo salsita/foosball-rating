@@ -5,12 +5,9 @@ RUN apt-get install -qq -y curl xz-utils >/dev/null
 RUN curl -s http://node.salsita.co/ | bash
 RUN node_installer 10.15.3
 
-RUN rm -rf /srv && useradd -md /srv -s /bin/bash foosball
-USER foosball
+RUN rm -rf /srv
 WORKDIR /srv
-ADD --chown=foosball:foosball . /srv/
-
+COPY . /srv/
 RUN cp frontend/.env.docker.example frontend/.env
-RUN npm install
+RUN npm install --production
 RUN npm run install:children
-RUN cd frontend && npm run build && cd ..

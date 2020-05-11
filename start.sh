@@ -8,5 +8,11 @@ cd backend
 npm start &
 cd ..
 
+cd frontend
+echo "running 'npm start' on frontend"
+npm start &
+
+cd ..
+
 sed "s|%PORT%|$PROXY_PORT|g" nginx/nginx-heroku.conf > /etc/nginx/conf.d/default.conf
 nginx -g 'daemon off;'

@@ -1,0 +1,26 @@
+version: "3"
+services:
+  database:
+    image: postgres:9.6-alpine
+    container_name: foos-psql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+  nginx-gated-app:
+    build: .
+    depends_on:
+      - "database"
+    restart: always
+    command: >
+      bash -c "npm run start:populatedb"
+    volumes:
+      - "./frontend/src:/srv/frontend/src"
+    ports:
+      - "3000:80"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
+      PORT: 80
