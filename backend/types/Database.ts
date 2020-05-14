@@ -41,8 +41,9 @@ export interface MatchRow {
   Date: Date;
   WinningTeamRatingChange: number;
   LosingTeamRatingChange: number;
-  Team1Won: boolean;
   GameId: number;
+  Team1Score: number;
+  Team2Score: number;
 }
 
 export const isValidMatchRow = (queryRow: QueryResultRow): queryRow is MatchRow => {
@@ -58,7 +59,8 @@ export const isValidMatchRow = (queryRow: QueryResultRow): queryRow is MatchRow 
          queryRow.Date &&
          queryRow.WinningTeamRatingChange !== undefined &&
          queryRow.LosingTeamRatingChange !== undefined &&
-         queryRow.Team1Won !== undefined
+         queryRow.Team1Score !== undefined &&
+         queryRow.Team2Score !== undefined
 }
 
 export interface GameRow {

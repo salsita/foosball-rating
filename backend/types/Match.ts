@@ -2,11 +2,16 @@ import { UserInMatches } from './User'
 import { Player } from './Player'
 import { InputError } from '../errors/InputError'
 
+interface Score {
+  team1Score: number;
+  team2Score: number;
+}
+
 export class Match {
   constructor(
     readonly team1: Array<Player>,
     readonly team2: Array<Player>,
-    readonly team1Won: boolean,
+    readonly score: Score,
     readonly date: Date,
     readonly winningTeamRatingChange: number,
     readonly losingTeamRatingChange: number,
@@ -18,6 +23,10 @@ export class Match {
         team2.length > 2) {
       throw new InputError('Inserting teams with unsupported number of players')
     }
+  }
+
+  get team1Won(): boolean {
+    return this.score.team1Score > this.score.team2Score
   }
 }
 

@@ -48,27 +48,27 @@ export const createMatchFromDbRow = (matchRow: QueryResultRow): MatchWithId => {
     matchRating: Number(matchRow.Team2Player2Rating),
   }] : []
 
-  return {
-    id: Number(matchRow.Id),
-    team1: [
+  return new MatchWithId(
+    Number(matchRow.Id),
+    [
       {
         id: Number(matchRow.Team1Player1Id),
         matchRating: Number(matchRow.Team1Player1Rating),
       },
       ...team1Player2Array,
     ],
-    team2: [
+    [
       {
         id: Number(matchRow.Team2Player1Id),
         matchRating: Number(matchRow.Team2Player1Rating),
       },
       ...team2Player2Array,
     ],
-    date: matchRow.Date,
-    winningTeamRatingChange: Number(matchRow.WinningTeamRatingChange),
-    losingTeamRatingChange: Number(matchRow.LosingTeamRatingChange),
-    team1Won: Boolean(matchRow.Team1Won),
-  }
+    matchRow.Team1Score > matchRow.Team2Score,
+    matchRow.Date,
+    Number(matchRow.WinningTeamRatingChange),
+    Number(matchRow.LosingTeamRatingChange),
+  )
 }
 
 export const createGameFromDbRow = (gameRow: QueryResultRow): Game => {

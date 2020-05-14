@@ -16,7 +16,7 @@ describe('Match', () => {
     expect(() => new Match(
       data.team1,
       data.team2,
-      data.team1Won,
+      data.score,
       data.date,
       data.winningTeamRatingChange,
       data.losingTeamRatingChange,
@@ -27,7 +27,7 @@ describe('Match', () => {
     expect(new Match(
       FOOSBALL_MATCH.team1,
       FOOSBALL_MATCH.team2,
-      FOOSBALL_MATCH.team1Won,
+      FOOSBALL_MATCH.score,
       FOOSBALL_MATCH.date,
       FOOSBALL_MATCH.winningTeamRatingChange,
       FOOSBALL_MATCH.losingTeamRatingChange,

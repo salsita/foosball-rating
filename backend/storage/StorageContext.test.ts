@@ -272,8 +272,9 @@ describe('StorageContext', () => {
             FOOSBALL_MATCH.date,
             FOOSBALL_MATCH.winningTeamRatingChange,
             FOOSBALL_MATCH.losingTeamRatingChange,
-            FOOSBALL_MATCH.team1Won,
             FOOSBALL_MATCH.gameId,
+            FOOSBALL_MATCH.score.team1Score,
+            FOOSBALL_MATCH.score.team2Score,
           ])
       })
       it('returns match with id', () => {
