@@ -3,6 +3,7 @@ import { SelectGamePage } from './SelectGamePage'
 import { AddMatchPage } from './AddMatchPage'
 import { MatchListPage } from './MatchListPage'
 import { LeaderboardPage } from './LeaderboardPage'
+import { MatchRecord } from '../components/MatchRecord'
 
 export class DashboardPage extends Page {
   constructor(private gameName: string) {
@@ -21,6 +22,10 @@ export class DashboardPage extends Page {
       .should('contain.text', 'Top Rating')
     this.getHeader()
       .should('contain.text', 'Add Match')
+  }
+
+  getLastMatch(): MatchRecord {
+    return new MatchRecord(1)
   }
 
   goToAddMatch(): AddMatchPage {

@@ -2,7 +2,7 @@ import { AddMatchPage } from '../pages/AddMatchPage'
 import { FOOSBALL_GAME } from '../utils/data'
 import { AddPlayerPage } from '../pages/AddPlayerPage'
 import { generateRandomPlayer } from '../utils/gen'
-import { LeaderboardPage } from '../pages/LeaderboardPage'
+import { DashboardPage } from '../pages/DashboardPage'
 
 describe('Create match page', () => {
   const addMatchPage = new AddMatchPage(FOOSBALL_GAME.name)
@@ -14,7 +14,7 @@ describe('Create match page', () => {
   })
 })
 
-describe('Leaderboard', () => {
+describe('Foosball', () => {
   const player1 = generateRandomPlayer()
   const player1score = 1010
   const player1newscore= 1026
@@ -22,9 +22,12 @@ describe('Leaderboard', () => {
   const player2score = 1020
   const player2newscore= 1004
   describe('when player 1 and player 2 exist in foosball and first wins once over second', () => {
-    let leaderboard: LeaderboardPage
-    beforeEach(() => {
-      leaderboard = new AddPlayerPage(FOOSBALL_GAME.name)
+    let dashboard: DashboardPage
+    before(() => {
+      dashboard = new DashboardPage(FOOSBALL_GAME.name).visit()
+    })
+    before(() => {
+      dashboard = new AddPlayerPage(FOOSBALL_GAME.name)
         .visit()
         .addPlayer(player1, player1score)
         .addPlayer(player2, player2score)
@@ -34,11 +37,26 @@ describe('Leaderboard', () => {
         .selectTeam1Player1(player1)
         .selectTeam2Player1(player2)
         .team1Wins()
-        .goToLeaderboard()
     })
-    it('contains players with resulting scores', () => {
-      leaderboard.locatePlayerWithScore(player1, player1newscore)
-      leaderboard.locatePlayerWithScore(player2, player2newscore)
+    it('contains players with resulting scores in leaderboard', () => {
+      dashboard = dashboard.goToLeaderboard()
+        .locatePlayerWithScore(player1, player1newscore)
+        .locatePlayerWithScore(player2, player2newscore)
+        .goToDashboard()
+    })
+    it('contains a match record in dashboard', () => {
+      dashboard.getLastMatch()
+        .locateWonPlayer(player1)
+        .locateLostPlayer(player2)
+    })
+    it('contains a match record in the matches list', () => {
+      const matchesList = dashboard.goToMatchesList()
+      matchesList
+        .getLastMatch()
+        .locateWonPlayer(player1)
+        .locateLostPlayer(player2)
+      matchesList
+        .goToDashboard()
     })
   })
 })
