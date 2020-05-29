@@ -36,12 +36,12 @@ Promise<Match> => {
   const {
     winningTeamRatingChange,
     losingTeamRatingChange,
-  } = getRatingChanges(team1, team2, matchDescription.team1Won)
+  } = getRatingChanges(team1, team2, matchDescription.team1Score > matchDescription.team2Score)
   const date = new Date()
   return new Match(
     team1,
     team2,
-    matchDescription.team1Won? { team1Score: 1, team2Score: 0 } : { team1Score: 0, team2Score: 1 },
+    { team1Score: matchDescription.team1Score, team2Score: matchDescription.team2Score },
     date,
     winningTeamRatingChange,
     losingTeamRatingChange,
@@ -64,7 +64,8 @@ const getElapsedSecondsSinceLatestMatch = async (gameId: number): Promise<number
   * @param matchDescription Description of the match to record.
   * @param {Array<number>} matchDescription.team1 Array of 1 or 2 elements containing IDs of players from team1.
   * @param {Array<number>} matchDescription.team2 Array of 1 or 2 elements containing IDs of players from team2.
-  * @param {boolean} matchDescription.team1Won True if team1 won, false if team2 won.
+  * @param {number} matchDescription.team1Score non-negative integer
+  * @param {number} matchDescription.team2Score non-negative integer
   */
 export const recordMatch = async (gameName: string, matchDescription: unknown):
 Promise<Match> => {
