@@ -17,10 +17,10 @@ describe('Create match page', () => {
 describe('Leaderboard', () => {
   const player1 = generateRandomPlayer()
   const player1score = 1010
-  const player1newscore= 1026
+  const player1newscore = 1026
   const player2 = generateRandomPlayer()
   const player2score = 1020
-  const player2newscore= 1004
+  const player2newscore = 1004
   describe('when player 1 and player 2 exist in foosball and first wins once over second', () => {
     let leaderboard: LeaderboardPage
     beforeEach(() => {

@@ -16,7 +16,7 @@ const HeaderComponent = ({ theme, changeTheme, children }) => (
     <Logo id="logo"/>
     {children}
     <SimpleButton id="theme" onClick={() => {changeTheme(theme)}}>
-      { theme === ThemeTypes.Dark? <Brightness7Icon /> : <Brightness4Icon/> }
+      { theme === ThemeTypes.Dark ? <Brightness7Icon /> : <Brightness4Icon/> }
     </SimpleButton>
   </Nav>
 )

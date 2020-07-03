@@ -58,6 +58,9 @@
       "as-needed"
     ],
     "consistent-return": "error",
-    "import/no-default-export": "error"
+    "import/no-default-export": "error",
+    "space-infix-ops": [
+      "error"
+    ]
   }
 }
