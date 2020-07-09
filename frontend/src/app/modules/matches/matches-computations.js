@@ -1,3 +1,5 @@
+import { DEFAULT_DAYS_STATISTICS, DEFAULT_PLAYERS_STATISTICS } from '../../const/constants'
+
 const didPlayerWin = (playerId, match) => {
   const winningTeam = match.team1Won ? match.team1 : match.team2
   return Boolean(winningTeam.find(player => player.id === playerId))
@@ -81,57 +83,53 @@ export const computeWinRatio = (playerId, playerMatches) => {
 export const computeWins = (playerId, playerMatches) =>
   playerMatches.filter(match => didPlayerWin(playerId, match)).length
 
-const findWithComparator = (comparator, obj, field, baseScore) =>
-  Object.keys(obj).reduce((acc, key) =>
-    comparator(acc.score, obj[key][field])
+const findWithComparator = (comparator, arr, getField, baseScore) =>
+  arr.reduce((acc, node) =>
+    comparator(acc.score, getField(node))
       ? acc
-      : { value: obj[key].value, score: obj[key][field] }
+      : { value: node.value, score: getField(node) }
   , { score: baseScore })
 
-export const findMin = (obj, field = 'score') =>
-  findWithComparator((e1, e2) => e1 <= e2, obj, field, Infinity)
+export const findMin = (arr, getField = node => node.score) =>
+  findWithComparator((e1, e2) => e1 <= e2, arr, getField, Infinity)
 
-export const findMax = (obj, field = 'score') =>
-  findWithComparator((e1, e2) => e1 >= e2, obj, field, -Infinity)
+export const findMax = (arr, getField = node => node.score) =>
+  findWithComparator((e1, e2) => e1 >= e2, arr, getField, -Infinity)
 
 export const computeDays = matchChanges => {
-  const daysMap = {}
+  const daysMap = new Map()
 
   for (const match of matchChanges) {
     const day = match.date.toLocaleDateString()
     const score = Number(match.ratingChangeString)
-    if (!Object.hasOwnProperty.call(daysMap, day)) {
-      daysMap[day] = {
+    daysMap.set(day, !daysMap.has(day)
+      ? {
         value: day,
         score,
       }
-    } else {
-      daysMap[day].score += score
-    }
+      : {
+        ...daysMap.get(day),
+        score: daysMap.get(day).score + score,
+      })
   }
   return matchChanges.length
-    ? daysMap
-    : {
-      default: {
-        value: '',
-        score: 0,
-      },
-    }
+    ? Array.from(daysMap.values())
+    : DEFAULT_DAYS_STATISTICS
 }
 
-export const computeTeammates = (playerId, playerMatches) =>
-  computePlayers(playerId, playerMatches, getTeamMates) || {}
+export const computeTeammateStats = (playerId, playerMatches) =>
+  computePlayerStats(playerId, playerMatches, getTeamMates) || {}
 
-export const computeOpponents = (playerId, playerMatches) =>
-  computePlayers(playerId, playerMatches, getOpponents) || {}
+export const computeOpponentsStats = (playerId, playerMatches) =>
+  computePlayerStats(playerId, playerMatches, getOpponents) || {}
 
-const computePlayers = (playerId, playerMatches, playersProvider) => {
-  const playersMap = {}
+const computePlayerStats = (playerId, playerMatches, playersProvider) => {
+  const playersMap = new Map()
 
   for (const match of playerMatches) {
     const players = playersProvider(playerId, match)
-    players.map(player =>
-      playersMap[player.id] = (!playersMap[player.id]
+    players.forEach(player =>
+      playersMap.set(player.id, !playersMap.has(player.id)
         ? {
           value: player,
           matches: 1,
@@ -139,21 +137,13 @@ const computePlayers = (playerId, playerMatches, playersProvider) => {
           losses: Number(!didPlayerWin(playerId, match)),
         }
         : {
-          ...playersMap[player.id],
-          matches: playersMap[player.id]['matches'] + 1,
-          wins: playersMap[player.id]['wins'] += Number(didPlayerWin(playerId, match)),
-          losses: playersMap[player.id]['losses'] += Number(!didPlayerWin(playerId, match)),
-        }
-      ))
+          ...playersMap.get(player.id),
+          matches: playersMap.get(player.id)['matches'] + 1,
+          wins: playersMap.get(player.id)['wins'] += Number(didPlayerWin(playerId, match)),
+          losses: playersMap.get(player.id)['losses'] += Number(!didPlayerWin(playerId, match)),
+        }))
   }
   return playerMatches.length
-    ? playersMap
-    : {
-      default: {
-        value: '',
-        matches: 0,
-        wins: 0,
-        losses: 0,
-      },
-    }
+    ? Array.from(playersMap.values())
+    : DEFAULT_PLAYERS_STATISTICS
 }

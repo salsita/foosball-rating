@@ -63,17 +63,21 @@ const getPlayerCriteriaPoints = (player, matchesLast, criteria) => {
   }
 }
 
-export const getRankingsForPlayer = createSelector(
-  getTopRatedPlayers,
-  (state, playerId) => playerId,
-  (players, playerId) => getRatingStatisticsForPlayer(players, playerId),
-)
-
 const getRatingStatisticsForPlayer = (players, playerId) => {
   const index = players.findIndex(player => player.id === playerId)
   return {
     ranking: index + 1,
-    toNextRank: index > 0 ? players[index - 1].rating - players[index].rating : 0,
-    toPrevRank: index < players.length - 1 ? players[index].rating - players[index + 1].rating : 0,
+    scoreToNextRank: index > 0
+      ? 1 + (players[index - 1].rating - players[index].rating)
+      : 0,
+    scoreToPevRank: index < players.length - 1
+      ? 1 + (players[index].rating - players[index + 1].rating)
+      : 0,
   }
 }
+
+export const getRankingsForPlayer = createSelector(
+  state => getTopRatedPlayers(state),
+  (state, playerId) => playerId,
+  getRatingStatisticsForPlayer,
+)

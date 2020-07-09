@@ -8,8 +8,8 @@ import {
   findMax,
   findMin,
   computeDays,
-  computeTeammates,
-  computeOpponents,
+  computeTeammateStats,
+  computeOpponentsStats,
 } from './matches-computations'
 import { getPlayer } from '../players/players-selectors'
 
@@ -46,8 +46,8 @@ const getLastMatchesForPlayer = createSelector(
 const generateStatisticsForPlayer = (playerId, playerMatches) => {
   const matchChanges = generateMatchRatingChanges(playerId, playerMatches)
   const days = computeDays(matchChanges)
-  const teammates = computeTeammates(playerId, playerMatches)
-  const opponents = computeOpponents(playerId, playerMatches)
+  const teammateStats = computeTeammateStats(playerId, playerMatches)
+  const opponentStats = computeOpponentsStats(playerId, playerMatches)
 
   return {
     matchChanges,
@@ -58,15 +58,15 @@ const generateStatisticsForPlayer = (playerId, playerMatches) => {
     bestDay: findMax(days),
     worstDay: findMin(days),
 
-    mostFrequentTeammate: findMax(teammates, 'matches'),
-    leastFrequentTeammate: findMin(teammates, 'matches'),
-    mostSuccessTeammate: findMax(teammates, 'wins'),
-    leastSuccessTeammate: findMax(teammates, 'losses'),
+    mostFrequentTeammate: findMax(teammateStats, teammate => teammate.matches),
+    leastFrequentTeammate: findMin(teammateStats, teammate => teammate.matches),
+    mostSuccessTeammate: findMax(teammateStats, teammate => teammate.wins),
+    leastSuccessTeammate: findMax(teammateStats, teammate => teammate.losses),
 
-    mostFrequentOpponent: findMax(opponents, 'matches'),
-    leastFrequentOpponent: findMin(opponents, 'matches'),
-    mostSuccessOpponent: findMax(opponents, 'wins'),
-    leastSuccessOpponent: findMax(opponents, 'losses'),
+    mostFrequentOpponent: findMax(opponentStats, opponent => opponent.matches),
+    leastFrequentOpponent: findMin(opponentStats, opponent => opponent.matches),
+    mostSuccessOpponent: findMax(opponentStats, opponent => opponent.wins),
+    leastSuccessOpponent: findMax(opponentStats, opponent => opponent.losses),
   }
 }
 

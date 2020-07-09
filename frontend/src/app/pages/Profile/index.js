@@ -16,7 +16,9 @@ class ProfileComponent extends Component {
     if (!this.props.player) {
       return <div />
     }
+
     const {
+      constructUrl,
       player: { name, rating, id },
       rankings,
       statistics,
@@ -33,7 +35,7 @@ class ProfileComponent extends Component {
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
-        <ProfileStatistics statistics={statistics} rankings={rankings} />
+        <ProfileStatistics statistics={statistics} rankings={rankings} constructUrl={constructUrl} />
         <ProfileRatingGraph playerId={id} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>
@@ -42,10 +44,10 @@ class ProfileComponent extends Component {
 }
 
 
-const mapStateToProps = (state, props) => ({
-  player: getPlayer(state, Number(props.match.params.playerId)),
-  rankings: getRankingsForPlayer(state, Number(props.match.params.playerId)),
-  statistics: getStatisticsForPlayer(state, Number(props.match.params.playerId)),
+const mapStateToProps = (state, { match: { params: { playerId } } }) => ({
+  player: getPlayer(state, Number(playerId)),
+  rankings: getRankingsForPlayer(state, Number(playerId)),
+  statistics: getStatisticsForPlayer(state, Number(playerId)),
 })
 
 export const Profile = connect(mapStateToProps)(ProfileComponent)

@@ -1,11 +1,14 @@
 import React from 'react'
 
 import { TextSpan, StatisticsTable } from '../../../styles/blocks'
-import { StatsRow } from './StatsRow'
+import { RankRow } from './RankRow'
+import { DateRow } from './DateRow'
+import { PlayerRow } from './PlayerRow'
 
 export const ProfileStatistics = props => {
   const {
-    rankings: { ranking, toNextRank, toPrevRank },
+    constructUrl,
+    rankings: { ranking, scoreToNextRank, scoreToPevRank },
     statistics: {
       bestDay, worstDay,
       mostFrequentTeammate, leastFrequentTeammate, mostFrequentOpponent, leastFrequentOpponent,
@@ -13,25 +16,33 @@ export const ProfileStatistics = props => {
     },
   } = props
 
-  const rows = [
+  const rankRows = [
     [
-      createRankRowObject('To Next Rank', toNextRank, '+', toNextRank <= 20),
-      createRankRowObject('To Prev Rank', toPrevRank, '-', toPrevRank > 20),
+      { label: 'To Next Rank', score: scoreToNextRank, sign: '+', positive: scoreToNextRank <= 20 },
+      { label: 'To Prev Rank', score: scoreToPevRank, sign: '-', positive: scoreToPevRank > 20 },
+    ],
+  ]
+
+  const dateRows = [
+    [
+      { label: 'Best Day', day: bestDay || {} },
+      { label: 'Worst Day', day: worstDay || {} },
+    ],
+  ]
+
+  const playerRows = [
+    [
+      { label: 'Most Played With', player: mostFrequentTeammate, positive: true },
+      { label: 'Least Played With', player: leastFrequentTeammate, positive: false },
     ], [
-      createDateRowObject('Best Day', bestDay || {}),
-      createDateRowObject('Worst Day', worstDay || {}),
+      { label: 'Most Played Against', player: mostFrequentOpponent, positive: true },
+      { label: 'Least Played Against', player: leastFrequentOpponent, positive: false },
     ], [
-      createRowObject('Most Played With', mostFrequentTeammate, 'x', true),
-      createRowObject('Least Played With', leastFrequentTeammate, 'x', false),
+      { label: 'Most Won With', player: mostSuccessTeammate, positive: true },
+      { label: 'Most Lost With', player: leastSuccessTeammate, positive: false },
     ], [
-      createRowObject('Most Played Against', mostFrequentOpponent, 'x', true),
-      createRowObject('Least Played Against', leastFrequentOpponent, 'x', false),
-    ], [
-      createRowObject('Most Won With', mostSuccessTeammate, 'x', true),
-      createRowObject('Most Lost With', leastSuccessTeammate, 'x', false),
-    ], [
-      createRowObject('Most Won Over', mostSuccessOpponent, 'x', true),
-      createRowObject('Most Lost To', leastSuccessOpponent, 'x', false),
+      { label: 'Most Won Over', player: mostSuccessOpponent, positive: true },
+      { label: 'Most Lost To', player: leastSuccessOpponent, positive: false },
     ],
   ]
 
@@ -40,40 +51,17 @@ export const ProfileStatistics = props => {
       <TextSpan>Ranking: {ranking}</TextSpan>
       <StatisticsTable>
         <tbody>
-          {rows.map((row, index) => (
-            <tr key={index}>
-              {row.map((node, key) => (
-                <StatsRow key={[index, key].join('_')}
-                  text={node.text}
-                  player={node.player}
-                  score={node.score}
-                  positive={node.positive}
-                  altText={node.altText} />
-              ))}
-            </tr>
+          {rankRows.map((row, index) => (
+            <RankRow key={`rank_${index}`} row={row} index={index} />
+          ))}
+          {dateRows.map((row, index) => (
+            <DateRow key={`date_${index}`} row={row} index={index} />
+          ))}
+          {playerRows.map((row, index) => (
+            <PlayerRow key={`player_${index}`} row={row} constructUrl={constructUrl} index={index} />
           ))}
         </tbody>
       </StatisticsTable>
     </>
   )
 }
-
-const createRowObject = (text, obj, sign, positive) => ({
-  text,
-  player: obj.value,
-  score: `${obj.score}${sign}`,
-  positive: positive,
-})
-
-const createDateRowObject = (text, obj) => ({
-  text,
-  altText: obj.value,
-  score: `${obj.score > 0 ? '+' : ''}${obj.score}`,
-  positive: obj.score > 0,
-})
-
-const createRankRowObject = (text, score, sign, positive) => ({
-  text,
-  score: `${sign}${score}`,
-  positive: positive,
-})
