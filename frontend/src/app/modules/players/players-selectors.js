@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect'
 
 import * as Filters from '../../const/leaderboard-filters'
-import { didPlayerPlayMatch } from '../matches/matches-selectors'
+import { didPlayerPlayMatch, getLastMatches } from '../matches/matches-selectors'
 import {
   computeLongestWinStreak,
   computeWinRatio,
+  computeKingStreakDuration,
 } from '../matches/matches-computations'
 
 export const getPlayers = state => state.players
@@ -20,6 +21,12 @@ export const getPlayer = createSelector(
 export const getTopRatedPlayers = createSelector(
   getPlayers,
   players => players.sort((player1, player2) => player2.rating - player1.rating),
+)
+
+export const getKing = createSelector(
+  getLastMatches,
+  getTopRatedPlayers,
+  (playerMatches, players) => computeKingStreakDuration(playerMatches, players),
 )
 
 export const getTopPlayers = createSelector(

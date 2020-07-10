@@ -48,8 +48,8 @@ const ListCon = styled.ul`
 
 const ListItem = styled.li`
   padding: ${variables.baseSpacing};
-  display: ${props => props.Display};
-  grid-template-columns: ${props => props.Column};
+  display: ${props => props.display};
+  grid-template-columns: ${props => props.column};
   color: var(--cFont);
   list-style: none;
   border: 1px solid var(--cBorder);

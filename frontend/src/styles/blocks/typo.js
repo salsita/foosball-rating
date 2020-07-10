@@ -24,6 +24,7 @@ const TextSpan = styled.span`
 const PositionDiv = styled.div`
   font-weight: 400;
   padding: 0 5px;
+  width: calc(100% - 41px);
   z-index: 1;
   position: absolute;
   left: 15px;
