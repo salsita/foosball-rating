@@ -2,8 +2,14 @@ import { createSelector } from 'reselect'
 import {
   computeLongestWinStreak,
   computeWinRatio,
+  computeWins,
   generateMatchRatingChanges,
   plotRatingHistory,
+  findMax,
+  findMin,
+  computeDays,
+  computeTeammateStats,
+  computeOpponentsStats,
 } from './matches-computations'
 import { getPlayer } from '../players/players-selectors'
 
@@ -37,12 +43,32 @@ const getLastMatchesForPlayer = createSelector(
   (matches, playerId) => matches.filter(match => didPlayerPlayMatch(playerId, match)),
 )
 
-const generateStatisticsForPlayer = (playerId, playerMatches) => ({
-  matchChanges: generateMatchRatingChanges(playerId, playerMatches),
-  longestStreak: computeLongestWinStreak(playerId, playerMatches),
-  winRatio: computeWinRatio(playerId, playerMatches),
-  totalMatches: playerMatches.length,
-})
+const generateStatisticsForPlayer = (playerId, playerMatches) => {
+  const matchChanges = generateMatchRatingChanges(playerId, playerMatches)
+  const days = computeDays(matchChanges)
+  const teammateStats = computeTeammateStats(playerId, playerMatches)
+  const opponentStats = computeOpponentsStats(playerId, playerMatches)
+
+  return {
+    matchChanges,
+    longestStreak: computeLongestWinStreak(playerId, playerMatches),
+    winRatio: computeWinRatio(playerId, playerMatches),
+    totalMatches: playerMatches.length,
+    wins: computeWins(playerId, playerMatches),
+    bestDay: findMax(days),
+    worstDay: findMin(days),
+
+    mostFrequentTeammate: findMax(teammateStats, teammate => teammate.matches),
+    leastFrequentTeammate: findMin(teammateStats, teammate => teammate.matches),
+    mostSuccessTeammate: findMax(teammateStats, teammate => teammate.wins),
+    leastSuccessTeammate: findMax(teammateStats, teammate => teammate.losses),
+
+    mostFrequentOpponent: findMax(opponentStats, opponent => opponent.matches),
+    leastFrequentOpponent: findMin(opponentStats, opponent => opponent.matches),
+    mostSuccessOpponent: findMax(opponentStats, opponent => opponent.wins),
+    leastSuccessOpponent: findMax(opponentStats, opponent => opponent.losses),
+  }
+}
 
 export const getStatisticsForPlayer = createSelector(
   getLastMatchesForPlayer,

@@ -50,6 +50,11 @@ const WinnerSpan = styled.span`
   order: ${({ winner }) => winner ? '1' : '3'};
 `
 
+const StatsSpan = styled.span`
+  color: ${({ positive }) => positive ? 'var(--TeamsColorWin)' : 'var(--TeamColorLoss)'};
+  font-weight: 400;
+`
+
 const BattleLabel = styled.span`
   order: 2;
 `
@@ -72,5 +77,5 @@ const StyledHyperLink = styled.a`
 
 export {
   Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
-  FiltersBlock, FiltersSpan, StyledHyperLink,
+  FiltersBlock, FiltersSpan, StyledHyperLink, StatsSpan,
 }

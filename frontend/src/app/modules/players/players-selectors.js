@@ -37,7 +37,7 @@ const sortTopPlayers = (players, matches, filters) => {
     .filter(match => filters.timespan === Filters.timespanTypes.AllTime || match.date > minDate)
     .sort((match1, match2) => match2.date - match1.date)
 
-  const playersWithStatistics  = players.map(player => ({
+  const playersWithStatistics = players.map(player => ({
     ...player,
     criteriaPoints: getPlayerCriteriaPoints(player, matchesLast, filters.criteria),
   }))
@@ -62,3 +62,22 @@ const getPlayerCriteriaPoints = (player, matchesLast, criteria) => {
       return player.rating
   }
 }
+
+const getRatingStatisticsForPlayer = (players, playerId) => {
+  const index = players.findIndex(player => player.id === playerId)
+  return {
+    ranking: index + 1,
+    scoreToNextRank: index > 0
+      ? 1 + (players[index - 1].rating - players[index].rating)
+      : 0,
+    scoreToPrevRank: index < players.length - 1
+      ? 1 + (players[index].rating - players[index + 1].rating)
+      : 0,
+  }
+}
+
+export const getRankingsForPlayer = createSelector(
+  state => getTopRatedPlayers(state),
+  (state, playerId) => playerId,
+  getRatingStatisticsForPlayer,
+)
