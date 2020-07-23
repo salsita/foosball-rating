@@ -81,9 +81,9 @@ exports[`GameComponent when foosball is selected renders button "Add Match" and 
         />
       </Route>
       <Route
-        component={[Function]}
         exact={true}
         path="/foosball/profile/:playerId"
+        render={[Function]}
       />
       <Route>
         <Connect(withRouter(DashboardComponent))

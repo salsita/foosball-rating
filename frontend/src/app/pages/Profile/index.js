@@ -35,7 +35,10 @@ class ProfileComponent extends Component {
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
-        <ProfileStatistics statistics={statistics} rankings={rankings} constructUrl={constructUrl} />
+        <ProfileStatistics
+          statistics={statistics}
+          rankings={rankings}
+          constructUrl={constructUrl} />
         <ProfileRatingGraph playerId={id} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>

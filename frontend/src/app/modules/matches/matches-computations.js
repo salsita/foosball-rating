@@ -102,14 +102,14 @@ export const computeDays = matchChanges => {
   for (const match of matchChanges) {
     const day = match.date.toLocaleDateString()
     const score = Number(match.ratingChangeString)
-    daysMap.set(day, !daysMap.has(day)
+    daysMap.set(day, daysMap.has(day)
       ? {
-        value: day,
-        score,
-      }
-      : {
         ...daysMap.get(day),
         score: daysMap.get(day).score + score,
+      }
+      : {
+        value: day,
+        score,
       })
   }
   return matchChanges.length
@@ -129,18 +129,18 @@ const computePlayerStats = (playerId, playerMatches, playersProvider) => {
   for (const match of playerMatches) {
     const players = playersProvider(playerId, match)
     players.forEach(player =>
-      playersMap.set(player.id, !playersMap.has(player.id)
+      playersMap.set(player.id, playersMap.has(player.id)
         ? {
-          value: player,
-          matches: 1,
-          wins: Number(didPlayerWin(playerId, match)),
-          losses: Number(!didPlayerWin(playerId, match)),
-        }
-        : {
           ...playersMap.get(player.id),
           matches: playersMap.get(player.id)['matches'] + 1,
           wins: playersMap.get(player.id)['wins'] += Number(didPlayerWin(playerId, match)),
           losses: playersMap.get(player.id)['losses'] += Number(!didPlayerWin(playerId, match)),
+        }
+        : {
+          value: player,
+          matches: 1,
+          wins: Number(didPlayerWin(playerId, match)),
+          losses: Number(!didPlayerWin(playerId, match)),
         }))
   }
   return playerMatches.length

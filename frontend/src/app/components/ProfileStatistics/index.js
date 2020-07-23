@@ -8,7 +8,7 @@ import { PlayerRow } from './PlayerRow'
 export const ProfileStatistics = props => {
   const {
     constructUrl,
-    rankings: { ranking, scoreToNextRank, scoreToPevRank },
+    rankings: { ranking, scoreToNextRank, scoreToPrevRank },
     statistics: {
       bestDay, worstDay,
       mostFrequentTeammate, leastFrequentTeammate, mostFrequentOpponent, leastFrequentOpponent,
@@ -19,7 +19,7 @@ export const ProfileStatistics = props => {
   const rankRows = [
     [
       { label: 'To Next Rank', score: scoreToNextRank, sign: '+', positive: scoreToNextRank <= 20 },
-      { label: 'To Prev Rank', score: scoreToPevRank, sign: '-', positive: scoreToPevRank > 20 },
+      { label: 'To Prev Rank', score: scoreToPrevRank, sign: '-', positive: scoreToPrevRank > 20 },
     ],
   ]
 

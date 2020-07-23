@@ -70,7 +70,7 @@ const getRatingStatisticsForPlayer = (players, playerId) => {
     scoreToNextRank: index > 0
       ? 1 + (players[index - 1].rating - players[index].rating)
       : 0,
-    scoreToPevRank: index < players.length - 1
+    scoreToPrevRank: index < players.length - 1
       ? 1 + (players[index].rating - players[index + 1].rating)
       : 0,
   }
