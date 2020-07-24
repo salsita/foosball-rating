@@ -9,7 +9,7 @@ import {
   LineSeries,
 } from 'react-vis'
 
-import { getRatingHistoryGraphForPlayer } from '../../modules/matches/matches-selectors'
+import { getRatingHistoryGraphForPlayer } from '../../modules/players/players-selectors'
 import { Box, TextSpan } from '../../../styles/blocks'
 import { plotAxisStyle, plotGridStyle, plotLineStyle, plotMainGridStyle } from '../../../styles/svg'
 
