@@ -9,6 +9,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: stretch;
   justify-content: space-between;
+  z-index: 100;
 
   font-size: 16px
   #title {
