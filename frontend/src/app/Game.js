@@ -32,7 +32,7 @@ export class GameComponent extends Component {
               <span id='title'>
                 <SimpleLink id='title-link' to={url}>{capitalize(selection.value.name)}</SimpleLink>
               </span>
-              <SimpleButton onClick={createMatch}>Add Match</SimpleButton>
+              <SimpleButton id="add-match-button" onClick={createMatch}>Add Match</SimpleButton>
             </>
             : null }
         </Header>

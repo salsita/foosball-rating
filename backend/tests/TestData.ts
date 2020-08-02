@@ -2,7 +2,7 @@ import { MatchWithId, Match } from '../types/Match'
 import { Player } from '../types/Player'
 import { MatchDescription } from '../types/MatchDescription'
 import * as moment from 'moment'
-import { UserRow } from '../types/Database'
+import { UserRow, MatchRow } from '../types/Database'
 
 const NOW_MOMENT = moment('2020-03-25 10:00:00')
 export const NOW = NOW_MOMENT.toDate()
@@ -25,21 +25,22 @@ export const FOOSBALL_GAME = {
   ...FOOSBALL_DATA,
 }
 
-export const FOOSBALL_MATCH_ROW = {
+export const FOOSBALL_MATCH_ROW: MatchRow = {
   Id: '2',
-  Team1Player1Id: '1',
-  Team1Player1Rating: '1001',
-  Team1Player2Id: '2',
-  Team1Player2Rating: '1002',
-  Team2Player1Id: '3',
-  Team2Player1Rating: '1003',
-  Team2Player2Id: '4',
-  Team2Player2Rating: '1004',
+  Team1Player1Id: 1,
+  Team1Player1Rating: 1001,
+  Team1Player2Id: 2,
+  Team1Player2Rating: 1002,
+  Team2Player1Id: 3,
+  Team2Player1Rating: 1003,
+  Team2Player2Id: 4,
+  Team2Player2Rating: 1004,
   Date: NOW,
-  WinningTeamRatingChange: '16',
-  LosingTeamRatingChange: '-16',
-  Team1Won: 'true',
-  GameId: '1',
+  WinningTeamRatingChange: 16,
+  LosingTeamRatingChange: -16,
+  Team1Score: 1,
+  Team2Score: 0,
+  GameId: 1,
 }
 
 export const FOOSBALL_MATCH_DESCRIPTION: MatchDescription = {
@@ -48,15 +49,15 @@ export const FOOSBALL_MATCH_DESCRIPTION: MatchDescription = {
   team1Won: true,
 }
 
-export const FOOSBALL_MATCH_WITH_ID: MatchWithId = {
-  id: 2,
-  team1:[ { id: 1, matchRating: 1001 }, { id: 2, matchRating: 1002 }],
-  team2:[ { id: 3, matchRating: 1003 }, { id: 4, matchRating: 1004 }],
-  team1Won: true,
-  date: NOW,
-  winningTeamRatingChange: 16,
-  losingTeamRatingChange: -16,
-}
+export const FOOSBALL_MATCH_WITH_ID = new MatchWithId(
+  2,
+  [ { id: 1, matchRating: 1001 }, { id: 2, matchRating: 1002 }],
+  [ { id: 3, matchRating: 1003 }, { id: 4, matchRating: 1004 }],
+  true,
+  NOW,
+  16,
+  -16,
+)
 
 export const TONDA_PLAYER_ROW = {
   Id: '3',
@@ -106,15 +107,15 @@ export const PETR_PLAYER: Player = {
   initialRating: 1200,
 }
 
-export const FOOSBALL_MATCH: Match = {
-  team1: [ TONDA_PLAYER ],
-  team2: [ RADEK_PLAYER, PETR_PLAYER],
-  team1Won: true,
-  date: FOOSBALL_MATCH_ROW.Date,
-  winningTeamRatingChange: 16,
-  losingTeamRatingChange: -16,
-  gameId: 1,
-}
+export const FOOSBALL_MATCH = new Match(
+  [ TONDA_PLAYER ],
+  [ RADEK_PLAYER, PETR_PLAYER],
+  { team1Score: 1, team2Score: 0 },
+  FOOSBALL_MATCH_ROW.Date,
+  16,
+  -16,
+  1,
+)
 
 export const TONDA_USER_ROW: UserRow = {
   Id: 4,

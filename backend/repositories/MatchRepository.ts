@@ -41,7 +41,7 @@ Promise<Match> => {
   return new Match(
     team1,
     team2,
-    matchDescription.team1Won,
+    matchDescription.team1Won? { team1Score: 1, team2Score: 0 } : { team1Score: 0, team2Score: 1 },
     date,
     winningTeamRatingChange,
     losingTeamRatingChange,
