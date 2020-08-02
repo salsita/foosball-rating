@@ -7,7 +7,8 @@ import {
 } from './../../../styles/blocks'
 import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
 import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
-import { getPlayer } from '../../modules/players/players-selectors'
+import { ProfileStatistics } from '../../components/ProfileStatistics'
+import { getPlayer, getRankingsForPlayer } from '../../modules/players/players-selectors'
 import { getStatisticsForPlayer } from '../../modules/matches/matches-selectors'
 
 class ProfileComponent extends Component {
@@ -17,8 +18,11 @@ class ProfileComponent extends Component {
     }
 
     const {
+      constructUrl,
       player: { name, rating, id },
-      statistics: { totalMatches, winRatio, longestStreak, matchChanges },
+      rankings,
+      statistics,
+      statistics: { totalMatches, wins, winRatio, longestStreak, matchChanges },
     } = this.props
 
     return (
@@ -27,9 +31,14 @@ class ProfileComponent extends Component {
         <Subtitle>Elo rating: {rating}</Subtitle>
         <ProfileDetail>
           <Subtitle>Matches: {totalMatches}</Subtitle>
+          <Subtitle>Wins: {wins}</Subtitle>
           <Subtitle>Win Rate: {(winRatio * 100).toFixed(2)}%</Subtitle>
           <Subtitle>Win Streak: {longestStreak}</Subtitle>
         </ProfileDetail>
+        <ProfileStatistics
+          statistics={statistics}
+          rankings={rankings}
+          constructUrl={constructUrl} />
         <ProfileRatingGraph playerId={id} />
         <ProfileBattleHistory matches={matchChanges} />
       </Box>
@@ -38,9 +47,10 @@ class ProfileComponent extends Component {
 }
 
 
-const mapStateToProps = (state, props) => ({
-  player: getPlayer(state, Number(props.match.params.playerId)),
-  statistics: getStatisticsForPlayer(state, Number(props.match.params.playerId)),
+const mapStateToProps = (state, { match: { params: { playerId } } }) => ({
+  player: getPlayer(state, Number(playerId)),
+  rankings: getRankingsForPlayer(state, Number(playerId)),
+  statistics: getStatisticsForPlayer(state, Number(playerId)),
 })
 
 export const Profile = connect(mapStateToProps)(ProfileComponent)

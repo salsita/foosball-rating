@@ -49,7 +49,9 @@ export class GameComponent extends Component {
               <Route exact path={constructUrl(ROUTES.MATCH_LIST)}>
                 <MatchListPage constructUrl={constructUrl} />
               </Route>
-              <Route exact path={constructUrl(ROUTES.PROFILE)} component={Profile} />
+              <Route exact path={constructUrl(ROUTES.PROFILE)} render={matchProps => (
+                <Profile constructUrl={constructUrl} {...matchProps} />
+              )} />
               <Route>
                 <Dashboard constructUrl={constructUrl} />
               </Route>
