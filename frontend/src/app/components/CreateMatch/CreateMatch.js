@@ -67,7 +67,8 @@ export class CreateMatchComponent extends Component {
     this.props.createMatch({
       team1: this.state.team1,
       team2: this.state.team2,
-      team1Won,
+      team1Score: team1Won? 1 : 0,
+      team2Score: team1Won? 0 : 1,
     })
   }
 

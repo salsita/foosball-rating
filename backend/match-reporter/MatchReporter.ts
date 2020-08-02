@@ -60,9 +60,9 @@ MatchReportDecoration => {
 }
 
 const createMatchResultMessage = (match: Match, decorations: MatchReportDecoration[]): string => {
-  const { team1, team2, team1Won, winningTeamRatingChange, losingTeamRatingChange } = match
+  const { team1, team2, score, winningTeamRatingChange, losingTeamRatingChange } = match
   let winningTeam, losingTeam
-  if (team1Won) {
+  if (score.team1Score > score.team2Score) {
     [winningTeam, losingTeam] = [team1, team2]
   } else {
     [winningTeam, losingTeam] = [team2, team1]

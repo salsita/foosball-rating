@@ -35,9 +35,10 @@ export class MatchWithId {
     readonly id: number,
     readonly team1: UserInMatches[],
     readonly team2: UserInMatches[],
-    readonly team1Won: boolean,
     readonly date: Date,
     readonly winningTeamRatingChange: number,
     readonly losingTeamRatingChange: number,
+    readonly team1Score: number,
+    readonly team2Score: number
   ) {}
 }

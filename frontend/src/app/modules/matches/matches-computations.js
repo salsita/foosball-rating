@@ -1,7 +1,7 @@
 import { DEFAULT_DAYS_STATISTICS, DEFAULT_PLAYERS_STATISTICS } from '../../const/constants'
 
 const didPlayerWin = (playerId, match) => {
-  const winningTeam = match.team1Won ? match.team1 : match.team2
+  const winningTeam = match.team1Score > match.team2Score ? match.team1 : match.team2
   return Boolean(winningTeam.find(player => player.id === playerId))
 }
 

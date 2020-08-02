@@ -46,7 +46,8 @@ export const FOOSBALL_MATCH_ROW: MatchRow = {
 export const FOOSBALL_MATCH_DESCRIPTION: MatchDescription = {
   team1: [ 1 ],
   team2: [ 3, 4 ],
-  team1Won: true,
+  team1Score: 1,
+  team2Score: 0,
 }
 
 export const FOOSBALL_MATCH_WITH_ID = new MatchWithId(

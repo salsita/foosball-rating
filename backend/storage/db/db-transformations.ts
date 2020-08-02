@@ -64,10 +64,11 @@ export const createMatchFromDbRow = (matchRow: QueryResultRow): MatchWithId => {
       },
       ...team2Player2Array,
     ],
-    matchRow.Team1Score > matchRow.Team2Score,
     matchRow.Date,
     Number(matchRow.WinningTeamRatingChange),
     Number(matchRow.LosingTeamRatingChange),
+    matchRow.Team1Score,
+    matchRow.Team2Score
   )
 }
 
