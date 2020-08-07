@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { ListCon } from '../../../styles/blocks'
 import { LeaderboardRow } from './LeaderboardRow'
 import { LeaderboardFilters } from './LeaderboardFilters'
-import { getTopPlayers, getKing } from '../../modules/players/players-selectors'
 import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-actions'
 import * as Filters from '../../const/leaderboard-filters'
 
@@ -29,8 +28,6 @@ const LeaderboardComponent = (
 )
 
 const mapStateToProps = state => ({
-  topPlayers: getTopPlayers(state),
-  king: getKing(state),
   filters: state.filters,
 })
 
