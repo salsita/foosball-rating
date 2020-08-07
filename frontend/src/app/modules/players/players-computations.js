@@ -50,6 +50,15 @@ export const getRatingStatisticsForPlayer = (players, playerId) => {
   }
 }
 
+/*
+  First, we create a hash table of players and their current scores
+  Then we iterate through matches from the latest, recompute scores of affected players and compare
+  More preciselly:
+    1. Recompute king's score in case he played the match, note whether he won the match
+    2. Recompute scores of all (other) players in the match and test if any of them tops king
+    3. Otherwise, compare his new score with scores of all other players,
+    in case the king played the match and won (thus had smaller score before).
+*/
 export const computeKingStreakDuration = (lastMatches, lastPlayers) => {
   if (lastPlayers.length < 1) {
     return null
@@ -65,7 +74,6 @@ export const computeKingStreakDuration = (lastMatches, lastPlayers) => {
   for (const match of lastMatches) {
     const players = [...match.team1, ...match.team2]
 
-    // #1 recomptute king's rating before in case he played the match
     const kingPlayer = players.find(player => player.id === kingId)
     let kingWon = false
     if (kingPlayer) {
@@ -73,13 +81,11 @@ export const computeKingStreakDuration = (lastMatches, lastPlayers) => {
       playersMap[kingId] = kingPlayer.matchRating
     }
 
-    // #2 check whether none of the other players beat the king
     for (const player of players) {
       playersMap[player.id] = player.matchRating
       matchFound |= (player.id !== kingId && player.matchRating > playersMap[kingId])
     }
 
-    // #3 check if king was first before winning
     if (kingPlayer && kingWon && !matchFound) {
       for (const key in playersMap) {
         matchFound |= (playersMap[key] > playersMap[kingId])
