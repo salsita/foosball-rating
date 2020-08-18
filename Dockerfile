@@ -1,4 +1,5 @@
 FROM nginx
+ENTRYPOINT []
 
 RUN apt-get update >/dev/null
 RUN apt-get install -qq -y curl xz-utils >/dev/null
