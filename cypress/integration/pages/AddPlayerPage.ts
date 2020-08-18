@@ -3,12 +3,12 @@ import { SelectGamePage } from './SelectGamePage'
 import { Player } from '../types/Player'
 import { DashboardPage } from './DashboardPage'
 
-export class CreatePlayerPage extends Page {
+export class AddPlayerPage extends Page {
   constructor(private gameName: string) {
     super(`/${gameName}/add-player`)
   }
 
-  visit(): CreatePlayerPage {
+  visit(): AddPlayerPage {
     super.visit()
     return this
   }
@@ -23,7 +23,7 @@ export class CreatePlayerPage extends Page {
     return new DashboardPage(this.gameName)
   }
 
-  addPlayer(player: Player, score: number): CreatePlayerPage {
+  addPlayer(player: Player, score: number): AddPlayerPage {
     const content = this.getContent()
     content.get('#player-name-input').clear().type(player.name)
     content

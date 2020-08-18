@@ -93,6 +93,7 @@ export class CreateMatchComponent extends Component {
         <GridContainer Column="1fr 1fr">
           <Box Margin="0 10px 10px" Padding="10px 10px 20px">
             <SelectTeamForm
+              id="team1"
               maxPlayerNumber={this.props.maxPlayerNumber}
               teamName="Team 1"
               players={this.props.players}
@@ -102,6 +103,7 @@ export class CreateMatchComponent extends Component {
           </Box>
           <Box Margin="0 10px 10px" Padding="10px 10px 20px">
             <SelectTeamForm
+              id="team2"
               maxPlayerNumber={this.props.maxPlayerNumber}
               teamName="Team 2"
               players={this.props.players}

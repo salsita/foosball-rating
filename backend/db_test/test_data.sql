@@ -260,3 +260,8 @@ INSERT INTO "Matches"("Id","Team1Player1Id","Team1Player1Rating","Team1Player2Id
 INSERT INTO "Matches"("Id","Team1Player1Id","Team1Player1Rating","Team1Player2Id","Team1Player2Rating","Team2Player1Id","Team2Player1Rating","Team2Player2Id","Team2Player2Rating","Date","WinningTeamRatingChange","Team1Won","LosingTeamRatingChange", "GameId") VALUES ('4510','150','823','230','1068','70','1385','210','819','2019-11-06 13:57:41.732','9','false','-9', '3');
 INSERT INTO "Matches"("Id","Team1Player1Id","Team1Player1Rating","Team1Player2Id","Team1Player2Rating","Team2Player1Id","Team2Player1Rating","Team2Player2Id","Team2Player2Rating","Date","WinningTeamRatingChange","Team1Won","LosingTeamRatingChange", "GameId") VALUES ('4520','150','814','90','1063','50','950','220','906','2019-11-07 16:15:51.246','16','true','-16', '3');
 INSERT INTO "Matches"("Id","Team1Player1Id","Team1Player1Rating","Team1Player2Id","Team1Player2Rating","Team2Player1Id","Team2Player1Rating","Team2Player2Id","Team2Player2Rating","Date","WinningTeamRatingChange","Team1Won","LosingTeamRatingChange", "GameId") VALUES ('4530','90','1079','150','830','240','960','220','890','2019-11-08 12:16:44.265','15','true','-15', '3');
+
+-- Shift Ids' Serials to avoid errors when inserting new rows
+ALTER SEQUENCE "Users_Id_seq1" RESTART WITH 300;
+ALTER SEQUENCE "Users_Id_seq" RESTART WITH 300;
+ALTER SEQUENCE "Matches_Id_seq" RESTART WITH 5000;

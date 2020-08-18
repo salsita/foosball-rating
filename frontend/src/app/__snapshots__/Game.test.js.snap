@@ -42,6 +42,7 @@ exports[`GameComponent when foosball is selected renders button "Add Match" and 
       </Styled(Link)>
     </span>
     <styled.button
+      id="add-match-button"
       onClick={[Function]}
     >
       Add Match
