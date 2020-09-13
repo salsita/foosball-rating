@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import { NextFunction, Response, Request } from 'express'
 import * as bodyParser from 'body-parser'
 
