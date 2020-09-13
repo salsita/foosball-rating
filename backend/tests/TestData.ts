@@ -1,7 +1,7 @@
 import { MatchWithId, Match } from '../types/Match'
 import { Player } from '../types/Player'
 import { MatchDescription } from '../types/MatchDescription'
-import * as moment from 'moment'
+import moment from 'moment'
 import { UserRow } from '../types/Database'
 
 const NOW_MOMENT = moment('2020-03-25 10:00:00')
