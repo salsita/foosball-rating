@@ -21,12 +21,23 @@ const TextSpan = styled.span`
   padding: 0 5px;
 `
 
-const TextDiv = styled.div`
-  text-align: ${props => props.textAlign};
-  float: ${props => props.align || 'none'};
+const PositionDiv = styled.div`
   font-weight: 400;
-  padding: 0 5px
-  width: calc(100% - 41px)
+  padding: 0 5px;
+  width: calc(100% - 41px);
+  z-index: 1;
+  position: absolute;
+  left: 15px;
+`
+
+const KingDiv = styled.div`
+  font-size: 14px;
+  font-style: italic;
+  color: var(--cFont);
+  padding: 0 5px;
+  z-index: 1;
+  position: absolute;
+  right: 15px;
 `
 
 const FiltersSpan = styled.span`
@@ -76,6 +87,6 @@ const StyledHyperLink = styled.a`
 `
 
 export {
-  Title, Subtitle, TextSpan, TextDiv, WinnerSpan, BattleLabel,
+  Title, Subtitle, TextSpan, KingDiv, PositionDiv, WinnerSpan, BattleLabel,
   FiltersBlock, FiltersSpan, StyledHyperLink, StatsSpan,
 }

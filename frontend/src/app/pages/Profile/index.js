@@ -8,8 +8,11 @@ import {
 import { ProfileBattleHistory } from './../../components/ProfileBattleHistory'
 import { ProfileRatingGraph } from '../../components/ProfileRatingGraph'
 import { ProfileStatistics } from '../../components/ProfileStatistics'
-import { getPlayer, getRankingsForPlayer } from '../../modules/players/players-selectors'
-import { getStatisticsForPlayer } from '../../modules/matches/matches-selectors'
+import {
+  getPlayer,
+  getRankingsForPlayer,
+  getStatisticsForPlayer,
+} from '../../modules/players/players-selectors'
 
 class ProfileComponent extends Component {
   render() {

@@ -8,17 +8,16 @@ import { LeaderboardActions } from '../../modules/leaderboard/leaderboard-action
 import * as Filters from '../../const/leaderboard-filters'
 
 const LeaderboardComponent = (
-  { topPlayers, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
+  { topPlayers, king, filters, maxItems, showFilters, updateCriteria, updateOrder, updateTimespan },
 ) => (
   <>
     {showFilters
       ? <LeaderboardFilters filters={filters} updateCriteria={updateCriteria}
         updateOrder={updateOrder} updateTimespan={updateTimespan}/>
       : ''}
-
     <ListCon className="topPlayers" ascending={filters.order === Filters.orderTypes.ASC}>
       {topPlayers.slice(0, maxItems).map((player, index) =>
-        <LeaderboardRow key={player.id} player={player}
+        <LeaderboardRow key={player.id} player={player} king={king}
           position={
             filters.order === Filters.orderTypes.ASC ? topPlayers.length - index : index + 1
           }

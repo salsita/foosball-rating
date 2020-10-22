@@ -1,17 +1,11 @@
-import { DEFAULT_DAYS_STATISTICS, DEFAULT_PLAYERS_STATISTICS } from '../../const/constants'
+export const didPlayerPlayMatch = (playerId, match) => {
+  const allPlayers = [...match.team1, ...match.team2]
+  return !!allPlayers.find(player => player.id === playerId)
+}
 
-const didPlayerWin = (playerId, match) => {
-  const winningTeam = match.team1Won ? match.team1 : match.team2
+export const didPlayerWin = (playerId, { team1Won, team1, team2 }) => {
+  const winningTeam = team1Won ? team1 : team2
   return Boolean(winningTeam.find(player => player.id === playerId))
-}
-
-const getTeamMates = (playerId, match) => {
-  const playerTeam = match.team1.find(player => player.id === playerId) ? match.team1 : match.team2
-  return playerTeam.filter(player => player.id !== playerId)
-}
-
-const getOpponents = (playerId, match) => {
-  return match.team1.find(player => player.id === playerId) ? match.team2 : match.team1
 }
 
 export const generateMatchRatingChanges = (playerId, playerMatches) => playerMatches.map(match => {
@@ -73,77 +67,4 @@ export const computeLongestWinStreak = (playerId, playerMatches) => {
       }
     }
   }, initialState).longest
-}
-
-export const computeWinRatio = (playerId, playerMatches) => {
-  const wonMatchesCount = playerMatches.filter(match => didPlayerWin(playerId, match)).length
-  return (playerMatches.length > 0) ? (wonMatchesCount / playerMatches.length) : 0
-}
-
-export const computeWins = (playerId, playerMatches) =>
-  playerMatches.filter(match => didPlayerWin(playerId, match)).length
-
-const findWithComparator = (comparator, arr, getField, baseScore) =>
-  arr.reduce((acc, node) =>
-    comparator(acc.score, getField(node))
-      ? acc
-      : { value: node.value, score: getField(node) }
-  , { score: baseScore })
-
-export const findMin = (arr, getField = node => node.score) =>
-  findWithComparator((e1, e2) => e1 <= e2, arr, getField, Infinity)
-
-export const findMax = (arr, getField = node => node.score) =>
-  findWithComparator((e1, e2) => e1 >= e2, arr, getField, -Infinity)
-
-export const computeDays = matchChanges => {
-  const daysMap = new Map()
-
-  for (const match of matchChanges) {
-    const day = match.date.toLocaleDateString()
-    const score = Number(match.ratingChangeString)
-    daysMap.set(day, daysMap.has(day)
-      ? {
-        ...daysMap.get(day),
-        score: daysMap.get(day).score + score,
-      }
-      : {
-        value: day,
-        score,
-      })
-  }
-  return matchChanges.length
-    ? Array.from(daysMap.values())
-    : DEFAULT_DAYS_STATISTICS
-}
-
-export const computeTeammateStats = (playerId, playerMatches) =>
-  computePlayerStats(playerId, playerMatches, getTeamMates) || {}
-
-export const computeOpponentsStats = (playerId, playerMatches) =>
-  computePlayerStats(playerId, playerMatches, getOpponents) || {}
-
-const computePlayerStats = (playerId, playerMatches, playersProvider) => {
-  const playersMap = new Map()
-
-  for (const match of playerMatches) {
-    const players = playersProvider(playerId, match)
-    players.forEach(player =>
-      playersMap.set(player.id, playersMap.has(player.id)
-        ? {
-          ...playersMap.get(player.id),
-          matches: playersMap.get(player.id)['matches'] + 1,
-          wins: playersMap.get(player.id)['wins'] += Number(didPlayerWin(playerId, match)),
-          losses: playersMap.get(player.id)['losses'] += Number(!didPlayerWin(playerId, match)),
-        }
-        : {
-          value: player,
-          matches: 1,
-          wins: Number(didPlayerWin(playerId, match)),
-          losses: Number(!didPlayerWin(playerId, match)),
-        }))
-  }
-  return playerMatches.length
-    ? Array.from(playersMap.values())
-    : DEFAULT_PLAYERS_STATISTICS
 }
