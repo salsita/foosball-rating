@@ -2,7 +2,9 @@
 
 PROXY_PORT=$PORT
 unset PORT
-export DATABASE_URL="${DATABASE_URL}?sslmode=require&ssl=true"
+set -x
+export DATABASE_URL="${DATABASE_URL}?sslmode=require&ssl=true&rejectUnauthorized=false"
+set +x
 
 cd backend
 npm run create-schema
