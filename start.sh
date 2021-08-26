@@ -4,9 +4,8 @@ set -eu
 
 PROXY_PORT=$PORT
 unset PORT
-set -x
-export DATABASE_URL="${DATABASE_URL}?sslmode=require&ssl=true&rejectUnauthorized=false"
-set +x
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+export DATABASE_URL="${DATABASE_URL}?sslmode=require"
 
 cd backend
 npm run create-test-db || true
