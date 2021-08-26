@@ -10,7 +10,7 @@ set +x
 
 cd backend
 npm run create-test-db || true
-npm run create-schema
+npm run create-schema || true
 npm start &
 cd ..
 
