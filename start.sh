@@ -4,7 +4,6 @@ set -eu
 
 PROXY_PORT=$PORT
 unset PORT
-export DATABASE_URL="${DATABASE_URL}?sslmode=require"
 
 cd backend
 npm start &
