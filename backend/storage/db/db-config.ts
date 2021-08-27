@@ -12,9 +12,6 @@ export let productionConfig: PoolConfig
 if (process.env.DATABASE_URL) {
   productionConfig = {
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
   }
 } else {
   productionConfig = {
