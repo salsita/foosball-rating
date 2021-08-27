@@ -19,5 +19,8 @@
     }
   },
   "name": "foosball-rating",
+  "scripts": {
+    "postdeploy": "cd backend && PGSSLMODE=require npm run create-test-db"
+  },
   "stack": "container"
 }
