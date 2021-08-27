@@ -5,6 +5,6 @@ build:
 release:
   image: web
   command:
-    - cd backend && PGSSLMODE=require npm run create-schema
+    - cd backend && NODE_TLS_REJECT_UNAUTHORIZED=0 PGSSLMODE=require npm run create-schema
 run:
   web: npm start

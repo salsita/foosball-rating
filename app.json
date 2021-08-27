@@ -20,7 +20,7 @@
   },
   "name": "foosball-rating",
   "scripts": {
-    "postdeploy": "cd backend && PGSSLMODE=require npm run create-test-db"
+    "postdeploy": "cd backend && NODE_TLS_REJECT_UNAUTHORIZED=0 PGSSLMODE=require npm run create-test-db"
   },
   "stack": "container"
 }
