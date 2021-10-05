@@ -30,5 +30,5 @@ cd ..
 
 # TODO now runs as root (as opposed to foosball user)
 echo Starting nginx
-./$RUNTIME_DIR/nginx -p $RUNTIME_DIR -c $RUNTIME_DIR/nginx.conf
+./$RUNTIME_DIR/nginx -p $RUNTIME_DIR -c nginx.conf
 
