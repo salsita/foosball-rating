@@ -10,7 +10,7 @@ cd $RUNTIME_DIR
 
 PROXY_PORT=$PORT
 unset PORT
-sed "s|%PORT%|$PROXY_PORT|g" nginx/nginx-heroku.conf > nginx.conf
+sed "s|%PORT%|$PROXY_PORT|g" ../nginx/nginx-heroku.conf > nginx.conf
 
 mkdir -p /tmp/nginx/log
 ( cd /tmp/nginx/log && touch access.log error.log )
