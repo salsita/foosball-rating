@@ -2,9 +2,9 @@
 
 #npm run install:children
 cd frontend
-npm install
+npm ci --include=dev
 cd ../backend
-npm install
+npm ci --include=dev
 cd ..
 
 ls -hal backend/node_modules/.bin
