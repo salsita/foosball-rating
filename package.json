@@ -11,6 +11,9 @@
     "cypress": "cypress open",
     "heroku-postbuild": "./scripts/heroku-postbuild.sh"
   },
+  "engines": {
+    "node": "16.10.*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/salsita/foosball-rating.git"
