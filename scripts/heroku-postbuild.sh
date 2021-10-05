@@ -7,7 +7,7 @@ cd ../backend
 npm install
 cd ..
 
-ls -hal backend/node_modules/
+ls -hal backend/node_modules/.bin
 
 (cd frontend &&
   npm run build &&
