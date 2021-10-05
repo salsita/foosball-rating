@@ -2,7 +2,7 @@
 
 npm run install:children
 
-(cd backend && ls -hal backend/node_modules/.bin)
+(cd backend && ls -hal backend/node_modules/)
 
 (cd frontend &&
   npm run build &&
