@@ -27,5 +27,5 @@ curl -sSL https://github.com/salsita/nginx-heroku-build/releases/download/v1.0/m
 # TODO now runs as root (as opposed to foosball user)
 echo Starting nginx
 # all paths are relative to project root
-./nginx -p .. -c $RUNTIME_DIR/nginx.conf
+./nginx -p . -c nginx.conf
 
