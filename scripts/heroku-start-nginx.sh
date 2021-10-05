@@ -24,11 +24,8 @@ chmod +x nginx
 curl -sSL https://github.com/salsita/nginx-heroku-build/releases/download/v1.0/mime.types \
   > mime.types
 
-# In nginx conf we want to use paths relative to project root.
-# So we want to start nginx there
-cd ..
-
 # TODO now runs as root (as opposed to foosball user)
 echo Starting nginx
-./$RUNTIME_DIR/nginx -p $RUNTIME_DIR -c nginx.conf
+# all paths are relative to project root
+./nginx -p .. -c $RUNTIME_DIR/nginx.conf
 
