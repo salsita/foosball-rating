@@ -22,5 +22,5 @@
   "scripts": {
     "postdeploy": "cd backend && npm run create-test-db"
   },
-  "stack": "container"
+  "stack": "heroku-20"
 }
