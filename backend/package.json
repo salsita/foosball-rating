@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "ts-node -r dotenv/config app.ts",
-    "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_migrations",
-    "create-schema": "PGSSLMODE=require npm run migrate up --no-reject-unauthorized",
+    "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_migrations --no-reject-unauthorized",
+    "create-schema": "PGSSLMODE=require npm run migrate up",
     "create-test-db": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_test -t pgmigrationstest up"
   },
   "author": "",
