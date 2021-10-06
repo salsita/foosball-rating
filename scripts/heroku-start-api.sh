@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export DATABASE_URL="${DATABASE_URL}?sslmode=require"
+# TODO set this only for non-prod?
+# has production heroku postgres proper certificate?
+export NODE_TLS_REJECT_UNAUTHORIZED=0
 
 env
 
