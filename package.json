@@ -9,7 +9,8 @@
     "start:e2e": "concurrently \"cd backend && npm start\" \"wait-on http://localhost:3000/games && cd frontend && npm run start:e2e\"",
     "install:children": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
     "cypress": "cypress open",
-    "heroku-postbuild": "./scripts/heroku-postbuild.sh"
+    "heroku-postbuild": "./scripts/heroku-postbuild.sh",
+    "heroku-start": "./scripts/heroku-start.sh"
   },
   "engines": {
     "node": "16.10.*",
