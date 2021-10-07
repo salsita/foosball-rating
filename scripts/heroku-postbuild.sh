@@ -1,5 +1,7 @@
 #!/bin/bash
 
+env
+
 (cd frontend &&
   npm ci --include=dev &&
   npm run build)
