@@ -37,7 +37,6 @@ jobs:
       run: |
         cd frontend
         npm ci
-        cp .env.local.example .env
     - name: e2e
       uses: cypress-io/github-action@v2.9.7
       with:
@@ -48,6 +47,7 @@ jobs:
         wait-on-timeout: 120
       env: 
         DATABASE_URL: postgres://postgres:XXXX@postgres:5432/postgres
+        REACT_APP_POST_URL_PORT: 3000
     - uses: actions/upload-artifact@v1
       if: failure()
       with:

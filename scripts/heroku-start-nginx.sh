@@ -22,7 +22,6 @@ chmod +x nginx
 curl -sSL https://github.com/salsita/nginx-heroku-build/releases/download/v1.0/mime.types \
   > mime.types
 
-# TODO now runs as root (as opposed to foosball user)
 echo Starting nginx
 ./nginx -p . -c nginx.conf
 
