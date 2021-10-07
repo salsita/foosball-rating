@@ -8,7 +8,7 @@
     "start": "ts-node -r dotenv/config app.ts",
     "create-schema": "npm run pg-migrate -- -m db_migrations up",
     "create-test-db": "npm run pg-migrate -- -m db_test -t pgmigrationstest up",
-    "pg-migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts --no-reject-unauthorized"
+    "pg-migrate": "PGSSLMODE=require ts-node node_modules/.bin/node-pg-migrate -j ts --no-reject-unauthorized"
   },
   "author": "",
   "license": "ISC",
