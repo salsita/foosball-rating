@@ -15,7 +15,6 @@ if (process.env.DATABASE_URL) {
   productionConfig = {
     connectionString: process.env.DATABASE_URL,
     ssl: DATABASE_SSL && {
-      // TODO do we want this in production as well?
       rejectUnauthorized: false,
     },
   }
