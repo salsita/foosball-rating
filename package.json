@@ -12,7 +12,8 @@
     "heroku-postbuild": "./scripts/heroku-postbuild.sh"
   },
   "engines": {
-    "node": "16.10.*"
+    "node": "16.10.*",
+    "npm": "^7"
   },
   "repository": {
     "type": "git",
