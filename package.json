@@ -6,8 +6,8 @@
   "scripts": {
     "start": "PORT=3001 REACT_APP_POST_URL_PORT=3000 ./scripts/start.sh",
     "lint": "eslint --max-warnings 0 './backend/**/*.ts' './frontend/src/**/*.js' --ignore-pattern '**/node_modules/*'",
-    "start:e2e": "concurrently \"cd backend && npm start\" \"wait-on http://localhost:3000/games && cd frontend && npm run start:e2e\"",
-    "install:children": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
+    "start:e2e": "concurrently \"npm --prefix backend start\" \"wait-on http://localhost:3000/games && npm --prefix frontend run start:e2e\"",
+    "install:children": "concurrently \"npm --prefix backend install\" \"npm --prefix frontend install\"",
     "cypress": "cypress open",
     "heroku-postbuild": "./scripts/heroku-postbuild.sh",
     "heroku-start": "./scripts/start.sh"

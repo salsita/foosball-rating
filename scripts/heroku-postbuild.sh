@@ -8,6 +8,7 @@ env
   npm ci --include=dev &&
   npm run build)
 
+# delete all under frontend/ except build/
 fe_files=frontend-files
 rm -rf $fe_files
 mkdir -p $fe_files
@@ -17,9 +18,9 @@ mkdir frontend/build
 mv $fe_files/* frontend/build/
 rm -rf $fe_files
 
-(cd backend &&
-  npm ci --include=dev &&
-  npm run create-schema &&
-  rm -rf node_modules &&
-  npm ci)
+cd backend
+npm ci --include=dev
+npm run create-schema
+rm -rf node_modules
+npm ci
 
