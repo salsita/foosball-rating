@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 if test -z "$DATABASE_URL" ; then
   echo "Error: DATABASE_URL not set" >&2
   exit 1
