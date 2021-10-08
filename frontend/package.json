@@ -22,7 +22,7 @@
     "url-join": "^4.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_POST_URL_PORT=3000 react-scripts start",
     "start:e2e": "PORT=3001 BROWSER=NONE react-scripts start", 
     "build": "react-scripts build",
     "test": "react-scripts test",
