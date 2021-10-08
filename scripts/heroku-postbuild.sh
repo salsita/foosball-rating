@@ -10,7 +10,10 @@ fe_files=frontend-files
 rm -rf $fe_files
 mkdir -p $fe_files
 mv frontend/build/* $fe_files/
-rm -rf frontend
+rm -rf frontend/*
+mkdir frontend/build
+mv $fe_files/* frontend/build/
+rm -rf $fe_files
 
 (cd backend &&
   npm ci --include=dev &&

@@ -2,7 +2,7 @@
 
 set -eu
 
-RUNTIME_DIR=heroku-runtime
+RUNTIME_DIR=runtime
 
 rm -rf $RUNTIME_DIR
 mkdir -p $RUNTIME_DIR
