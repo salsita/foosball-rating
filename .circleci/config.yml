@@ -13,6 +13,8 @@ jobs:
       - run:
           name: build-fe
           command: npm --prefix frontend/ run build
+          environment:
+            REACT_APP_POST_URL_PATH_BASE: /api
       - run:
           name: Pack
           command: tar czf /tmp/app.tgz backend/ frontend/build/
