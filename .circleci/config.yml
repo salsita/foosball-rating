@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: install
+          command: |
+            npm --prefix frontend/ ci --include=dev
+            npm --prefix backend/ ci --omit=dev
+      - run:
+          name: build-fe
+          command: npm --prefix frontend/ run build
+      - run:
+          name: Pack
+          command: tar czf /tmp/app.tgz backend/ frontend/build/
