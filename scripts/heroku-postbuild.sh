@@ -22,5 +22,5 @@ cd backend
 npm ci --include=dev
 npm run create-schema
 rm -rf node_modules
-npm ci
+npm ci --omit=dev
 
