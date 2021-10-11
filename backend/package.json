@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "ts-node -r dotenv/config app.ts",
-    "create-schema": "../scripts/pg-migrate.sh -m db_migrations up",
-    "create-test-db": "../scripts/pg-migrate.sh -m db_test -t pgmigrationstest up"
+    "create-schema": "./scripts/pg-migrate.sh -m db_migrations up",
+    "create-test-db": "./scripts/pg-migrate.sh -m db_test -t pgmigrationstest up"
   },
   "author": "",
   "license": "ISC",
