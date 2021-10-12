@@ -16,7 +16,7 @@ const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const addCrossDomainHeaders = function(req: Request, res: Response, next: NextFunction): void {
   res.header('Access-Control-Allow-Origin', '*')
