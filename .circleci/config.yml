@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
 jobs:
   build:
     docker:
@@ -20,3 +22,40 @@ jobs:
           command: tar czf /tmp/app.tgz backend/ frontend/build/
       - store_artifacts:
           path: /tmp/app.tgz
+  e2e:
+    docker:
+        # cypress requires xvfb
+      - image: thompsnm/nodejs-chrome-xvfb
+        environment:
+          DATABASE_URL: postgres://postgres:XXXX@postgres:5432/postgres
+          REACT_APP_POST_URL_PORT: 3000
+      - image: postgres
+        name: postgres
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: XXXX
+    steps:
+      - checkout
+      - run:
+          name: setup BE
+          command: |
+            cd backend
+            npm ci
+            npm run create-schema
+            npm run create-test-db
+          environment:
+            DATABASE_URL: postgres://postgres:XXXX@postgres:5432/postgres
+      - run:
+          name: setup FE
+          command: npm --prefix frontend/ ci
+      - cypress/install
+      - cypress/run:
+          browser: chrome
+          start: npm run start:e2e
+          wait-on: 'http://localhost:3001'
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: cypress/videos
+
