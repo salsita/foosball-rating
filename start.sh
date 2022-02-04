@@ -1,11 +1,12 @@
 #!/bin/bash
 
+set -eu
 
 PROXY_PORT=$PORT
 unset PORT
 
 cd backend
-npm start &
+NODE_TLS_REJECT_UNAUTHORIZED=0 DATABASE_URL="${DATABASE_URL}?sslmode=require" npm run start:prod &
 cd ..
 
 sed "s|%PORT%|$PROXY_PORT|g" nginx/nginx-heroku.conf > /etc/nginx/conf.d/default.conf

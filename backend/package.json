@@ -7,15 +7,16 @@
     "test": "jest",
     "start": "ts-node -r dotenv/config app.ts",
     "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_migrations",
-    "create-schema": "npm run migrate up",
-    "create-test-db": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_test -t pgmigrationstest up"
+    "create-schema-prod": "npm run migrate up",
+    "create-schema": "npm run migrate up --no-reject-unauthorized",
+    "create-test-db": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_test -t pgmigrationstest --no-reject-unauthorized up"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "pg": "^7.8.1",
+    "pg": "^8",
     "slackbots": "^1.2.0"
   },
   "devDependencies": {

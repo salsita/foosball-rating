@@ -39,7 +39,7 @@ jobs:
         npm ci
         cp .env.local.example .env
     - name: e2e
-      uses: cypress-io/github-action@v1
+      uses: cypress-io/github-action@v2.3.1
       with:
         browser: chrome
         headless: true

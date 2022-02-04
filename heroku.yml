@@ -1,9 +1,10 @@
 build:
   docker:
     web: Dockerfile
+
 release:
   image: web
   command:
-    - cd backend && npm run create-schema
+    - cd backend && PGSSLMODE=require npm run create-schema
 run:
   web: npm start
