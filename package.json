@@ -4,11 +4,17 @@
   "description": "Foosball Rating App",
   "main": "index.js",
   "scripts": {
-    "start": "cd backend && npm run create-schema && cd .. && ./start.sh",
+    "start": "PORT=3001 REACT_APP_POST_URL_PORT=3000 ./scripts/start.sh",
     "lint": "eslint --max-warnings 0 './backend/**/*.ts' './frontend/src/**/*.js' --ignore-pattern '**/node_modules/*'",
-    "start:e2e": "concurrently \"cd backend && npm start\" \"wait-on http://localhost:3000/games && cd frontend && npm run start:e2e\"",
-    "install:children": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
-    "cypress": "cypress open"
+    "start:e2e": "concurrently \"npm --prefix backend start\" \"wait-on http://localhost:3000/games && npm --prefix frontend run start:e2e\"",
+    "install:children": "concurrently \"npm --prefix backend install\" \"npm --prefix frontend install\"",
+    "cypress": "cypress open",
+    "heroku-postbuild": "./scripts/heroku-postbuild.sh",
+    "heroku-start": "./scripts/start.sh"
+  },
+  "engines": {
+    "node": "16.10.*",
+    "npm": "^7"
   },
   "repository": {
     "type": "git",
@@ -22,14 +28,14 @@
   "homepage": "https://github.com/salsita/foosball-rating#readme",
   "dependencies": {
     "pg": "^7.18.1",
-    "serve": "^10.1.2"
+    "serve": "^10.1.2",
+    "concurrently": "^5.1.0"
   },
   "devDependencies": {
     "@cypress/browserify-preprocessor": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
     "babel-eslint": "10.0.3",
-    "concurrently": "^5.1.0",
     "cypress": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^17.1.0",

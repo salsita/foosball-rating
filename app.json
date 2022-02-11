@@ -20,7 +20,7 @@
   },
   "name": "foosball-rating",
   "scripts": {
-    "postdeploy": "cd backend && npm run create-test-db"
+    "postdeploy": "test -n \"HEROKU_PR_NUMBER\" && cd backend && npm run create-test-db"
   },
-  "stack": "container"
+  "stack": "heroku-20"
 }

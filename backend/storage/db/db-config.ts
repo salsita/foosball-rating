@@ -8,10 +8,15 @@ export const testConfig = {
   port: 5432,
 }
 
+const DATABASE_SSL = (process.env.DATABASE_SSL ?? 'false') === 'true'
+
 export let productionConfig: PoolConfig
 if (process.env.DATABASE_URL) {
   productionConfig = {
     connectionString: process.env.DATABASE_URL,
+    ssl: DATABASE_SSL && {
+      rejectUnauthorized: false,
+    },
   }
 } else {
   productionConfig = {

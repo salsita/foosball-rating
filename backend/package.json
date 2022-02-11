@@ -6,29 +6,28 @@
   "scripts": {
     "test": "jest",
     "start": "ts-node -r dotenv/config app.ts",
-    "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_migrations",
-    "create-schema": "npm run migrate up",
-    "create-test-db": "ts-node node_modules/.bin/node-pg-migrate -j ts -m db_test -t pgmigrationstest up"
+    "create-schema": "./scripts/pg-migrate.sh -m db_migrations up",
+    "create-test-db": "./scripts/pg-migrate.sh -m db_test -t pgmigrationstest up"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "pg": "^7.8.1",
-    "slackbots": "^1.2.0"
+    "pg": "^8.7.1",
+    "ts-node": "^8.6.2",
+    "@types/express": "^4.17.3",
+    "@types/common-tags": "^1.8.0",
+    "@types/node": "^13.9.0",
+    "slackbots": "^1.2.0",
+    "typescript": "^3.8.3",
+    "node-pg-migrate": "^4.3.0",
+    "common-tags": "^1.8.0",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
-    "@types/common-tags": "^1.8.0",
-    "@types/express": "^4.17.3",
-    "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.0",
-    "common-tags": "^1.8.0",
-    "jest": "^25.1.0",
-    "moment": "^2.24.0",
-    "node-pg-migrate": "^4.2.3",
     "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.3"
+    "jest": "^25.1.0",
+    "@types/jest": "^25.1.4"
   }
 }
